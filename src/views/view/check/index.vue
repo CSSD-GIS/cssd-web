@@ -2,7 +2,8 @@
   <div class="demo-image__placeholder">
     <div class="block">
       <span class="demonstration">图片</span>
-      <el-image :src=img ></el-image>
+      <!-- 使用原生html标签，如使用element组件会造成图片显示频闪 -->
+      <img :src="img" alt="">
     </div>
     <div style="width: 70%;margin-left: 30px;margin-top: 30px;">
       <br>
@@ -13,12 +14,13 @@
 <script>
 export default {
   data() {
-    this.webSocket()
+
     return {
       img: ''
     }
   },
   mounted: function() {
+    this.webSocket();
   },
   methods: {
     webSocket() {
