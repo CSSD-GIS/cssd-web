@@ -1,5 +1,5 @@
 <template>
-  <div  >
+  <div id="test">
     <!-- <span class="demonstration">可搜索</span> -->
     <el-cascader  class="el-input__inner"
       placeholder="试试搜索：一层-112"
@@ -7,6 +7,10 @@
        filterable
       @change="handleChange"    
     ></el-cascader>
+    <div class="player">
+    <img id="video" :src="img" alt="">
+
+    </div>
   </div>
 </template>
 
@@ -103,18 +107,9 @@ for (var i in items6) {
   array6.push(obj);
 }
 export default {
-  methods: {
-    handleChange(v) {
-        // console.log(v);    打印出来为一个数组，第二个值为URL
-      this.$alert(v[1], "标题名称", {
-        confirmButtonText: "确定",
-        
-      });
-    },
-    
-  },
-  data() {
+    data() {
     return {
+      img: '',
       arr1,
       arr2,
       items1: config.north.front.floor1,
@@ -154,12 +149,69 @@ export default {
       ],
 }
   },
+
+  mounted() {
+    this.webSocket();
+  },
+  methods: {
+    handleChange(v) {
+        // console.log(v);    打印出来为一个数组，第二个值为URL
+      this.$alert(v[1], "标题名称", {
+        confirmButtonText: "确定",
+        
+      });
+    },
+    webSocket() {
+      const _this = this
+      if (typeof (WebSocket) == 'undefined') {
+        this.$notify({
+          title: '提示',
+          message: '当前浏览器无法接收实时服务器信息，请使用谷歌浏览器！',
+          type: 'warning',
+          duration: 0
+        })
+      } else {
+        // 实例化socket
+        const socketUrl = 'ws://127.0.0.1:8000/img/'
+        this.socket = new WebSocket(socketUrl)
+        // 监听socket打开
+        this.socket.onopen = function() {
+          console.log('浏览器WebSocket已打开')
+          _this.socket.send(JSON.stringify({
+            'code': '200',
+            'msg': 'wesocket已打开'
+          }))
+        }
+        // 监听socket消息接收
+        this.socket.onmessage = function(msg) {
+          // 追加到内容显示列表中
+          var content = msg.data
+          _this.img = 'data:image/jpg;base64,' + content
+        }
+        // 监听socket错误
+        this.socket.onerror = function() {
+          _this.$notify({
+            title: '错误',
+            message: '通信错误，无法与服务器建立连接',
+            type: 'error',
+            duration: 0
+          })
+        }
+        // 监听socket关闭
+        this.socket.onclose = function() {
+          console.log('WebSocket已关闭')
+        }
+      }
+    }
+  },
+
 }
 </script>
 <style scoped>
-
-
-
+#test {
+  width: 100%;
+  height: 100%;
+}
 .el-input__inner[data-v-5752faac] {
     -webkit-appearance: none;
     background-color: #f2f9fb;
@@ -180,5 +232,11 @@ export default {
     width: 450px;
     margin-left: 550px;
     text-align: center;
+}
+.player #video {
+  width: 100%;
+  height: 100%;
+  margin-top: 30px;
+  margin-left: -100px;
 }
 </style>
