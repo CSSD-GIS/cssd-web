@@ -1,122 +1,98 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from "vue-router";
 
+// 菜单
+import MenuIndex from '@/menu/menuIndex.vue';
+import Class from "@/views/class/index.vue";
+import Test from "@/views/test.vue";
+import Img from "@/views/file_up/img_up/index.vue";
+import Video from "@/views/file_up/video_up/index.vue";
+import Color from "@/color.vue";
+import Login from '@/views/login/index.vue';
+import Layout from '@/layout'
 Vue.use(Router)
 
-/* Layout */
-import Layout from '@/layout'
+let routes = [{
+        path: '/',
+        // redirect: '/menu',
+        name: 'login',
+        component: Login,
 
-/**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
- *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
- * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
- */
-
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
-export const constantRoutes = [
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'CSSD', icon: 'el-icon-user-solid' }
-    }]
-  },
-
-  {
-    path: '/view',
-    component: Layout,
-    redirect: '/view/class',
-    name: 'View',
-    meta: { title: '实时画面', icon: 'el-icon-video-camera-solid' },
-    children: [
-      {
-        path: 'class',
-        name: 'class',
-        component: () => import('@/views/view/class/index'),
-        meta: { title: '课堂画面', icon: 'el-icon-camera-solid' }
-      },
-      {
-        path: 'check',
-        name: 'check',
-        component: () => import('@/views/view/check/index'),
-        meta: { title: '检测画面', icon: 'el-icon-camera' }
-      }
-    ]
-  },
-  {
-    path: '/file_up',
-    component: Layout,
-    redirect: '/file_up/img_up',
-    name: 'File_up',
-    meta: {
-      title: '文件上传',
-      icon: 'el-icon-upload'
+        meta: {
+            title: '登陆界面',
+            hasSubMenu: true,
+        },
     },
-    children: [
-      {
-        path: 'img_up',
-        component: () => import('@/views/file_up/img_up/index'), // Parent router-view
-        name: 'img_up',
-        meta: { title: '图片', icon: 'el-icon-picture-outline' }
-      },
-      {
-        path: 'video_up',
-        component: () => import('@/views/file_up/video_up/index'),
-        name: 'video_up',
-        meta: { title: '视频', icon: 'el-icon-video-camera' }
-      }
-    ]
-  },
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+    {
+        path: '/main',
+        name: 'menu',
+        component: MenuIndex,
+        meta: {
+            title: '首页', // 菜单标题
+            icon: 'el-icon-s-home', // 图标
+            hasSubMenu: false, // 是否包含子菜单，false 没有子菜单；true 有子菜单
+
+        },
+
+        children: [
+
+
+            {
+                path: '/views/class',
+                name: 'Class',
+                component: Class,
+
+                meta: {
+                    title: '课堂画面',
+                    icon: 'el-icon-user-solid',
+                    hasSubMenu: true,
+                },
+            }, {
+                path: '/views/test',
+                name: 'Test',
+                component: Test,
+                meta: {
+                    title: '检测画面',
+                    icon: 'el-icon-user-solid',
+                    hasSubMenu: true,
+                },
+            },
+            {
+                path: '/views/img',
+                name: 'Img',
+                component: Img,
+                meta: {
+                    title: '图片',
+                    icon: 'el-icon-user-solid',
+                    hasSubMenu: true,
+                },
+            },
+            {
+                path: '/views/video',
+                name: 'Videot',
+                component: Video,
+                meta: {
+                    title: '视频',
+                    icon: 'el-icon-user-solid',
+                    hasSubMenu: true,
+                },
+            },
+            {
+                path: '/views/color',
+                name: 'Color',
+                component: Color,
+                meta: {
+                    title: '颜色',
+                    icon: 'el-icon-user-solid',
+                    hasSubMenu: true,
+                },
+            }
+        ]
+    }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+
+export default new Router({
+    routes
 })
-
-const router = createRouter()
-
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
-}
-
-export default router
