@@ -18,7 +18,7 @@
 <style>
 .upload-demo{
   position: absolute;
-  top: 30%;
-  left: 35%;
+  top: 35%;
+  left: 800px;
 }
 </style>

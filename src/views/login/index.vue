@@ -41,9 +41,9 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
+<router-link to="/main">
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
+</router-link>
     </el-form>
   </div>
 </template>
@@ -97,7 +97,7 @@ export default {
       })
     },
     handleLogin() {
-      axios.get('http://127.0.0.1:8080/auth', {
+      axios.get('http://127.0.0.1:80', {
         params: {
           username: this.loginForm.username
         }
@@ -125,7 +125,10 @@ export default {
           return false
         }
       })
-    }
+    },
+    handleLogin(){
+  		this.$router.push('/main')
+  	}
   }
 }
 </script>
