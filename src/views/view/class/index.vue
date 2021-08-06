@@ -19,7 +19,7 @@ export default {
       URL: ip.rh,
       URI: [
         { uri: `${ip.rr}/stream1`},
-        { uri: `${ip.rr}/stream2` },
+        // { uri: `${ip.rr}/stream2` },
       ],
     };
   },
