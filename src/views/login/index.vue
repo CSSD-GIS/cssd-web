@@ -41,9 +41,7 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-<router-link to="/main">
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-</router-link>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handLogin">Login</el-button>
     </el-form>
   </div>
 </template>
@@ -52,16 +50,18 @@
 import { validUsername } from '@/utils/validate'
 import axios from 'axios'
 import Cookie from 'js-cookie'
+import {setToken} from "@/utils/auth";
+import {getToken} from "@/utils/auth";
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
+      // if (!validUsername(value)) {
+      //   callback(new Error('Please enter the correct user name'))
+      // } else {
+      //   callback()
+      // }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
@@ -72,8 +72,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: 'lingyin',
+        password: '123456'
       },
       loginRules: {
         username: [{required: true, trigger: 'blur', validator: validateUsername}],
@@ -96,39 +96,44 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      axios.get('http://127.0.0.1:80', {
-        params: {
-          username: this.loginForm.username
-        }
-      }).then(function (response) {
-        console.log(response);
-        console.log(response.token);
-        // const value = localStorage.getItem('token')
-          const value = '123456789'
-        Cookie.set('token', value)
-      })
+    handLogin() {
+      let that = this;
+      axios.post('http://127.0.0.1:8080/login', this.$qs.stringify(
+        {
+          username:this.loginForm.username,
+          password:this.loginForm.password
+        }))
+        .then( (response)=> {
+          console.log(response);
+          if(response.data.code === 200){
+            const token = response.data.data.token
+            setToken(token)
+            // Cookie.set('token', token)
+            that.$router.push('/main')
+          }
+          if (response.data.code === 20003){
+            // alert(response.data.msg)
+            this.$message.error(response.data.msg)
+          }
+        })
         .catch(function (error) {
           console.log(error);
         })
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({path: this.redirect || '/'})
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //       this.$router.push({path: this.redirect || '/'})
+      //       this.loading = false
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
     },
-    handleLogin(){
-  		this.$router.push('/main')
-  	}
   }
 }
 </script>
