@@ -40,7 +40,7 @@ out(){
     height: 80px;
     margin-left: -18px;
    //  padding: 8px 20px 0px 20px;
-   background-color: rgba(48,65,86);
+   background-color:  #14145a;
 
  .logo {
   width: $logoWidth;
