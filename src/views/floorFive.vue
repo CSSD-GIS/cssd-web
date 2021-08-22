@@ -247,7 +247,7 @@ export default {
 .border{
  
   height: 100%;
-  margin-left: 1325px;
+  margin-left: 1500px;
   -webkit-box-shadow: 4px 10px 5px #888888;
   box-shadow: 4px 10px 5px #888888;
   background-color: #eef4f9;
@@ -294,16 +294,5 @@ cursor: pointer;
   padding-left: 30px;
   line-height: 20px;
   color: rgb(172, 23, 13);
-}
-</style>
-<style >
-.el-input__inner {
-  border-radius: 0px !important;
-  border: 1px solid #bec0c4 !important;
-  line-height: 40px;
-  outline: 0;
-  padding: 0 !important;
-  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 </style>
