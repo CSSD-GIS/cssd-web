@@ -8,6 +8,8 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: '',
+  data() {
+  },
   computed: {
     ...mapGetters([
       'name'
