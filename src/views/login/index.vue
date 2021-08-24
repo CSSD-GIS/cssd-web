@@ -49,9 +49,6 @@
 import { validUsername } from '@/utils/validate'
 import axios from 'axios'
 import Cookie from 'js-cookie'
-import {setToken} from "@/utils/auth";
-import {getToken} from "@/utils/auth";
-import {checkLogin} from '@/utils/request'
 
 export default {
   name: 'Login',
@@ -86,9 +83,9 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:8080/api/v1/test'
+    axios.get('http://localhost:8080/api/v1/test',
     ).then((res)=>{
-      // console.log(res)
+      console.log(res)
       alert(res)
     }).catch(err=>{
       console.log(err )
