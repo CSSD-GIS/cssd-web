@@ -2,14 +2,20 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+// import { removeToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: 'http://127.0.0.1:8080', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
-
+export function checkLogin() {
+  return service.request({
+    url: '/api/v1/test',
+    method: 'get'
+  })
+}
 // request interceptor
 service.interceptors.request.use(
   config => {

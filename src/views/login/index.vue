@@ -51,6 +51,7 @@ import axios from 'axios'
 import Cookie from 'js-cookie'
 import {setToken} from "@/utils/auth";
 import {getToken} from "@/utils/auth";
+import {checkLogin} from '@/utils/request'
 
 export default {
   name: 'Login',
@@ -84,6 +85,15 @@ export default {
       token: ''
     }
   },
+  mounted() {
+    axios.get('http://127.0.0.1:8080/api/v1/test'
+    ).then((res)=>{
+      // console.log(res)
+      alert(res)
+    }).catch(err=>{
+      console.log(err )
+    })
+  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
@@ -96,7 +106,7 @@ export default {
       })
     },
     handLogin() {
-      let that = this;
+      let _this = this;
       axios.post('http://127.0.0.1:8080/login', this.$qs.stringify(
         {
           username:this.loginForm.username,
@@ -106,9 +116,9 @@ export default {
           console.log(response);
           if(response.data.code === 200){
             const token = response.data.data.token
-            setToken(token)
-            // Cookie.set('token', token)
-            that.$router.push('/main')
+            // setToken(token)
+            Cookie.set('token', token)
+            _this.$router.push('/main')
           }
           if (response.data.code === 20003){
             // alert(response.data.msg)
