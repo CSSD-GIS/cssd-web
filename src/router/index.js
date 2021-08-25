@@ -19,7 +19,7 @@ import Layout from '@/layout'
 Vue.use(Router)
 
 let routes = [{
-        path: '/',
+        path: '/login',
         // redirect: '/menu',
         name: 'login',
         component: Login,
@@ -31,7 +31,7 @@ let routes = [{
     },
 
     {
-        path: '/main',
+        path: '/',
         name: 'menu',
         component: MenuIndex,
         meta: {

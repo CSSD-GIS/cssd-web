@@ -7,7 +7,7 @@
   </el-header>
   <el-container id="left-container">
   <el-aside width="200px">
-   <LeftMenu></LeftMenu>   
+   <LeftMenu></LeftMenu>
   </el-aside>
   <el-main class="el-main">
    <router-view />
@@ -19,17 +19,39 @@
  </div>
 </template>
 <script>
-import LeftMenu from './leftMenu';
-import TopMenu from './topMenu';
+import LeftMenu from './leftMenu'
+import TopMenu from './topMenu'
+import { tokentest } from '@/api/user'
+
 export default {
- name: 'MenuIndex',
- components: {LeftMenu, TopMenu},
- data() {
- return {
-  logoPath: require("../assets/images/person.svg"),
-  name: '课堂学生行为检测系统'
- }
- }
+  name: 'MenuIndex',
+  components: { LeftMenu, TopMenu },
+  data() {
+    return {
+      logoPath: require('../assets/images/person.svg'),
+      name: '课堂学生行为检测系统'
+    }
+  },
+  mounted() {
+    var token = localStorage.getItem('token')
+    if (token) {
+      tokentest(token
+      ).then((res) => {
+        console.log(res)
+        alert(res)
+        this.$router.push('/main')
+      }
+      ).catch((error) => {
+        console.log(error)
+        // console.error(error.response.data)
+        this.$message.error(error.response.data.msg)
+        this.$router.push('/login')
+      })
+    } else {
+      this.$router.push('/login')
+      // this.$message.error('请先登录！')
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -45,7 +67,7 @@ export default {
     overflow: auto;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 0px !important; 
+    padding: 0px !important;
 }
   position: absolute;
   top: 80px;
@@ -65,13 +87,13 @@ export default {
     overflow: auto;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 0px !important; 
+    padding: 0px !important;
 }
  #menu-index{
  .el-header{
   padding: 0px;
  }
- 
+
  }
- 
+
 </style>

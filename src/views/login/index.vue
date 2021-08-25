@@ -82,15 +82,6 @@ export default {
       token: ''
     }
   },
-  mounted() {
-    axios.get('http://localhost:8080/api/v1/test',
-    ).then((res)=>{
-      console.log(res)
-      alert(res)
-    }).catch(err=>{
-      console.log(err )
-    })
-  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
@@ -104,7 +95,7 @@ export default {
     },
     handLogin() {
       let _this = this;
-      axios.post('http://127.0.0.1:8080/login', this.$qs.stringify(
+      axios.post('/api/login', this.$qs.stringify(
         {
           username:this.loginForm.username,
           password:this.loginForm.password
@@ -114,8 +105,9 @@ export default {
           if(response.data.code === 200){
             const token = response.data.data.token
             // setToken(token)
-            Cookie.set('token', token)
-            _this.$router.push('/main')
+            // Cookie.set('token', token)
+            localStorage.setItem('token',token)
+            _this.$router.push('/')
           }
           if (response.data.code === 20003){
             // alert(response.data.msg)
