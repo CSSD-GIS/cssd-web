@@ -1,9 +1,12 @@
 <template>
   <div class="rightFather">
-    <span class="fapic" v-if="showPic">
-      <span v-for="(val, key) in checkList" :key="key" class="picture">
-        {{ val }}
-      </span>
+    <span class="fapic" v-if="showPic" >
+      <!-- <img v-if="showPic" class="picture" :src="require( classval  ) "/> -->
+      <video   v-for="(val, key) in checkList":key="key+10"  class="video" controls muted>
+     
+      </video>
+    
+      <!-- <div v-else>222</div> -->
     </span>
     <div class="border">
       <el-cascader
@@ -12,41 +15,38 @@
         :options="options"
         filterable
         @change="handleChange"
-      />
-       <el-tooltip placement="top"  effect="light">
-  <div slot="content">最多可选九个</div>
-      <div class="tip2"><i class="el-icon-position" /> 监 控 设 备 列 表</div>
-   
+      ></el-cascader>
+      <div class="tip2"><i class="el-icon-position"></i> 监 控 设 备 列 表</div>
+     
       <el-checkbox-group
         class="el-checkbox-group"
         v-model="checkList"
         :min="0"
         :max="9"
+      
       >
-       
         <el-checkbox
-          class="el-checkbox"
+     
+          @change="statustext(key)"
           v-for="(val, key) in items"
           :key="key"
           :label="key"
+          
           >{{ `${key} ` + "半球" }}
-          <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{
-            status
-          }}</span>
-          <span v-else id="stateoff">{{ statusoff }}</span>
-         
-         
-           </el-checkbox
+          <span  v-if="checkList.indexOf(key) !== -1"id="stateon">{{ status }}</span>
+          <span v-else id="stateoff">{{ statusoff }}</span></el-checkbox
         >
-    
+      
       </el-checkbox-group>
-     </el-tooltip>
+     
     </div>
   
   </div>
 </template>
 
 <script>
+
+   
 let classval = [];
 let items = {};
 import config from "@/config.json";
@@ -147,8 +147,7 @@ export default {
   name: "floorOne",
   data() {
     return {
-      tip:"00000000",
-      // tip:{"1 ":"2", " 1":" 2", " 1":"2"," 1":"2","1 ":"2","1 ":"2"," 1":"2"," 1":"2"},
+      tip:"0000000000",
       checkAll: false,
       classval,
       showPic: false,
@@ -202,49 +201,44 @@ export default {
   },
 
   mounted() {
-    this.webSocket();
+    
   },
   created() {
     this.handleParmes();
-    this.$alert('点击具体楼层可查看信息', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
   },
 
   methods: {
+    
+  
+   
+    
    
     //路由参数判断
     handleParmes() {
-      let num = this.$route.query.id;
-      if (num == "one") {
+      let nums = this.$route.query.type;
+      if (nums== "one") {
         this.items = this.items1;
-        this.showPic = true;
+        this.showPic=true;
         console.log(items1);
-      } else if (num == "two") {
+      } else if (nums == "two") {
         this.items = this.items2;
-        this.showPic = true;
-      } else if (num == "three") {
+        this.showPic=true;
+      } else if (nums == "three") {
         this.items = this.items3;
-        this.showPic = true;
-      } else if (num == "four") {
+          this.showPic=true;
+      } else if (nums == "four") {
         this.items = this.items4;
-        this.showPic = true;
-      } else if (num == "five") {
+          this.showPic=true;
+      } else if (nums == "five") {
         this.items = this.items5;
-        this.showPic = true;
-      } else if (num == "six") {
+          this.showPic=true;
+      } else if (nums == "six") {
         this.items = this.items6;
-        this.showPic = true;
+          this.showPic=true;
       } else {
-      this.items = this.tip;
+       this.items = this.tip;
         this.showPic = false;
-       this.$alert('点击具体楼层可查看信息', '温馨提示', {
+        this.$alert('点击具体楼层可查看信息', '温馨提示', {
           confirmButtonText: '确定',
           callback: action => {
             this.$message({
@@ -261,51 +255,11 @@ export default {
         confirmButtonText: "确定"
       });
     },
-
-    webSocket() {
-      const _this = this;
-      if (typeof WebSocket == "undefined") {
-        this.$notify({
-          title: "提示",
-          message: "当前浏览器无法接收实时服务器信息，请使用谷歌浏览器！",
-          type: "warning",
-          duration: 0
-        });
-      } else {
-        // 实例化socket
-        const socketUrl = "ws://127.0.0.1:8000/img/";
-        this.socket = new WebSocket(socketUrl);
-        // 监听socket打开
-        this.socket.onopen = function() {
-          console.log("浏览器WebSocket已打开");
-          _this.socket.send(
-            JSON.stringify({
-              code: "200",
-              msg: "wesocket已打开"
-            })
-          );
-        };
-        // 监听socket消息接收
-        this.socket.onmessage = function(msg) {
-          // 追加到内容显示列表中
-          var content = msg.data;
-          _this.img = "data:image/jpg;base64," + content;
-        };
-        // 监听socket错误
-        this.socket.onerror = function() {
-          _this.$notify({
-            title: "错误",
-            message: "通信错误，无法与服务器建立连接",
-            type: "error",
-            duration: 0
-          });
-        };
-        // 监听socket关闭
-        this.socket.onclose = function() {
-          console.log("WebSocket已关闭");
-        };
-      }
-    }
+    choice: function(key) {
+      this.num = key;
+    },
+   
+   
   },
   //监听路由，实现组件复用
   watch: {
@@ -323,28 +277,28 @@ export default {
     //   }
     // },
     $route(to, from) {
-      let num = this.$route.query.id;
-      if (num == "one") {
+        let nums = this.$route.query.type;
+      if (nums== "one") {
         this.items = this.items1;
-        this.showPic = true;
+        this.showPic=true;
         console.log(items1);
-      } else if (num == "two") {
+      } else if (nums == "two") {
         this.items = this.items2;
-        this.showPic = true;
-      } else if (num == "three") {
+        this.showPic=true;
+      } else if (nums == "three") {
         this.items = this.items3;
-        this.showPic = true;
-      } else if (num == "four") {
+          this.showPic=true;
+      } else if (nums == "four") {
         this.items = this.items4;
-        this.showPic = true;
-      } else if (num == "five") {
+          this.showPic=true;
+      } else if (nums == "five") {
         this.items = this.items5;
-        this.showPic = true;
-      } else if (num == "six") {
+          this.showPic=true;
+      } else if (nums == "six") {
         this.items = this.items6;
-        this.showPic = true;
+          this.showPic=true;
       } else {
-        this.items = this.tip;
+       this.items = this.tip;
         this.showPic = false;
         this.$alert('点击具体楼层可查看信息', '温馨提示', {
           confirmButtonText: '确定',
@@ -374,18 +328,8 @@ export default {
   width: 85%;
   height: 992px;
 }
-.picture {
-  float: left;
-  min-width: 100px;
-  width: 436px;
-  height: 290px;
-  border: #3a4673 2px solid;
-  margin-left: 42px;
-  margin-top: 40px;
-}
 
 .border {
- 
   display: inherit;
   float: right;
   min-width: 240px;
@@ -394,33 +338,47 @@ export default {
   box-shadow: 4px 10px 5px #888888;
   background-color: #eef4f9;
 }
+.video {
+   object-fit: fill;
+  float: left;
+ min-width: 100px;
+  width: 436px;
+  height: 290px;
+  border: #3a4673 2px solid;
+ 
+  margin-left: 42px;
+  margin-top: 40px;
+}
+
+
 .el-checkbox[data-v-d0a55058] {
-  color: #606266;
-  font-weight: 500;
-  font-size: 40px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  margin-right: 23px !important;
-  margin-left: 40px !important;
+    color: #606266;
+    font-weight: 500;
+    font-size: 40px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-right: 23px !important;
+    margin-left: 40px !important;
 }
 .el-checkbox-group {
-  min-width: 250px;
-  float: right;
+  float: inherit;
   font-size: 52px;
   cursor: pointer;
 }
 
+
 .tip2 {
-  /* float:inherit; */
+ 
   text-align: center;
   padding-top: 25px;
   padding-bottom: 30px;
   background-color: #3a4673;
   color: white;
 }
+
 
 #stateon {
   padding-left: 30px;
@@ -436,6 +394,7 @@ export default {
 <style>
 .el-input__inner {
   border-radius: 0px !important;
+
   line-height: 40px;
   outline: 0;
   padding: 0 !important;
@@ -443,17 +402,22 @@ export default {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 .el-checkbox__label {
-  display: inline-block;
-  padding-left: 19px;
-  line-height: 19px;
-  font-size: 18px !important;
+   
+    display: inline-block;
+    padding-left: 19px;
+    line-height: 19px;
+    font-size: 18px !important;
 }
 .el-checkbox__input {
+ 
+  
   margin-left: 4px;
   margin-right: 10px;
+  
   cursor: pointer;
   outline: 0;
   line-height: 1;
   vertical-align: middle;
 }
 </style>
+
