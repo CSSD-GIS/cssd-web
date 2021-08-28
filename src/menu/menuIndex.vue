@@ -1,22 +1,22 @@
 <!-- src/menu/menuIndex.vue -->
 <template>
- <div id="menu-index">
- <el-container>
-  <el-header>
-  <TopMenu :logoPath="logoPath" :name="name"></TopMenu>
-  </el-header>
-  <el-container id="left-container">
-  <el-aside width="200px">
-   <LeftMenu></LeftMenu>
-  </el-aside>
-  <el-main class="el-main">
-   <router-view />
-   <!-- <router-view></router-view> -->
-  </el-main>
-  </el-container>
- </el-container>
- <!-- <router-view/>/ -->
- </div>
+  <div id="menu-index">
+    <el-container>
+      <el-header>
+        <TopMenu :logo-path="logoPath" :name="name" />
+      </el-header>
+      <el-container id="left-container">
+        <el-aside width="200px">
+          <LeftMenu />
+        </el-aside>
+        <el-main class="el-main">
+          <router-view />
+          <!-- <router-view></router-view> -->
+        </el-main>
+      </el-container>
+    </el-container>
+    <!-- <router-view/>/ -->
+  </div>
 </template>
 <script>
 import LeftMenu from './leftMenu'
@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    var token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     if (token) {
       tokentest(token
       ).then((res) => {
@@ -62,16 +62,16 @@ export default {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    -ms-flex-preferred-size: auto;
+    ms-flex-preferred-size: auto;
     flex-basis: auto;
     overflow: auto;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 0px !important;
+    padding: 0 !important;
 }
   position: absolute;
   top: 80px;
-  bottom: 0px;
+  bottom: 0;
   }
   #left-container .el-menu-vertical-demo {
     height: 100%;
@@ -87,13 +87,12 @@ export default {
     overflow: auto;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 0px !important;
+    padding: 0 !important;
 }
  #menu-index{
  .el-header{
-  padding: 0px;
+  padding: 0
  }
-
  }
 
 </style>

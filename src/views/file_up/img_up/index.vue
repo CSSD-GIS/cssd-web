@@ -3,10 +3,11 @@
     class="upload-demo"
     drag
     action="https://jsonplaceholder.typicode.com/posts/"
-    multiple>
-    <i class="el-icon-upload"></i>
+    multiple
+  >
+    <i class="el-icon-upload" />
     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-    <template #tip>
+    <template>
       <div class="el-upload__tip">
         只能上传 jpg/png 文件，且不超过 500kb
       </div>
