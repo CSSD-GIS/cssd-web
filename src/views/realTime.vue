@@ -1,8 +1,8 @@
 <template>
   <div class="rightFather">
-    <span v-if="showPic" class="fapic">
+    <span v-if="showPic" class="fapic" >
       <!-- <img v-if="showPic" class="picture" :src="require( classval  ) "/> -->
-      <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted></video>
+      <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
       <!-- <div v-else>222</div> -->
     </span>
     <div class="border">
@@ -287,7 +287,7 @@ export default {
         this.showPic = false
         this.$alert('点击具体楼层可查看信息', '温馨提示', {
           confirmButtonText: '确定',
-          callback: action => {
+          callback: (action) => {
             this.$message({
               type: 'info',
               message: `action: $ { action }`
@@ -334,18 +334,6 @@ export default {
   margin-top: 40px;
 }
 
-.el-checkbox[data-v-d0a55058] {
-    color: #606266;
-    font-weight: 500;
-    font-size: 40px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    margin-right: 23px !important;
-    margin-left: 40px !important;
-}
 .el-checkbox-group {
   float: inherit;
   font-size: 52px;
@@ -378,20 +366,6 @@ export default {
   padding: 0 !important;
   -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-.el-checkbox__label {
-  isplay: inline-block;
-  padding-left: 19px;
-  line-height: 19px;
-  font-size: 18px !important;
-}
-.el-checkbox__input {
-  margin-left: 4px;
-  margin-right: 10px;
-  cursor: pointer;
-  outline: 0;
-  line-height: 1;
-  vertical-align: middle;
 }
 </style>
 
