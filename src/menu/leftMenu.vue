@@ -1,6 +1,6 @@
 <!-- src/menu/leftMenu.vue -->
 <template>
-  <el-menu :collapse="isCollapse" class="el-menu-vertical" id="left-menu">
+  <el-menu :collapse="isCollapse" id="left-menu" class="el-menu-vertical" >
     <!-- @open="handleOpen"   -->
     <i class="el-icon-s-fold" @click="isC"></i>
     <div class=".el-tooltip__popper.is-dark">
@@ -103,17 +103,17 @@
         >
       </router-link>
       <router-link to="/views/video">
-        <el-menu-item index="4-2"
-          ><i class="el-icon-video-camera-solid"></i>视频</el-menu-item
+        <el-menu-item index="4-2">
+          <i class="el-icon-video-camera-solid"></i>视频</el-menu-item
         >
       </router-link>
     </el-submenu>
   </el-menu>
 </template>
 <script>
-import config from "@/config.json";
+import config from '@/config.json'
 export default {
-  name: "LeftMenu",
+  name: 'LeftMenu',
   data() {
     return {
       id: 0,
@@ -129,13 +129,13 @@ export default {
       items9: config.south.front.floor3,
       items10: config.south.front.floor4,
       items11: config.south.front.floor5,
-      items12: config.south.front.floor6,
-    };
+      items12: config.south.front.floor6
+    }
   },
   methods: {
     isC() {
-      this.isCollapse = !this.isCollapse;
-    },
+      this.isCollapse = !this.isCollapse
+    }
     //     handleOpen(index){
     // if (index=="3-1") {
     //   let num =items1;
@@ -147,8 +147,8 @@ export default {
     //   // console.log(items2);
     // }
     //     },
-  },
-};
+  }
+}
 </script>
 <style lang="scss">
 //控制左侧边栏
@@ -192,7 +192,7 @@ export default {
   list-style: none;
   position: relative;
   margin: 0;
-  padding-left: 10;
+  padding-left: 10 ;
   // background-color: rgb(182, 58, 165);
 }
 .text {
