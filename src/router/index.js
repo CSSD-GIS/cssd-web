@@ -14,18 +14,21 @@ import Time from "@/views/realTime.vue";
 import Layout from "@/layout";
 Vue.use(Router);
 
-let routes = [{
-        path: "/",
+let routes = [
+  {
+    path:"/",
+    redirect: '/main',
+  },
+  {
+        path: "/login",
         // redirect: '/menu',
         name: "login",
         component: Login,
-
         meta: {
             title: "登陆界面",
             hasSubMenu: true
         }
     },
-
     {
         path: "/main",
         name: "menu",

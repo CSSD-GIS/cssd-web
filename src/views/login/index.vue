@@ -107,7 +107,7 @@ export default {
             // setToken(token)
             // Cookie.set('token', token)
             localStorage.setItem('token',token)
-            _this.$router.push('/')
+            _this.$router.push('/main')
           }
           if (response.data.code === 20003){
             // alert(response.data.msg)
