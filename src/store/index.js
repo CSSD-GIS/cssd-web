@@ -8,22 +8,21 @@ import user from './modules/user'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    modules: {
-        app,
-        settings,
-        user
-    },
-    getters,
-    state: {
-        tcolor: 'pure' // 默认为pure
-    },
-    mutations: {
-        // 更新主题颜色
-        setTColor(state, color) {
-            this.state.themecolor = color
-        }
+  modules: {
+    app,
+    settings,
+    user
+  },
+  getters,
+  state: {
+    tcolor: 'pure' // 默认为pure
+  },
+  mutations: {
+    // 更新主题颜色
+    setTColor(state, color) {
+      this.state.themecolor = color
     }
-
+  }
 })
 
 export default store
