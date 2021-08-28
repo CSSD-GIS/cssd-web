@@ -1,6 +1,6 @@
 <template>
   <div class="rightFather">
-    <span v-if="showPic" class="fapic" >
+    <span v-if="showPic" class="fapic">
       <!-- <img v-if="showPic" class="picture" :src="require( classval  ) "/> -->
       <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
       <!-- <div v-else>222</div> -->
@@ -12,9 +12,9 @@
         :options="options"
         filterable
         @change="handleChange"
-      ></el-cascader>
+      />
       <div class="tip2">
-        <i class="el-icon-position"></i> 监 控 设 备 列 表
+        <i class="el-icon-position" /> 监 控 设 备 列 表
       </div>
       <el-checkbox-group
         v-model="checkList"
@@ -191,61 +191,6 @@ export default {
       ]
     }
   },
-
-  mounted() {
-
-  },
-  created() {
-    this.handleParmes()
-  },
-
-  methods: {
-    // 路由参数判断
-    handleParmes() {
-      const nums = this.$route.query.type
-      if (nums === 'one') {
-        this.items = this.items1
-        this.showPic = true
-        console.log(items1)
-      } else if (nums === 'two') {
-        this.items = this.items2
-        this.showPic = true
-      } else if (nums === 'three') {
-        this.items = this.items3
-        this.showPic = true
-      } else if (nums === 'four') {
-        this.items = this.items4
-        this.showPic = true
-      } else if (nums === 'five') {
-        this.items = this.items5
-        this.showPic = true
-      } else if (nums === 'six') {
-        this.items = this.items6
-        this.showPic = true
-      } else {
-        this.items = this.tip
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: 'action: $ { action }'
-            })
-          }
-        })
-      }
-    },
-    handleChange(v) {
-      // console.log(v);    打印出来为一个数组，第二个值为URL
-      this.$alert(v[1], '标题名称', {
-        confirmButtonText: '确定'
-      })
-    },
-    choice: function(key) {
-      this.num = key
-    }
-  },
   // 监听路由，实现组件复用
   watch: {
     // handleCheckAllChange(key) {
@@ -295,6 +240,58 @@ export default {
           }
         })
       }
+    }
+  },
+  mounted() {
+  },
+  created() {
+    this.handleParmes()
+  },
+  methods: {
+    // 路由参数判断
+    handleParmes() {
+      const nums = this.$route.query.type
+      if (nums === 'one') {
+        this.items = this.items1
+        this.showPic = true
+        console.log(items1)
+      } else if (nums === 'two') {
+        this.items = this.items2
+        this.showPic = true
+      } else if (nums === 'three') {
+        this.items = this.items3
+        this.showPic = true
+      } else if (nums === 'four') {
+        this.items = this.items4
+        this.showPic = true
+      } else if (nums === 'five') {
+        this.items = this.items5
+        this.showPic = true
+      } else if (nums === 'six') {
+        this.items = this.items6
+        this.showPic = true
+      } else {
+        this.items = this.tip
+        this.showPic = false
+        this.$alert('点击具体楼层可查看信息', '温馨提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: 'action: $ { action }'
+            })
+          }
+        })
+      }
+    },
+    handleChange(v) {
+      // console.log(v);    打印出来为一个数组，第二个值为URL
+      this.$alert(v[1], '标题名称', {
+        confirmButtonText: '确定'
+      })
+    },
+    choice: function(key) {
+      this.num = key
     }
   }
 }
