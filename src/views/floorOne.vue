@@ -27,7 +27,7 @@
             :key="key"
             class="el-checkbox"
             :label="key"
-          >{{ `${key} ` + "半球" }}
+          >{{ key + "半球" }}
             <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
             <span v-else id="stateoff">{{ statusoff }}</span>
           </el-checkbox>
@@ -286,7 +286,7 @@ export default {
           callback: action => {
             this.$message({
               type: 'info',
-              message: `action: $ { action }`
+              message: action
             })
           }
         })
@@ -374,7 +374,6 @@ export default {
 }
 
 .border {
-
   display: inherit;
   float: right;
   min-width: 240px;
@@ -383,7 +382,18 @@ export default {
   box-shadow: 4px 10px 5px #888888;
   background-color: #eef4f9;
 }
-
+.el-checkbox[data-v-d0a55058] {
+  color: #606266;
+  font-weight: 500;
+  font-size: 40px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 23px !important;
+  margin-left: 40px !important;
+}
 .el-checkbox-group {
   min-width: 250px;
   float: right;
@@ -413,12 +423,25 @@ export default {
 </style>
 <style>
 .el-input__inner {
-  border-radius: 0 !important;
+  border-radius: 0px !important;
   line-height: 40px;
   outline: 0;
   padding: 0 !important;
   -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
-
+.el-checkbox__label {
+  display: inline-block;
+  padding-left: 50px;
+  line-height: 19px;
+  font-size: 18px !important;
+}
+.el-checkbox__input {
+  margin-left: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+  outline: 0;
+  line-height: 1;
+  vertical-align: middle;
+}
 </style>

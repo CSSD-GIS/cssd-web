@@ -28,8 +28,6 @@ export default {
   components: { LeftMenu, TopMenu },
   data() {
     return {
-      logoPath: require('../assets/images/person.svg'),
-      name: '课堂学生行为检测系统'
     }
   },
   mounted() {

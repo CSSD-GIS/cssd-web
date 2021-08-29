@@ -27,12 +27,10 @@
           :key="key"
           :label="key"
           @change="statustext(key)"
-        >{{ '${key}' + "半球" }}
+        >{{ key + "半球" }}
           <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
           <span v-else id="stateoff">{{ statusoff }}</span></el-checkbox>
-
       </el-checkbox-group>
-
     </div>
 
   </div>
@@ -321,9 +319,9 @@ export default {
   background-color: #eef4f9;
 }
 .video {
-   object-fit: fill;
+  object-fit: fill;
   float: left;
- min-width: 100px;
+  min-width: 100px;
   width: 436px;
   height: 290px;
   border: #3a4673 2px solid;
@@ -357,7 +355,6 @@ export default {
 <style>
 .el-input__inner {
   border-radius: 0 !important;
-
   line-height: 40px;
   outline: 0;
   padding: 0 !important;

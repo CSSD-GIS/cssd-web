@@ -4,8 +4,8 @@
     <!-- <el-color-picker v-model="color1"></el-color-picker> -->
     <p class="name"> {{ name }} </p>
     <div class="img">
-      <img class="logo" :src="logoPath">
-      <button class="btn" :v-bind:title="message" @click="out">
+      <img class="logo" :src="logoPath" alt="">
+      <button class="btn" :v-bind="message" @click="out">
         <i id="icon" class="el-icon-s-promotion" />
       </button>
     </div>
@@ -15,9 +15,9 @@
 export default {
   data() {
     return {
-      message: '退出登录',
-      name: 'TopMenu',
-      props: ['logoPath', 'name']
+      logoPath: require('../assets/images/person.svg'),
+      name: '课堂学生行为检测系统',
+      message: '退出登录'
     }
   },
   methods: {
@@ -43,7 +43,7 @@ export default {
    .logo {
      width: $logoWidth;
      display: inline-block;
-     margin-top: 0px;
+     margin-top: 0;
    }
 
    .img {
