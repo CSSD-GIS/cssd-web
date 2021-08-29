@@ -1,9 +1,8 @@
 <template>
   <div class="rightFather">
     <span v-if="showPic" class="fapic">
-      <!-- <img v-if="showPic" class="picture" :src="require( classval  ) "/> -->
       <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-      <!-- <div v-else>222</div> -->
+
     </span>
     <div class="border">
       <el-cascader
@@ -137,7 +136,7 @@ export default {
   name: 'FloorOne',
   data() {
     return {
-      tip: '0000000000',
+
       checkAll: false,
       classval,
       showPic: false,
@@ -191,19 +190,7 @@ export default {
   },
   // 监听路由，实现组件复用
   watch: {
-    // handleCheckAllChange(key) {
-    //   this.showPic = true;
-    //   this.isIndeterminate = false;
-    //   console.log(key);
-    //   console.log(this.isIndeterminate);
-    //   if ((this.isIndeterminate = false)) {
-    //     this.classval.push(key);
-    //     console.log(classval);
-    //     // }else if (this.isIndeterminate = false) {
-    //     //   alert("no")
-    //     // }
-    //   }
-    // },
+
     $route(to, from) {
       const nums = this.$route.query.type
       if (nums === 'one') {
@@ -226,14 +213,14 @@ export default {
         this.items = this.items6
         this.showPic = true
       } else {
-        this.items = this.tip
+        this.items = null
         this.showPic = false
-        this.$alert('点击具体楼层可查看信息', '温馨提示', {
+        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
           confirmButtonText: '确定',
           callback: (action) => {
             this.$message({
               type: 'info',
-              message: `action: $ { action }`
+              message: `已确定`
             })
           }
         })
@@ -269,14 +256,14 @@ export default {
         this.items = this.items6
         this.showPic = true
       } else {
-        this.items = this.tip
+        this.items = null
         this.showPic = false
-        this.$alert('点击具体楼层可查看信息', '温馨提示', {
+        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
           confirmButtonText: '确定',
           callback: action => {
             this.$message({
               type: 'info',
-              message: 'action: $ { action }'
+              message: '已确定'
             })
           }
         })
@@ -287,18 +274,17 @@ export default {
       this.$alert(v[1], '标题名称', {
         confirmButtonText: '确定'
       })
-    },
-    choice: function(key) {
-      this.num = key
     }
+
   }
 }
 </script>
 <style scoped>
 .rightFather {
-  /* height: 100%; */
-  background-color: #efeff1;
-  /* overflow: hidden; */
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 .fapic {
   min-width: 400px;
@@ -306,15 +292,16 @@ export default {
   overflow: hidden;
   float: left;
   width: 85%;
-  height: 992px;
+  height: 100%;
 }
 
 .border {
+ margin-top: 20px;
   display: inherit;
   float: right;
   min-width: 240px;
   width: 13%;
-  height: 992px;
+  height: 100%;
   box-shadow: 4px 10px 5px #888888;
   background-color: #eef4f9;
 }
@@ -328,9 +315,21 @@ export default {
   margin-left: 42px;
   margin-top: 40px;
 }
-
+.el-checkbox {
+  color: #606266;
+  font-weight: 500;
+  font-size: 40px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 23px !important;
+  margin-left: 40px !important;
+}
 .el-checkbox-group {
-  float: inherit;
+  min-width: 250px;
+  float: right;
   font-size: 52px;
   cursor: pointer;
 }
@@ -354,12 +353,26 @@ export default {
 </style>
 <style>
 .el-input__inner {
-  border-radius: 0 !important;
+  border-radius: 0px !important;
   line-height: 40px;
   outline: 0;
   padding: 0 !important;
   -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.el-checkbox__label {
+  display: inline-block;
+  padding-left: 50px;
+  line-height: 19px;
+  font-size: 18px !important;
+}
+.el-checkbox__input {
+  margin-left: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+  outline: 0;
+  line-height: 1;
+  vertical-align: middle;
 }
 </style>
 

@@ -1,22 +1,22 @@
 <!-- src/menu/menuIndex.vue -->
 <template>
+<div class="clear">
   <div id="menu-index">
     <el-container>
       <el-header>
         <TopMenu :logo-path="logoPath" :name="name" />
       </el-header>
       <el-container id="left-container">
-        <el-aside width="200px">
+        <el-aside class="aside">
           <LeftMenu />
         </el-aside>
         <el-main class="el-main">
           <router-view />
-          <!-- <router-view></router-view> -->
         </el-main>
       </el-container>
     </el-container>
-    <!-- <router-view/>/ -->
   </div>
+</div>
 </template>
 <script>
 import LeftMenu from './leftMenu'
@@ -53,24 +53,26 @@ export default {
 }
 </script>
 <style lang="scss">
-// 使左边的菜单外层的元素高度充满屏幕
-#left-container {
-  .el-main {
-    display: block;
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    ms-flex-preferred-size: auto;
-    flex-basis: auto;
-    overflow: auto;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0 !important;
+.aside {
+  width: 200px !important;
 }
-  position: absolute;
+
+.el-main {
+  display: block;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+  overflow: auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0px !important;
+}
+#left-container {
   top: 80px;
-  bottom: 0;
-  }
+  bottom: 0px;
+}
   #left-container .el-menu-vertical-demo {
     height: 100%;
     // background-color: #f1f1f3;
@@ -87,10 +89,25 @@ export default {
     box-sizing: border-box;
     padding: 0 !important;
 }
+.el-aside {
+  height: 100%;
+  overflow: hidden !important;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
  #menu-index{
+  height: 100%;
+  width: 100%;
+
  .el-header{
   padding: 0
  }
  }
-
+.clear{
+   height: 100%;
+  width: 100%;
+  overflow: hidden !important;
+}
 </style>

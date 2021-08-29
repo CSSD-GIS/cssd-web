@@ -151,7 +151,7 @@ export default {
 <style lang="scss">
 //控制左侧边栏
 .el-menu-vertical {
-  // speak: none;
+  display:none;
   font-style: normal;
   font-weight: 500;
   font-variant: normal;
@@ -174,7 +174,8 @@ export default {
 }
 
 #left-menu {
-  height: 100%;
+  margin-top: 20px;
+  height: 1000px;
   background-color: #e3e3ea;
 }
 .el-menu {
@@ -186,15 +187,14 @@ export default {
   background-color: #eef4f9;
 }
 .left-menu-item {
-  // border-right: solid 1px #8f2929;
+
   list-style: none;
-  position: relative;
   margin: 0;
   padding-left: 10px ;
-  // background-color: rgb(182, 58, 165);
+
 }
 .text {
   font-size: 20px;
-  color: #6394ef;
+  color: #0e3379;
 }
 </style>

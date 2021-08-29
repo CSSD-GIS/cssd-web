@@ -13,9 +13,12 @@
         filterable
         @change="handleChange"
       />
-      <el-tooltip placement="top" effect="light">
-        <div slot="content">最多可选九个</div>
-        <div class="tip2"><i class="el-icon-position" /> 监 控 设 备 列 表</div>
+
+        <div class="tip2">
+          <i class="el-icon-position" /> 监 控 设 备 列 表
+        </div>
+        <!-- <el-tooltip placement="top" effect="light">
+        <div slot="content">最多可选九个</div> -->
         <el-checkbox-group
           v-model="checkList"
           class="el-checkbox-group"
@@ -32,7 +35,7 @@
             <span v-else id="stateoff">{{ statusoff }}</span>
           </el-checkbox>
         </el-checkbox-group>
-      </el-tooltip>
+      <!-- </el-tooltip> -->
     </div>
   </div>
 </template>
@@ -136,8 +139,7 @@ export default {
   name: 'FloorOne',
   data() {
     return {
-      tip: '00000000',
-      // tip:{"1 ":"2", " 1":" 2", " 1":"2"," 1":"2","1 ":"2","1 ":"2"," 1":"2"," 1":"2"},
+
       checkAll: false,
       classval,
       showPic: false,
@@ -190,19 +192,7 @@ export default {
     }
   },
   watch: {
-    // handleCheckAllChange(key) {
-    //   this.showPic = true;
-    //   this.isIndeterminate = false;
-    //   console.log(key);
-    //   console.log(this.isIndeterminate);
-    //   if ((this.isIndeterminate = false)) {
-    //     this.classval.push(key);
-    //     console.log(classval);
-    //     // }else if (this.isIndeterminate = false) {
-    //     //   alert("no")
-    //     // }
-    //   }
-    // },
+
     $route(to, from) {
       const num = this.$route.query.id
       if (num === 'one') {
@@ -225,14 +215,14 @@ export default {
         this.items = this.items6
         this.showPic = true
       } else {
-        this.items = this.tip
+        this.items = null
         this.showPic = false
-        this.$alert('点击具体楼层可查看信息', '温馨提示', {
+        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
           confirmButtonText: '确定',
           callback: action => {
             this.$message({
               type: 'info',
-              message: `action: $ { action }`
+              message: `已确定`
             })
           }
         })
@@ -250,7 +240,7 @@ export default {
       callback: action => {
         this.$message({
           type: 'info',
-          message: `action: $ { action }`
+          message: `已确定`
         })
       }
     })
@@ -279,9 +269,9 @@ export default {
         this.items = this.items6
         this.showPic = true
       } else {
-        this.items = this.tip
+        this.items = null
         this.showPic = false
-        this.$alert('点击具体楼层可查看信息', '温馨提示', {
+        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
           confirmButtonText: '确定',
           callback: action => {
             this.$message({
@@ -351,9 +341,10 @@ export default {
 </script>
 <style scoped>
 .rightFather {
-  /* height: 100%; */
-  background-color: #efeff1;
-  /* overflow: hidden; */
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 .fapic {
   min-width: 400px;
@@ -361,7 +352,7 @@ export default {
   overflow: hidden;
   float: left;
   width: 85%;
-  height: 992px;
+ height: 100%;
 }
 .picture {
   float: left;
@@ -374,11 +365,12 @@ export default {
 }
 
 .border {
+  margin-top: 20px;
   display: inherit;
   float: right;
   min-width: 240px;
   width: 13%;
-  height: 992px;
+  height: 100%;
   box-shadow: 4px 10px 5px #888888;
   background-color: #eef4f9;
 }
