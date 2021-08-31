@@ -1,38 +1,32 @@
 <template>
-  <div class="rightFather">
-    <span v-if="showPic" class="fapic">
-      <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-
-    </span>
-    <div class="border">
-      <el-cascader
-        class="el-input__inner"
-        placeholder="双击可搜索全部教室"
-        :options="options"
-        filterable
-        @change="handleChange"
-      />
-      <div class="tip2">
-        <i class="el-icon-position" /> 监 控 设 备 列 表
-      </div>
-      <el-checkbox-group
-        v-model="checkList"
-        class="el-checkbox-group"
-        :min="0"
-        :max="9"
-      >
-        <el-checkbox
-          v-for="(val, key) in items"
-          :key="key"
-          :label="key"
-          @change="statustext(key)"
-        >{{ key + "半球" }}
-          <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
-          <span v-else id="stateoff">{{ statusoff }}</span></el-checkbox>
-      </el-checkbox-group>
-    </div>
-
-  </div>
+<div class="classroom" >
+ <dv-border-box-11 :title='floor'>
+  <span class="titleline">监控设备名称 {{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}
+课程{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}
+{{"\xa0"}}{{"\xa0"}}在线
+{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}
+{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}显示</span>
+ <el-checkbox-group
+          v-model="checkList"
+          class="el-checkbox-group"
+          :min="0"
+          :max="9"
+        >
+          <el-checkbox
+            v-for="(val, key) in items"
+            :key="key"
+            class="el-checkbox"
+            :label="key"
+          >{{ key }}
+            <!-- <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
+            <span v-else id="stateoff">{{ statusoff }}</span> -->
+          </el-checkbox>
+        </el-checkbox-group>
+ </dv-border-box-11>
+ <dv-border-box-8 style="height:500px;top:60px">
+   <dv-decoration-7 style="width:200px;height:30px;font-size:22px;margin-left:178px; color:#e4e4e4fc;">实时分析结果</dv-decoration-7>
+ </dv-border-box-8>
+</div>
 </template>
 
 <script>
@@ -136,7 +130,13 @@ export default {
   name: 'FloorOne',
   data() {
     return {
-
+      floor: '',
+      floorOne: '天仪楼一层',
+      floorTwo: '天仪楼二层',
+      floorThree: '天仪楼三层',
+      floorFour: '天仪楼四层',
+      floorFive: '天仪楼五层',
+      floorSix: '天仪楼六层',
       checkAll: false,
       classval,
       showPic: false,
@@ -196,22 +196,28 @@ export default {
       if (nums === 'one') {
         this.items = this.items1
         this.showPic = true
-        console.log(items1)
+        this.floor = this.floorOne
+        console.log(this.floor)
       } else if (nums === 'two') {
         this.items = this.items2
         this.showPic = true
+        this.floor = this.floorTwo
       } else if (nums === 'three') {
         this.items = this.items3
         this.showPic = true
+        this.floor = this.floorThree
       } else if (nums === 'four') {
         this.items = this.items4
         this.showPic = true
+        this.floor = this.floorFour
       } else if (nums === 'five') {
         this.items = this.items5
         this.showPic = true
+        this.floor = this.floorFive
       } else if (nums === 'six') {
         this.items = this.items6
         this.showPic = true
+        this.floor = this.floorSix
       } else {
         this.items = null
         this.showPic = false
@@ -239,22 +245,28 @@ export default {
       if (nums === 'one') {
         this.items = this.items1
         this.showPic = true
-        console.log(items1)
+        this.floor = this.floorOne
+        console.log(this.floor)
       } else if (nums === 'two') {
         this.items = this.items2
         this.showPic = true
+        this.floor = this.floorTwo
       } else if (nums === 'three') {
         this.items = this.items3
         this.showPic = true
+        this.floor = this.floorThree
       } else if (nums === 'four') {
         this.items = this.items4
         this.showPic = true
+        this.floor = this.floorFour
       } else if (nums === 'five') {
         this.items = this.items5
         this.showPic = true
+        this.floor = this.floorFive
       } else if (nums === 'six') {
         this.items = this.items6
         this.showPic = true
+        this.floor = this.floorSix
       } else {
         this.items = null
         this.showPic = false
@@ -280,10 +292,34 @@ export default {
 }
 </script>
 <style scoped>
+.classroom{
+  min-width: 100px;
+  float: inherit;
+  width: 560px;
+  height: 400px;
+  margin-left: 30px;
+  margin-top: 30px;
+}
+.titleline{
+  background-color: #03171f78;
+    word-spacing: 8px;
+    height: 40px;
+    width: 97%;
+    color: #7ed6ff;
+    margin-left: 9px;
+    font-size: 10px;
+    margin-top: 54px;
+    top: 30px;
+    padding-top: 15px;
+    padding-left: 10px;
+    float: left;
+    border: 1px solid rgb(4 46 140 / 97%);
+}
 .rightFather {
+  background-image: url(../assets/images/background.jpg);
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   overflow: hidden;
 }
 .fapic {
@@ -316,22 +352,24 @@ export default {
   margin-top: 40px;
 }
 .el-checkbox {
-  color: #606266;
-  font-weight: 500;
-  font-size: 40px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  margin-right: 23px !important;
-  margin-left: 40px !important;
+ display: block;
+    color: #fdfdfd;
+    font-weight: 500;
+    font-size: 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-right: 23px !important;
+    margin-left: 40px !important;
 }
 .el-checkbox-group {
-  min-width: 250px;
-  float: right;
-  font-size: 52px;
-  cursor: pointer;
+ height: 100%;
+    width: 20px;
+    float: left;
+    font-size: 23px;
+    cursor: pointer;
 }
 .tip2 {
   text-align: center;
@@ -361,12 +399,13 @@ export default {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 .el-checkbox__label {
-  display: inline-block;
-  padding-left: 50px;
-  line-height: 19px;
-  font-size: 18px !important;
+   float: left;
+    display: inline-block;
+    padding-left: 10px;
+    line-height: 23px !important;
 }
 .el-checkbox__input {
+  display: none !important;
   margin-left: 4px;
   margin-right: 10px;
   cursor: pointer;

@@ -6,6 +6,13 @@
       </span>
     </span>
     <div class="border">
+      <div class="analysis">
+          <i class="el-icon-notebook-2" /> 实 时 分 析 結 果
+        </div>
+        <div class="content">
+          <div class="scrollbar"></div>
+          <div  class="text" v-for=" val in textbook " :key="val">{{val}}</div>
+        </div>
       <el-cascader
         class="el-input__inner"
         placeholder="双击可搜索全部教室"
@@ -140,6 +147,7 @@ export default {
   data() {
     return {
 
+      textbook: ['在猜数,估数,数数活动的过程', '在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程', '建立计数单位“千”的概念会正', '建立计数单位“千”的概', '建立计数单位“千”的概念会正确地读', '支持学生学习事项顺利完成', '支持学生学习事项顺利完成'],
       checkAll: false,
       classval,
       showPic: false,
@@ -352,7 +360,7 @@ export default {
   overflow: hidden;
   float: left;
   width: 85%;
- height: 100%;
+  height: 100%;
 }
 .picture {
   float: left;
@@ -374,34 +382,97 @@ export default {
   box-shadow: 4px 10px 5px #888888;
   background-color: #eef4f9;
 }
-.el-checkbox[data-v-d0a55058] {
-  color: #606266;
-  font-weight: 500;
-  font-size: 40px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  margin-right: 23px !important;
-  margin-left: 40px !important;
-}
+
 .el-checkbox-group {
+  text-align: center;
+  margin-top:20px;
+  line-height: 40px;
   min-width: 250px;
   float: right;
   font-size: 52px;
   cursor: pointer;
 }
-
-.tip2 {
-  /* float:inherit; */
+.analysis{
+  margin-top: 0px;
   text-align: center;
-  padding-top: 25px;
-  padding-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 25px;
   background-color: #3a4673;
   color: white;
 }
+.content{
+  /* box-shadow:inset 0px 15px 10px -15px #000; */
 
+  overflow-y: scroll;
+  height: 22%;
+  margin-top: 10px;
+  text-align: center;
+  padding: 8px;
+  color: rgb(15, 2, 29);
+}
+.text{
+  font-family: "楷体","楷体_GB2312";
+  padding: 10px;
+   text-align: center;
+   height: 50px;
+   font-size: 25px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   margin-bottom: 5px;
+   /* background: rgb(210,210,210);
+   box-shadow: 0px 5px 6px rgb(160,160,160);
+   background:-webkit-linear-gradient(60deg,rgba(250,250,250,1) 25%,rgba(210,210,210,1)); */
+
+}
+  .content::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+  }
+  .content::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius   : 10px;
+  background-color: rgb(10, 27, 78);
+  background-image: -webkit-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
+  );
+  }
+  .content::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background   : #ededed;
+  border-radius: 10px;
+  }
+.tip2 {
+  /* float:inherit; */
+  margin-top: 0px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 25px;
+  background-color: #3a4673;
+  color: white;
+}
+[class*=" el-icon-"], [class^=el-icon-] {
+    margin-right: 5px;
+    font-family: element-icons!important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: baseline;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 #stateon {
   padding-left: 30px;
   line-height: 20px;
@@ -414,19 +485,29 @@ export default {
 }
 </style>
 <style>
+.el-checkbox {
+  float: inherit;
+  color: #606266;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 23px !important;
+  margin-left: 40px !important;
+}
 .el-input__inner {
+  margin-top: 3px;
   border-radius: 0px !important;
-  line-height: 40px;
   outline: 0;
   padding: 0 !important;
   -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 .el-checkbox__label {
-  display: inline-block;
   padding-left: 50px;
-  line-height: 19px;
-  font-size: 18px !important;
+  font-size: 20px !important;
 }
 .el-checkbox__input {
   margin-left: 4px;
