@@ -16,7 +16,8 @@ import '@/icons' // icon
 import '@/permission' // permission control
 // import store from './store/index.js'
 import './assets/css/theme/theme-blue/index.css'
-// import querystring from 'querystring'
+import querystring from 'querystring'
+Vue.prototype.$qs = querystring
 // import dataV from '@jiaminghi/data-view'
 // Vue.use(dataV)
 import { borderBox11 } from '@jiaminghi/data-view'

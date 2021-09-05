@@ -1,22 +1,22 @@
 <!-- src/menu/menuIndex.vue -->
 <template>
-<div class="clear">
-  <div id="menu-index">
-    <el-container>
-      <el-header>
-        <TopMenu :logo-path="logoPath" :name="name" />
-      </el-header>
-      <el-container id="left-container">
-        <el-aside class="aside">
-          <LeftMenu />
-        </el-aside>
-        <el-main class="el-main">
-          <router-view />
-        </el-main>
+  <div class="clear">
+    <div id="menu-index">
+      <el-container>
+        <el-header>
+          <TopMenu :logo-path="logoPath" :name="name" />
+        </el-header>
+        <el-container id="left-container">
+          <el-aside class="aside">
+            <LeftMenu />
+          </el-aside>
+          <el-main class="el-main">
+            <router-view />
+          </el-main>
+        </el-container>
       </el-container>
-    </el-container>
+    </div>
   </div>
-</div>
 </template>
 <script>
 import LeftMenu from './leftMenu'

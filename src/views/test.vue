@@ -1,12 +1,35 @@
 <template>
   <div>
-    <el-cascader
-      class="el-input__inner"
-      placeholder="试试搜索：一层-112"
-      :options="options"
-      filterable
-      @change="handleChange"
-    />
+    <el-table
+      ref="multipleTable"
+      :data="tableData"
+      tooltip-effect="dark"
+      style="width: 100%"
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
+      <el-table-column
+        label="日期"
+        width="120">
+        <template #default="scope">{{ scope.row.date }}</template>
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="姓名"
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="地址"
+        show-overflow-tooltip>
+      </el-table-column>
+    </el-table>
+    <div style="margin-top: 20px">
+      <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
+      <el-button @click="toggleSelection()">取消选择</el-button>
+    </div>
   </div>
 </template>
 

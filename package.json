@@ -22,6 +22,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-css-wrap": "^0.1.2",
     "js-cookie": "2.2.0",
+    "js-sha256": "^0.9.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",

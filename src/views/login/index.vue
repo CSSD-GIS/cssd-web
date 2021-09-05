@@ -1,54 +1,58 @@
 <script src="../../utils/auth.js"></script>
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <div class="title-container">
-        <h3 class="title">CSSD系统登录</h3>
-      </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handLogin">Login</el-button>
-    </el-form>
+  <div class="bgimg">
+    <div class="login-container">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+        <div class="title-container">
+          <h3 class="title">系统登录</h3>
+        </div>
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="Username"
+            name="username"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="Password"
+            name="password"
+            tabindex="2"
+            auto-complete="on"
+            @keyup.enter.native="handleLogin"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handLogin">Login</el-button>
+      </el-form>
+    </div>
+    <div class="systen-title">
+      <h1>CSSD</h1>
+      <h2>课堂学生行为检测系统</h2>
+    </div>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
 import axios from 'axios'
-import Cookie from 'js-cookie'
+// import crypto from 'crypto'
 
 export default {
   name: 'Login',
@@ -73,8 +77,8 @@ export default {
         password: '123456'
       },
       loginRules: {
-        username: [{required: true, trigger: 'blur', validator: validateUsername}],
-        password: [{required: true, trigger: 'blur', validator: validatePassword}]
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
       passwordType: 'password',
@@ -94,44 +98,33 @@ export default {
       })
     },
     handLogin() {
-      let _this = this;
+      const _this = this
+      const sha256 = require('js-sha256').sha256 // 这里用的是require方法，所以没用import
+      const username = sha256(this.loginForm.username)
+      const password = sha256(this.loginForm.password) // 要加密的密码
       axios.post('/api/login', this.$qs.stringify(
         {
-          username:this.loginForm.username,
-          password:this.loginForm.password
+          username: username,
+          password: password
         }))
-        .then( (response)=> {
-          console.log(response);
-          if(response.data.code === 200){
+        .then((response) => {
+          console.log(response)
+          if (response.data.code === 200) {
             const token = response.data.data.token
             // setToken(token)
             // Cookie.set('token', token)
-            localStorage.setItem('token',token)
+            localStorage.setItem('token', token)
             _this.$router.push('/main')
           }
-          if (response.data.code === 20003){
+          if (response.data.code === 20003) {
             // alert(response.data.msg)
             this.$message.error(response.data.msg)
           }
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function(error) {
+          console.log(error)
         })
-      // this.$refs.loginForm.validate(valid => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
-      //       this.$router.push({path: this.redirect || '/'})
-      //       this.loading = false
-      //     }).catch(() => {
-      //       this.loading = false
-      //     })
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
-    },
+    }
   }
 }
 </script>
@@ -144,13 +137,20 @@ $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+@supports (-webkit-mask: none) and (not(cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
+
+.bgimg{
+  width: 100%;
+  height: 100%;
+  background-image: url(../../../../新建文件夹/cssd-web/src/assets/images/login_bg1.jpg);
+  background-size: cover
+}
 .login-container {
   .el-input {
     display: inline-block;
@@ -159,17 +159,17 @@ $cursor: #fff;
 
     input {
       background: transparent;
-      border: 0px;
+      border: 0;
       -webkit-appearance: none;
-      border-radius: 0px;
+      border-radius: 0;
       padding: 12px 5px 12px 15px;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        //box-shadow: 0 0 0 1000px $bg inset !important;
+        //-webkit-text-fill-color: $cursor !important;
       }
     }
   }
@@ -184,21 +184,22 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+//$bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
-  //background-image: url(../../assets/images/login-bg.jpg);
   overflow: hidden;
   .login-form {
-    position: relative;
-    width: 520px;
+    background-image: linear-gradient(25deg, #3e0e90, #4e59aa, #4a99c3, #0adbdc);
+    position: absolute;
+    top: 20%;
+    right: 200px;
+    width: 400px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 80px 35px 35px 50px;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -229,7 +230,7 @@ $light_gray:#eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0 auto 40px auto;
       text-align: center;
       font-weight: bold;
     }
@@ -244,5 +245,17 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+}
+.systen-title{
+  position: absolute;
+  top:20%;
+  left: 20%;
+  font-size: 50px;
+  font-family: "微软雅黑", "黑体";
+  color: #FFFFFF;
+}
+.systen-title h1{
+  position: relative;
+  left: 20%;
 }
 </style>

@@ -1,86 +1,73 @@
 <template>
-<div class="clear">
-<div class="top">
-<span class="img">
-  <span class="img1">
-  </span>
-</span>
-<span class="titleName">课堂学生行为检测系统</span>
-<router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
-<el-dropdown>
-<span class="realTime" ref="echarType">
-实时画面<i class="el-icon-arrow-down el-icon--right"></i>
-</span>
-<el-dropdown-menu slot="dropdown" >
-<router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
-<el-dropdown-item>天仪楼一层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
-<el-dropdown-item>天仪楼二层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
-<el-dropdown-item>天仪楼三层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
-<el-dropdown-item>天仪楼四层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
-<el-dropdown-item>天仪楼五层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
-<el-dropdown-item>天仪楼六层</el-dropdown-item>
-</router-link>
-</el-dropdown-menu>
-</el-dropdown>
-</router-link>
- <router-link :to="{ path: '/views/floorOne', query: { id: 'null' } }">
-<el-dropdown>
-<span class="realTime" ref="echarType">
-检测画面<i class="el-icon-arrow-down el-icon--right"></i>
-</span>
-<el-dropdown-menu slot="dropdown" >
-  <router-link :to="{ path: '/views/floorOne', query: { id: 'one' } }">
-<el-dropdown-item>天仪楼一层</el-dropdown-item>
-</router-link>
-   <router-link :to="{ path: '/views/floorOne', query: { id: 'two' } }">
-<el-dropdown-item>天仪楼二层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'three' } }">
-<el-dropdown-item>天仪楼三层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'four' } }">
-<el-dropdown-item>天仪楼四层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'five' } }">
-<el-dropdown-item>天仪楼五层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'six' } }">
-<el-dropdown-item>天仪楼六层</el-dropdown-item>
-</router-link>
-</el-dropdown-menu>
-</el-dropdown>
-</router-link>
-<el-dropdown>
-<span class="realTime" ref="echarType">
-文件上传<i class="el-icon-arrow-down el-icon--right"></i>
-</span>
-<el-dropdown-menu slot="dropdown" >
- <router-link to="/views/img">
-<el-dropdown-item>图片</el-dropdown-item>
-</router-link>
-<router-link to="/views/video">
-<el-dropdown-item>视频</el-dropdown-item>
-</router-link>
-</el-dropdown-menu>
-</el-dropdown>
-<span class="showTime">{{t}}</span>
-<dv-decoration-10 style="width:1900px;height:5px;" />
-<router-view />
-</div>
-</div>
+  <div class="clear">
+    <div class="top">
+      <span class="img">
+        <span class="img1">
+        </span>
+      </span>
+      <span class="titleName">课堂学生行为检测系统</span>
+      <router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
+        <el-dropdown>
+          <span class="realTime" ref="echarType">实时画面<i class="el-icon-arrow-down el-icon--right"></i></span>
+          <el-dropdown-menu slot="dropdown">
+            <router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
+              <el-dropdown-item>天仪楼一层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
+              <el-dropdown-item>天仪楼二层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
+              <el-dropdown-item>天仪楼三层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
+              <el-dropdown-item>天仪楼四层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
+              <el-dropdown-item>天仪楼五层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
+              <el-dropdown-item>天仪楼六层</el-dropdown-item>
+            </router-link>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </router-link>
+      <router-link :to="{ path: '/views/floorOne', query: { id: 'null' } }">
+        <el-dropdown>
+          <span class="realTime" ref="echarType">检测画面<i class="el-icon-arrow-down el-icon--right"></i></span>
+          <el-dropdown-menu slot="dropdown" >
+            <router-link :to="{ path: '/views/floorOne', query: { id: 'one' } }">
+              <el-dropdown-item>天仪楼一层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/floorOne', query: { id: 'two' } }">
+              <el-dropdown-item>天仪楼二层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/floorOne', query: { id: 'three' } }">
+              <el-dropdown-item>天仪楼三层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/floorOne', query: { id: 'four' } }">
+              <el-dropdown-item>天仪楼四层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/floorOne', query: { id: 'five' } }">
+              <el-dropdown-item>天仪楼五层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/floorOne', query: { id: 'six' } }">
+              <el-dropdown-item>天仪楼六层</el-dropdown-item>\
+            </router-link>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </router-link>
+      <el-dropdown>
+        <span class="realTime" ref="echarType">结果展示</span>
+      </el-dropdown>
+      <span class="showTime">{{t}}</span>
+<!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
+      <router-view />
+    </div>
+  </div>
 </template>
 
 <script>
+import { tokentest } from '@/api/user'
 // import { mount } from '@vue/test-utils'
 const t = ''
 // t = setTimeout(time,1000)
@@ -90,7 +77,6 @@ export default {
     return {
       logoPath: require('../assets/images/person.svg'),
       t
-
     }
   },
   methods: {
@@ -106,6 +92,24 @@ export default {
     }
   },
   mounted() {
+    const token = localStorage.getItem('token')
+    if (token) {
+      tokentest(token
+      ).then((res) => {
+        console.log(res)
+        alert(res)
+        this.$router.push('/main')
+      }
+      ).catch((error) => {
+        console.log(error)
+        // console.error(error.response.data)
+        this.$message.error(error.response.data.msg)
+        this.$router.push('/login')
+      })
+    } else {
+      this.$router.push('/login')
+      // this.$message.error('请先登录！')
+    }
     this.time()
     this.timer = setInterval(() => {
       this.time(new Date()) // 修改数据date

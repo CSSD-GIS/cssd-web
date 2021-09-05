@@ -1,32 +1,44 @@
 <template>
-<div class="classroom" >
- <dv-border-box-11 :title='floor'>
-  <span class="titleline">监控设备名称 {{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}
-课程{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}
-{{"\xa0"}}{{"\xa0"}}在线
-{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}
-{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}显示</span>
- <el-checkbox-group
-          v-model="checkList"
-          class="el-checkbox-group"
-          :min="0"
-          :max="9"
-        >
-          <el-checkbox
+  <div class="classroom">
+    <dv-border-box-11 :title='floor' style="height: 100%; width:100%">
+      <span class="titleline">监控设备名称 {{"\xa0"}}{{"\xa0"}}课程{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}在线
+        {{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}显示</span>
+      <el-checkbox-group style="position: absolute;top: 25%;">
+        <div style="width:330px;height:280px;overflow: scroll ">
+          <span
             v-for="(val, key) in items"
             :key="key"
             class="el-checkbox"
-            :label="key"
-          >{{ key }}
-            <!-- <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
-            <span v-else id="stateoff">{{ statusoff }}</span> -->
-          </el-checkbox>
-        </el-checkbox-group>
- </dv-border-box-11>
- <dv-border-box-8 style="height:500px;top:60px">
-   <dv-decoration-7 style="width:200px;height:30px;font-size:22px;margin-left:178px; color:#e4e4e4fc;">实时分析结果</dv-decoration-7>
- </dv-border-box-8>
-</div>
+            :label="key">{{key}}
+            <span>c语言</span>
+            <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
+            <span v-else id='stateoff'>{{ statusoff }}</span>
+            <input type="checkbox" style="position: absolute;left: 100%">
+          </span>
+<!--          <span-->
+<!--            v-for="(val, key) in items"-->
+<!--            :key="key"-->
+<!--            class="el-checkbox"-->
+<!--            :label="key">-->
+<!--            {{key}}-->
+<!--            <span style="position: relative;left:60%">c语言</span>-->
+<!--            <span v-if="checkList.indexOf(key) !== -1" id="stateon" style="position: relative;left: 55%">{{ status }}</span>-->
+<!--            <span v-else id='stateoff' style="position: relative;left: 55%">{{ statusoff }}</span>-->
+<!--            <input type="checkbox" style="position: relative;left: 80%">-->
+<!--          </span>-->
+        </div>
+      </el-checkbox-group>
+    </dv-border-box-11>
+    <dv-border-box-8 class="outbox" style="height:450px;overflow: hidden;">
+      <dv-decoration-7 style="width:200px;height:30px;font-size:22px;margin-left:20%; color:#e4e4e4fc; overflow: hidden; ">实时分析结果</dv-decoration-7>
+      <marquee class="content1" width="100%" height="400px" direction="up" behavior="scroll" scrolldelay="10000" scrollamount="250"  onMouseOut="this.start()" onMouseOver="this.stop()">
+        <div class="text" v-for=" val in textbook " :key="val">{{val}}
+          <div class="link-top"></div>
+        </div>
+      </marquee>
+    </dv-border-box-8>
+
+  </div>
 </template>
 
 <script>
@@ -130,6 +142,9 @@ export default {
   name: 'FloorOne',
   data() {
     return {
+      textbook: ['在猜数,估数,数数活动的过程在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程', '建立计数单位“千”的概念会正', '建立计数单位“千”的概', '建立计数单位“千”的概念会正确地读', '支持学生学习事项顺利完成', '支持学生学习事项顺利完成'],
+      checked: true,
+      showPushData: [],
       floor: '',
       floorOne: '天仪楼一层',
       floorTwo: '天仪楼二层',
@@ -152,40 +167,11 @@ export default {
       items4: config.north.front.floor4,
       items5: config.north.front.floor5,
       items6: config.north.front.floor6,
-
-      options: [
-        {
-          value: '一层',
-          label: '一层',
-          children: array1
-        },
-
-        {
-          value: '二层',
-          label: '二层',
-          children: array2
-        },
-        {
-          value: '三层',
-          label: '三层',
-          children: array3
-        },
-        {
-          value: '四层',
-          label: '四层',
-          children: array4
-        },
-        {
-          value: '五层',
-          label: '五层',
-          children: array5
-        },
-        {
-          value: '六层',
-          label: '六层',
-          children: array6
-        }
-      ]
+      tableData: [{
+        monitor: '',
+        curriculum: 'c语言',
+        status: '离线'
+      }]
     }
   },
   // 监听路由，实现组件复用
@@ -237,8 +223,35 @@ export default {
   },
   created() {
     this.handleParmes()
+    const indexPushData = []
+    const rooms = Object.keys(this.items)
+    console.log(rooms)
+    for (let i = 0; i < rooms.length; i++) {
+      const room = rooms[i]
+      console.log(room)
+      const data = {}
+      data['monitor'] = room
+      data['curriculum'] = 'c语言'
+      const code = -1
+      if (code === -1) {
+        data['status'] = '离线'
+      } else {
+        data['status'] = '在线'
+      }
+      indexPushData.push(data)
+    }
+    console.log('--------------------------')
+    console.log(indexPushData)
+    this.showPushData = indexPushData
   },
   methods: {
+    cellStyle(row) { // 根据显示颜色
+      if (row.column.label === '状态' && row.row.status === '在线') {
+        return 'color:green '
+      } else if (row.column.label === '状态' && row.row.status === '离线') {
+        return 'color:red'
+      }
+    },
     // 路由参数判断
     handleParmes() {
       const nums = this.$route.query.type
@@ -295,8 +308,8 @@ export default {
 .classroom{
   min-width: 100px;
   float: inherit;
-  width: 560px;
-  height: 400px;
+  width: 18%;
+  height: 250%;
   margin-left: 30px;
   margin-top: 30px;
 }
@@ -304,7 +317,7 @@ export default {
   background-color: #03171f78;
     word-spacing: 8px;
     height: 40px;
-    width: 97%;
+    width:90%;
     color: #7ed6ff;
     margin-left: 9px;
     font-size: 10px;
@@ -313,7 +326,7 @@ export default {
     padding-top: 15px;
     padding-left: 10px;
     float: left;
-    border: 1px solid rgb(4 46 140 / 97%);
+    /*border: 1px solid rgb(4 46 140 / 97%);*/
 }
 .rightFather {
   background-image: url(../assets/images/background.jpg);
@@ -352,24 +365,32 @@ export default {
   margin-top: 40px;
 }
 .el-checkbox {
- display: block;
-    color: #fdfdfd;
-    font-weight: 500;
-    font-size: 10px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    margin-right: 23px !important;
-    margin-left: 40px !important;
+  display: block;
+  color: #fdfdfd;
+  font-size: 20px;
+  padding: 5px;
+  margin-right: 23px !important;
+  margin-left: 40px !important;
+}
+::-webkit-scrollbar-track{border-radius: 10px;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);}/*滚动条的滑轨背景颜色*/
+::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.05);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);}/*滑块颜色*/
+::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.2);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);}
+::-webkit-scrollbar{width: 16px;height: 16px;}/* 滑块整体设置*/
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb{border-radius: 999px;border: 5px solid transparent;}
+::-webkit-scrollbar-track{box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;}
+::-webkit-scrollbar-thumb{min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 5px rgba(255,255,255,.5) inset;}
+::-webkit-scrollbar-corner{background: transparent;}/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+.el-checkbox span {
+  margin: 20px;
 }
 .el-checkbox-group {
- height: 100%;
-    width: 20px;
-    float: left;
-    font-size: 23px;
-    cursor: pointer;
+  color: #FFFFFF;
+  /*height: 100%;*/
+  width: 20px;
+  float: left;
+  font-size: 23px;
+  cursor: pointer;
 }
 .tip2 {
   text-align: center;
@@ -379,39 +400,76 @@ export default {
   color: white;
 }
 #stateon {
-  padding-left: 30px;
+  /*padding-left: 30px;*/
   line-height: 20px;
   color: rgb(10, 179, 60);
 }
 #stateoff {
-  padding-left: 30px;
-  line-height: 20px;
+  /*padding-left:-25px;*/
+  /*line-height: 20px;*/
   color: rgb(172, 23, 13);
 }
-</style>
-<style>
-.el-input__inner {
-  border-radius: 0px !important;
-  line-height: 40px;
-  outline: 0;
-  padding: 0 !important;
-  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+.content1{
+  margin-top: 30px;
+  height: 300px;
+  /*margin-left: 50px;*/
 }
-.el-checkbox__label {
-   float: left;
-    display: inline-block;
-    padding-left: 10px;
-    line-height: 23px !important;
-}
-.el-checkbox__input {
-  display: none !important;
-  margin-left: 4px;
-  margin-right: 10px;
-  cursor: pointer;
-  outline: 0;
-  line-height: 1;
-  vertical-align: middle;
+.text{
+  width:100%;
+  color: #eef4f9;
+  font-family: "楷体","楷体_GB2312";
+  padding: 10px;
+  height: 20px;
+  font-size: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
 }
 </style>
+<!--<style>-->
+<!--.el-input__inner {-->
+<!--  border-radius: 0px !important;-->
+<!--  line-height: 40px;-->
+<!--  outline: 0;-->
+<!--  padding: 0 !important;-->
+<!--  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);-->
+<!--  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);-->
+<!--}-->
+<!--.el-checkbox__label {-->
+<!--   float: left;-->
+<!--    display: inline-block;-->
+<!--    padding-left: 10px;-->
+<!--    line-height: 23px !important;-->
+<!--}-->
+<!--.el-checkbox__input {-->
+<!--  display: none !important;-->
+<!--  margin-left: 4px;-->
+<!--  margin-right: 10px;-->
+<!--  cursor: pointer;-->
+<!--  outline: 0;-->
+<!--  line-height: 1;-->
+<!--  vertical-align: middle;-->
+<!--}-->
+
+<!--.el-table,-->
+<!--.el-table__expanded-cell {-->
+<!--  background-color: transparent !important;-->
+<!--}-->
+<!--/* 表格内背景颜色 */-->
+<!--.el-table th,-->
+<!--.el-table tr,-->
+<!--.el-table td {-->
+<!--    background-color: transparent !important;-->
+<!--}-->
+<!--::-webkit-scrollbar-track{border-radius: 10px;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);}/*滚动条的滑轨背景颜色*/-->
+<!--::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.05);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);}/*滑块颜色*/-->
+<!--::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.2);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);}-->
+<!--::-webkit-scrollbar{width: 16px;height: 16px;}/* 滑块整体设置*/-->
+<!--::-webkit-scrollbar-track,-->
+<!--::-webkit-scrollbar-thumb{border-radius: 999px;border: 5px solid transparent;}-->
+<!--::-webkit-scrollbar-track{box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;}-->
+<!--::-webkit-scrollbar-thumb{min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 5px rgba(255,255,255,.5) inset;}-->
+<!--::-webkit-scrollbar-corner{background: transparent;}/* 横向滚动条和纵向滚动条相交处尖角的颜色 */-->
+<!--</style>-->
 

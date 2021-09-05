@@ -1,9 +1,9 @@
 <template>
-    <div class="login-wrap">
-        <div class="ms-login">
-            <div class="ms-title">CSSD系统登录</div>
-        </div>
+  <div class="login-wrap">
+    <div class="ms-login">
+      <div class="ms-title">CSSD系统登录</div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -13,19 +13,14 @@
 // import { ElMessage } from "element-plus";
 
 export default {
-    data() {
-        return {
-
-        }
-    },
-
-    mounted() {
-
-    },
-
-    methods: {
-
+  data() {
+    return {
     }
+  },
+  mounted() {
+  },
+  methods: {
+  }
 };
 </script>
 
