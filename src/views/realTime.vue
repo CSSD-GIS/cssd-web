@@ -29,7 +29,7 @@
         </div>
       </el-checkbox-group>
     </dv-border-box-11>
-    <dv-border-box-8 class="outbox" style="height:450px;overflow: hidden;">
+    <dv-border-box-8 class="outbox" style="height:450px;overflow: hidden; margin-top:50px">
       <dv-decoration-7 style="width:200px;height:30px;font-size:22px;margin-left:20%; color:#e4e4e4fc; overflow: hidden; ">实时分析结果</dv-decoration-7>
       <marquee class="content1" width="100%" height="400px" direction="up" behavior="scroll" scrolldelay="10000" scrollamount="250"  onMouseOut="this.start()" onMouseOver="this.stop()">
         <div class="text" v-for=" val in textbook " :key="val">{{val}}
@@ -207,15 +207,15 @@ export default {
       } else {
         this.items = null
         this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: (action) => {
-            this.$message({
-              type: 'info',
-              message: `已确定`
-            })
-          }
-        })
+        // this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
+        //   confirmButtonText: '确定',
+        //   callback: (action) => {
+        //     this.$message({
+        //       type: 'info',
+        //       message: `已确定`
+        //     })
+        //   }
+        // })
       }
     }
   },
@@ -283,15 +283,15 @@ export default {
       } else {
         this.items = null
         this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: '已确定'
-            })
-          }
-        })
+        // this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
+        //   confirmButtonText: '确定',
+        //   callback: action => {
+        //     this.$message({
+        //       type: 'info',
+        //       message: '已确定'
+        //     })
+        //   }
+        // })
       }
     },
     handleChange(v) {

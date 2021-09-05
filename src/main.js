@@ -29,7 +29,8 @@ Vue.use(decoration10)
 import { decoration7 } from '@jiaminghi/data-view'
 Vue.use(decoration7)
 // Vue.prototype.$qs = querystring
-
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
