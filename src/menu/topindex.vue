@@ -88,7 +88,7 @@ export default {
       const h = dt.getHours()
       const m = dt.getMinutes()
       const s = dt.getSeconds()
-      this.t = y + '/' + mt + '/' + day + '-' + h + ':' + m + ':' + s
+      this.t = y + '年' + mt + '月' + day + '日' + h + ':' + m + ':' + s
     }
   },
   mounted() {
@@ -150,7 +150,7 @@ export default {
   float: left;
   width: 27px;
   height: 27px;
-  background-color: brgb(52, 8, 104);
+  background-color:brgb(52, 8, 104);
   border-radius: 100%;
   box-shadow: 0 0 0 3px #fff, 0 0 0 5px #000;
   -webkit-transform: scale(1.5);
