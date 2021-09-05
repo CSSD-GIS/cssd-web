@@ -148,7 +148,7 @@ $cursor: #fff;
 .bgimg{
   width: 100%;
   height: 100%;
-  background-image: url(../../../../新建文件夹/cssd-web/src/assets/images/login_bg1.jpg);
+  background-image: url(../../assets/images/login_bg1.jpg);
   background-size: cover
 }
 .login-container {
