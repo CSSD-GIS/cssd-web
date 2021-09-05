@@ -1,6 +1,6 @@
 <template>
   <div class="classroom">
-    <dv-border-box-11 :title='floor' style="height: 100%; width:100%">
+    <dv-border-box-11 :title='floor'  style="height: 390px; width:340px ">
       <span class="titleline">监控设备名称 {{"\xa0"}}{{"\xa0"}}课程{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}在线
         {{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}显示</span>
       <el-checkbox-group style="position: absolute;top: 25%;">
