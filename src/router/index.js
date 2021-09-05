@@ -8,7 +8,7 @@ import Color from '@/color.vue'
 import Login from '@/views/login/index.vue'
 import One from '@/views/floorOne.vue'
 import Time from '@/views/realTime.vue'
-
+import Show from '@/views/showChart.vue'
 Vue.use(Router)
 
 const routes = [{
@@ -78,7 +78,17 @@ const routes = [{
       icon: 'el-icon-user-solid',
       hasSubMenu: true
     }
+  },
+  {
+    path: '/views/show',
+    name: 'Show',
+    component: Show,
+    meta: {
+      title: '展示',
+      hasSubMenu: false
+    }
   }
+
   ]
 }
 ]

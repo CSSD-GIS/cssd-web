@@ -6,60 +6,68 @@
         </span>
       </span>
       <span class="titleName">课堂学生行为检测系统</span>
-      <router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
-        <el-dropdown>
-          <span class="realTime" ref="echarType">实时画面<i class="el-icon-arrow-down el-icon--right"></i></span>
-          <el-dropdown-menu slot="dropdown">
-            <router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
-              <el-dropdown-item>天仪楼一层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
-              <el-dropdown-item>天仪楼二层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
-              <el-dropdown-item>天仪楼三层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
-              <el-dropdown-item>天仪楼四层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
-              <el-dropdown-item>天仪楼五层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
-              <el-dropdown-item>天仪楼六层</el-dropdown-item>
-            </router-link>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </router-link>
       <router-link :to="{ path: '/views/floorOne', query: { id: 'null' } }">
-        <el-dropdown>
-          <span class="realTime" ref="echarType">检测画面<i class="el-icon-arrow-down el-icon--right"></i></span>
-          <el-dropdown-menu slot="dropdown" >
-            <router-link :to="{ path: '/views/floorOne', query: { id: 'one' } }">
-              <el-dropdown-item>天仪楼一层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/floorOne', query: { id: 'two' } }">
-              <el-dropdown-item>天仪楼二层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/floorOne', query: { id: 'three' } }">
-              <el-dropdown-item>天仪楼三层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/floorOne', query: { id: 'four' } }">
-              <el-dropdown-item>天仪楼四层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/floorOne', query: { id: 'five' } }">
-              <el-dropdown-item>天仪楼五层</el-dropdown-item>
-            </router-link>
-            <router-link :to="{ path: '/views/floorOne', query: { id: 'six' } }">
-              <el-dropdown-item>天仪楼六层</el-dropdown-item>\
-            </router-link>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </router-link>
-      <el-dropdown>
-        <span class="realTime" ref="echarType">结果展示</span>
-      </el-dropdown>
-      <span class="showTime">{{t}}</span>
+<el-dropdown>
+<span class="realTime" ref="echarType">
+检测画面<i class="el-icon-arrow-down el-icon--right"></i>
+</span>
+<el-dropdown-menu slot="dropdown" >
+  <router-link :to="{ path: '/views/floorOne', query: { id: 'one' } }">
+<el-dropdown-item>天仪楼一层</el-dropdown-item>
+</router-link>
+   <router-link :to="{ path: '/views/floorOne', query: { id: 'two' } }">
+<el-dropdown-item>天仪楼二层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/floorOne', query: { id: 'three' } }">
+<el-dropdown-item>天仪楼三层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/floorOne', query: { id: 'four' } }">
+<el-dropdown-item>天仪楼四层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/floorOne', query: { id: 'five' } }">
+<el-dropdown-item>天仪楼五层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/floorOne', query: { id: 'six' } }">
+<el-dropdown-item>天仪楼六层</el-dropdown-item>
+</router-link>
+</el-dropdown-menu>
+</el-dropdown>
+</router-link>
+<router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
+<el-dropdown>
+<span class="realTime" ref="echarType">
+实时画面<i class="el-icon-arrow-down el-icon--right"></i>
+</span>
+<el-dropdown-menu slot="dropdown" >
+<router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
+<el-dropdown-item>天仪楼一层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
+<el-dropdown-item>天仪楼二层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
+<el-dropdown-item>天仪楼三层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
+<el-dropdown-item>天仪楼四层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
+<el-dropdown-item>天仪楼五层</el-dropdown-item>
+</router-link>
+<router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
+<el-dropdown-item>天仪楼六层</el-dropdown-item>
+</router-link>
+</el-dropdown-menu>
+</el-dropdown>
+</router-link>
+ <router-link to="/views/show">
+<el-dropdown>
+<span class="showChart" ref="echarType">
+结果展示<i class="el-icon-arrow-down el-icon--right"></i>
+</span>
+</el-dropdown>
+ </router-link>
+<span class="showTime">{{t}}</span>
 <!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
       <router-view />
     </div>
@@ -85,10 +93,13 @@ export default {
       const y = dt.getFullYear()
       const mt = dt.getMonth() + 1
       const day = dt.getDate()
-      const h = dt.getHours()
-      const m = dt.getMinutes()
-      const s = dt.getSeconds()
-      this.t = y + '年' + mt + '月' + day + '日' + h + ':' + m + ':' + s
+      const h = dt.getHours().toString()
+      const m = dt.getMinutes().toString()
+      const s = dt.getSeconds().toString()
+      const H = h.length < 2 ? '0' + h : h
+      const M = m.length < 2 ? '0' + m : m
+      const S = s.length < 2 ? '0' + s : s
+      this.t = y + '年' + mt + '月' + day + '日' + H + ':' + M + ':' + S
     }
   },
   mounted() {
@@ -150,7 +161,7 @@ export default {
   float: left;
   width: 27px;
   height: 27px;
-  background-color:brgb(52, 8, 104);
+  background-color: brgb(52, 8, 104);
   border-radius: 100%;
   box-shadow: 0 0 0 3px #fff, 0 0 0 5px #000;
   -webkit-transform: scale(1.5);
@@ -209,7 +220,32 @@ background-color: rgba(0,0,2,0.3) !important;
   font-size: 20px;
   color: aliceblue;
 }
+.showChart{
+   float: left;
+  margin-top: 32px;
+  margin-left: 85px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 20px;
+  color: aliceblue;
+  cursor: pointer;
+}
+[class*=" el-icon-"], [class^=el-icon-] {
+    font-family: element-icons!important;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: baseline;
+    display: none !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 .realTime:hover{
+  color: #5acdf9;
+}
+.showChart:hover{
   color: #5acdf9;
 }
  .titleName {
@@ -224,8 +260,8 @@ background-color: rgba(0,0,2,0.3) !important;
   margin-top: 13px;
    }
 .showTime{
-font-family: 'ds-digitalnormal';
-font-size: 35px;
+font-family: auto;
+font-size: 30px;
 right: 0ox;
 color: #fff;
 margin-right: 43px;
