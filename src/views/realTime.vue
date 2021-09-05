@@ -45,6 +45,8 @@
 const classval = []
 const items = {}
 import config from '@/config.json'
+import { getHealthInfo } from '@/api/cssd_trans'
+
 // 一层数据
 const items1 = config.north.front.floor1
 const arr1 = []
@@ -171,7 +173,8 @@ export default {
         monitor: '',
         curriculum: 'c语言',
         status: '离线'
-      }]
+      }],
+      helathInfo: []
     }
   },
   // 监听路由，实现组件复用
@@ -219,9 +222,14 @@ export default {
       }
     }
   },
+
   mounted() {
   },
+
   created() {
+    const response = getHealthInfo('N111,N112')
+    console.log('----------------------------------------')
+    console.log(response)
     this.handleParmes()
     const indexPushData = []
     const rooms = Object.keys(this.items)
@@ -240,7 +248,6 @@ export default {
       }
       indexPushData.push(data)
     }
-    console.log('--------------------------')
     console.log(indexPushData)
     this.showPushData = indexPushData
   },

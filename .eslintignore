@@ -2,3 +2,5 @@ build/*.js
 src/accets
 public
 dist
+src/*.vue
+src/*.js
