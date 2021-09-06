@@ -1,46 +1,50 @@
 <template>
-  <div class="classroom">
-    <dv-border-box-11 :title="floor" style="height: 100%; width: 100%">
-      <span
-        class="titleline"
-      >监控设备名称 {{ "\xa0" }}{{ "\xa0" }}课程{{ "\xa0" }}{{ "\xa0"
-      }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}在线 {{ "\xa0" }}{{ "\xa0"
-      }}{{ "\xa0" }}{{ "\xa0" }}显示</span>
-      <el-checkbox-group style="position: absolute; top: 25%">
-        <div style="width: 330px; height: 280px; overflow: scroll">
-          <span
-            v-for="(val, key) in items"
-            :key="key"
-            class="el-checkbox"
-            :label="key"
-          >{{ key }}
-            <span>c语言</span>
-            <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{
-              status
-            }}</span>
-            <span v-else id="stateoff">{{ statusoff }}</span>
-            <input type="checkbox" style="position: absolute; left: 100%">
-          </span>
-          <!--          <span-->
-          <!--            v-for="(val, key) in items"-->
-          <!--            :key="key"-->
-          <!--            class="el-checkbox"-->
-          <!--            :label="key">-->
-          <!--            {{key}}-->
-          <!--            <span style="position: relative;left:60%">c语言</span>-->
-          <!--            <span v-if="checkList.indexOf(key) !== -1" id="stateon" style="position: relative;left: 55%">{{ status }}</span>-->
-          <!--            <span v-else id='stateoff' style="position: relative;left: 55%">{{ statusoff }}</span>-->
-          <!--            <input type="checkbox" style="position: relative;left: 80%">-->
-          <!--          </span>-->
-        </div>
-      </el-checkbox-group>
-    </dv-border-box-11>
-    <dv-border-box-8
-      class="outbox"
-      style="height: 450px; overflow: hidden; margin-top: 50px"
-    >
-      <dv-decoration-7
-        style="
+  <div class="view">
+    <div class="room">
+      <dv-border-box-11
+        class='dv-border-box-11'
+        :title='floor'
+        style="width: 100%;
+        height: 100%">
+        <el-table
+          ref="multipleTable"
+          height="80%"
+          :cell-style=cellStyle
+          align="center"
+          :data="showPushData"
+          tooltip-effect="dark"
+          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF">
+          <el-table-column
+            label="监控设备名称"
+            width="110"
+            prop="cameraid">
+          </el-table-column>
+          <el-table-column
+            prop="source"
+            label="课程"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            label="状态"
+            width="80"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            type="selection"
+            width="55"
+            prop="show"
+            label="显示"
+            v-model="checked">
+          </el-table-column>
+        </el-table>
+      </dv-border-box-11>
+      <dv-border-box-8
+        class="outbox"
+        style="height: 450px; overflow: hidden; margin-top: 50px"
+      >
+        <dv-decoration-7
+          style="
           width: 200px;
           height: 30px;
           font-size: 22px;
@@ -48,36 +52,43 @@
           color: #e4e4e4fc;
           overflow: hidden;
         "
-      >实时分析结果</dv-decoration-7>
-      <marquee
-        class="content1"
-        width="100%"
-        height="400px"
-        direction="up"
-        behavior="scroll"
-        scrolldelay="10000"
-        scrollamount="250"
-        on-mouse-out="this.start()"
-        on-mouse-over="this.stop()"
-      >
-        <div v-for="val in analyseResults" :key="val" class="text">
-          <div id="analyse_results">
-            {{ val.Classroom }}
-            <!-- font-color should be RED. -->
-            {{ val.PlayingNum }}
-            {{ val.SleepingNum }}
-            <!-- font-color should be YELLOW -->
-            {{ val.WritingNum }}
-            <!-- font-color should be GREEN -->
-            {{ val.ListeningNum }}
+        >实时分析结果</dv-decoration-7>
+        <marquee
+          class="content1"
+          width="100%"
+          height="400px"
+          direction="up"
+          behavior="scroll"
+          scrolldelay="10000"
+          scrollamount="250"
+          on-mouse-out="this.start()"
+          on-mouse-over="this.stop()"
+        >
+          <div v-for="val in analyseResults" :key="val" class="text">
+            <div id="analyse_results">
+              {{ val.Classroom }}
+              <!-- font-color should be RED. -->
+              {{ val.PlayingNum }}
+              {{ val.SleepingNum }}
+              <!-- font-color should be YELLOW -->
+              {{ val.WritingNum }}
+              <!-- font-color should be GREEN -->
+              {{ val.ListeningNum }}
+            </div>
+            <div class="link-top" />
           </div>
-          <div class="link-top" />
-        </div>
-      </marquee>
-    </dv-border-box-8>
+        </marquee>
+      </dv-border-box-8>
+    </div>
+    <div class="camera">
+      <dv-border-box-11>
+        <span v-if="showPic" class="fapic">
+      <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
+    </span>
+      </dv-border-box-11>
+    </div>
   </div>
 </template>
-
 <script>
 const classval = []
 const items = {}
@@ -183,6 +194,8 @@ export default {
     return {
       analyseResults: [],
       checked: true,
+      showPic: false,
+      textbook: ['在猜数,估数,数数活动的过程在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程', '建立计数单位“千”的概念会正', '建立计数单位“千”的概', '建立计数单位“千”的概念会正确地读', '支持学生学习事项顺利完成', '支持学生学习事项顺利完成'],
       showPushData: [],
       floor: '',
       floorOne: '天仪楼一层',
@@ -193,7 +206,6 @@ export default {
       floorSix: '天仪楼六层',
       checkAll: false,
       classval,
-      showPic: false,
       checkList: [],
       items,
       num: 1,
@@ -205,19 +217,12 @@ export default {
       items3: config.north.front.floor3,
       items4: config.north.front.floor4,
       items5: config.north.front.floor5,
-      items6: config.north.front.floor6,
-      tableData: [
-        {
-          monitor: '',
-          curriculum: 'c语言',
-          status: '离线'
-        }
-      ],
-      helathInfo: []
+      items6: config.north.front.floor6
     }
   },
   // 监听路由，实现组件复用
   watch: {
+
     $route(to, from) {
       const nums = this.$route.query.type
       if (nums === 'one') {
@@ -248,15 +253,23 @@ export default {
       } else {
         this.items = null
         this.showPic = false
+        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
+          confirmButtonText: '确定',
+          callback: (action) => {
+            this.$message({
+              type: 'info',
+              message: `已确定`
+            })
+          }
+        })
       }
     }
   },
-
   mounted() {
+    console.log('fuck.')
     this.getHealthInfo()
     this.getResults()
   },
-
   created() {
     this.handleParmes()
     const indexPushData = []
@@ -266,8 +279,8 @@ export default {
       const room = rooms[i]
       console.log(room)
       const data = {}
-      data['monitor'] = room
-      data['curriculum'] = 'c语言'
+      data['cameraid'] = room
+      data['source'] = '数据结构'
       const code = -1
       if (code === -1) {
         data['status'] = '离线'
@@ -276,6 +289,7 @@ export default {
       }
       indexPushData.push(data)
     }
+    console.log('--------------------------')
     console.log(indexPushData)
     this.showPushData = indexPushData
   },
@@ -298,8 +312,7 @@ export default {
       )
       this.analyseResults = response.data.data
     },
-    cellStyle(row) {
-      // 根据显示颜色
+    cellStyle(row) { // 根据显示颜色
       if (row.column.label === '状态' && row.row.status === '在线') {
         return 'color:green '
       } else if (row.column.label === '状态' && row.row.status === '离线') {
@@ -337,15 +350,15 @@ export default {
       } else {
         this.items = null
         this.showPic = false
-        // this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-        //   confirmButtonText: '确定',
-        //   callback: action => {
-        //     this.$message({
-        //       type: 'info',
-        //       message: '已确定'
-        //     })
-        //   }
-        // })
+        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: '已确定'
+            })
+          }
+        })
       }
     },
     handleChange(v) {
@@ -354,138 +367,26 @@ export default {
         confirmButtonText: '确定'
       })
     }
+
   }
 }
 </script>
-<style scoped>
-.classroom {
-  min-width: 100px;
-  float: inherit;
-  width: 18%;
-  height: 250%;
-  margin-left: 30px;
-  margin-top: 30px;
-}
-.titleline {
-  background-color: #03171f78;
-  word-spacing: 8px;
-  height: 40px;
-  width: 90%;
-  color: #7ed6ff;
-  margin-left: 9px;
-  font-size: 10px;
-  margin-top: 54px;
-  top: 30px;
-  padding-top: 15px;
-  padding-left: 10px;
-  float: left;
-  /*border: 1px solid rgb(4 46 140 / 97%);*/
-}
-.rightFather {
-  background-image: url(../assets/images/background.jpg);
+<style>
+.view{
   width: 100%;
-  height: 100%;
-  /* background-color: #ffffff; */
-  overflow: hidden;
 }
-.fapic {
-  min-width: 400px;
-  display: inherit;
-  overflow: hidden;
-  float: left;
-  width: 85%;
-  height: 100%;
+.room{
+  width: 25%;
+  height: 40%;
+  position: absolute;
+  top: 10%;
 }
-
-.border {
-  margin-top: 20px;
-  display: inherit;
-  float: right;
-  min-width: 240px;
-  width: 13%;
-  height: 100%;
-  box-shadow: 4px 10px 5px #888888;
-  background-color: #eef4f9;
-}
-.video {
-  object-fit: fill;
-  float: left;
-  min-width: 100px;
-  width: 436px;
-  height: 290px;
-  border: #3a4673 2px solid;
-  margin-left: 42px;
-  margin-top: 40px;
-}
-.el-checkbox {
-  display: block;
-  color: #fdfdfd;
-  font-size: 20px;
-  padding: 5px;
-  margin-right: 23px !important;
-  margin-left: 40px !important;
-}
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
-} /*滚动条的滑轨背景颜色*/
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-  -webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);
-} /*滑块颜色*/
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  -webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);
-}
-::-webkit-scrollbar {
-  width: 16px;
-  height: 16px;
-} /* 滑块整体设置*/
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  border: 5px solid transparent;
-}
-::-webkit-scrollbar-track {
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2) inset;
-}
-::-webkit-scrollbar-thumb {
-  min-height: 20px;
-  background-clip: content-box;
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5) inset;
-}
-::-webkit-scrollbar-corner {
-  background: transparent;
-} /* 横向滚动条和纵向滚动条相交处尖角的颜色 */
-.el-checkbox span {
-  margin: 20px;
-}
-.el-checkbox-group {
-  color: #ffffff;
-  /*height: 100%;*/
-  width: 20px;
-  float: left;
-  font-size: 23px;
-  cursor: pointer;
-}
-.tip2 {
-  text-align: center;
-  padding-top: 25px;
-  padding-bottom: 30px;
-  background-color: #3a4673;
-  color: white;
-}
-#stateon {
-  /*padding-left: 30px;*/
-  line-height: 20px;
-  color: rgb(10, 179, 60);
-}
-#stateoff {
-  /*padding-left:-25px;*/
-  /*line-height: 20px;*/
-  color: rgb(172, 23, 13);
+.camera{
+  position: absolute;
+  left:25%;
+  top: 10%;
+  width: 75%;
+  height: 90%;
 }
 .content1 {
   margin-top: 30px;
@@ -504,50 +405,73 @@ export default {
   white-space: nowrap;
   margin-bottom: 5px;
 }
+.fapic {
+  min-width: 400px;
+  display: inherit;
+  overflow: hidden;
+  float: left;
+  width: 85%;
+  height: 100%;
+}
+.el-table,
+.el-table__expanded-cell {
+  background-color: transparent !important;
+}/*表格透明*/
+/* 表格内背景颜色 */
+.el-table th,
+.el-table tr,
+.el-table td {
+  background-color: transparent !important;
+}
+::-webkit-scrollbar-track{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+}/*滚动条的滑轨背景颜色*/
+::-webkit-scrollbar-thumb{
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 10px;
+  -webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);
+}/*滑块颜色*/
+::-webkit-scrollbar-thumb{
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  -webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);
+}
+::-webkit-scrollbar{
+  width: 16px;
+  height: 16px;
+}/* 滑块整体设置*/
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb{
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+::-webkit-scrollbar-track{
+  box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;
+}
+::-webkit-scrollbar-thumb{
+  min-height: 20px;
+  background-clip: content-box;
+  box-shadow: 0 0 0 5px rgba(255,255,255,.5) inset;
+}
+::-webkit-scrollbar-corner{
+  background: transparent;
+}/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+.content1 {
+  margin-top: 30px;
+  height: 300px;
+  /*margin-left: 50px;*/
+}
+.text {
+  width: 100%;
+  color: #eef4f9;
+  font-family: "楷体", "楷体_GB2312";
+  padding: 10px;
+  height: 20px;
+  font-size: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
 </style>
-<!--<style>-->
-<!--.el-input__inner {-->
-<!--  border-radius: 0px !important;-->
-<!--  line-height: 40px;-->
-<!--  outline: 0;-->
-<!--  padding: 0 !important;-->
-<!--  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);-->
-<!--  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);-->
-<!--}-->
-<!--.el-checkbox__label {-->
-<!--   float: left;-->
-<!--    display: inline-block;-->
-<!--    padding-left: 10px;-->
-<!--    line-height: 23px !important;-->
-<!--}-->
-<!--.el-checkbox__input {-->
-<!--  display: none !important;-->
-<!--  margin-left: 4px;-->
-<!--  margin-right: 10px;-->
-<!--  cursor: pointer;-->
-<!--  outline: 0;-->
-<!--  line-height: 1;-->
-<!--  vertical-align: middle;-->
-<!--}-->
-
-<!--.el-table,-->
-<!--.el-table__expanded-cell {-->
-<!--  background-color: transparent !important;-->
-<!--}-->
-<!--/* 表格内背景颜色 */-->
-<!--.el-table th,-->
-<!--.el-table tr,-->
-<!--.el-table td {-->
-<!--    background-color: transparent !important;-->
-<!--}-->
-<!--::-webkit-scrollbar-track{border-radius: 10px;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);}/*滚动条的滑轨背景颜色*/-->
-<!--::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.05);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);}/*滑块颜色*/-->
-<!--::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.2);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);}-->
-<!--::-webkit-scrollbar{width: 16px;height: 16px;}/* 滑块整体设置*/-->
-<!--::-webkit-scrollbar-track,-->
-<!--::-webkit-scrollbar-thumb{border-radius: 999px;border: 5px solid transparent;}-->
-<!--::-webkit-scrollbar-track{box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;}-->
-<!--::-webkit-scrollbar-thumb{min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 5px rgba(255,255,255,.5) inset;}-->
-<!--::-webkit-scrollbar-corner{background: transparent;}/* 横向滚动条和纵向滚动条相交处尖角的颜色 */-->
-<!--</style>-->
-
