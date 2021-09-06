@@ -71,7 +71,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['听讲', '玩手机', '睡觉', '说话'],
+          data: ['听讲', '玩手机', '睡觉', '做笔记'],
           axisTick: {
             show: false
           },
@@ -156,7 +156,7 @@ export default {
               barBorderRadius: [12, 12, 0, 0]
             }
           },
-          data: [10, 40, 50, 60, 70]
+          data: [25, 6, 3, 2]
         }
         ]
       })
@@ -223,7 +223,7 @@ export default {
           },
           {
             value: 2600,
-            name: '说话'
+            name: '做笔记'
           },
           {
             value: 4500,

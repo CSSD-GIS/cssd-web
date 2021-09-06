@@ -81,9 +81,9 @@
 <script>
 const classval = []
 const items = {}
-import config from '@/config.json'
+import config from '@/assets/config'
 import axios from 'axios'
-import ip from '@/ip'
+import ip from '@/assets/ip'
 // 一层数据
 const items1 = config.north.front.floor1
 const arr1 = []

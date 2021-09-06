@@ -13,10 +13,11 @@
       :default-active="activeIndex2"
       class="el-menu-demo"
       mode="horizontal"
-      @select="handleSelect"
       background-color="#545c64"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#ffd04b"
+      @select="handleSelect"
+    >
       <el-sub-menu index="1">
         <template #title>
           <span slot="title" class="text">实时画面</span>
