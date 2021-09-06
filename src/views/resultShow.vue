@@ -1,8 +1,11 @@
 <template>
   <div class="box">
+     <!-- <div class="pagination"> -->
+
+    <!-- </div> -->
     <el-table
       class="table"
-      :data="tableData"
+      :data="tableData.slice((currentPage - 1) * pagesize, currentPage*pagesize)"
     >
       <el-table-column
         prop="date"
@@ -21,6 +24,20 @@
     </el-table>
     <div id="myChart1" class="chart1" />
     <div id="myChart2" class="chart2" />
+    <div   class="pagination">
+     <el-pagination
+            prev-text="上一页"
+            next-text="下一页"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 40]"
+            :page-size="pagesize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.length"
+          >
+          </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -29,7 +46,33 @@
 export default {
   data() {
     return {
+      // 存放数据的数组
+      showlist: [],
+      // 每页的条数
+      pagesize: 5,
+      // 	currentPage 改变时会触发
+      currentPage: 1,
       tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
         date: '2016-05-02',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
@@ -41,6 +84,14 @@ export default {
     this.pieChart()
   },
   methods: {
+    handleSizeChange: function(val) {
+      console.log(`每页 ${val}条`) // 每页下拉显示数据
+      this.pagesize = val
+    },
+    handleCurrentChange: function(val) {
+      console.log(`当前页 ${val}`) // 点击第几页
+      this.currentPage = val
+    },
     histoGram() {
       const that = this
       // // 基于准备好的dom，初始化echarts实例
@@ -114,32 +165,6 @@ export default {
             }
           }
         },
-
-        'dataZoom': [{
-          'show': true,
-          'height': 8,
-          'xAxisIndex': [
-            0
-          ],
-          bottom: '8%',
-          'start': 10,
-          'end': 90,
-          handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-          handleSize: '110%',
-          handleStyle: {
-            color: '#d3dee5'
-
-          },
-          textStyle: {
-            color: '#fff' },
-          borderColor: '#90979c'
-        }, {
-          'type': 'inside',
-          'show': true,
-          'height': 15,
-          'start': 1,
-          'end': 35
-        }],
         series: [{
           name: '数量',
           type: 'bar',
@@ -168,6 +193,7 @@ export default {
     pieChart() {
       var myChart = this.$echarts.init(document.getElementById('myChart2'))
       myChart.setOption({
+        calculable: false,
         legend: {
           orient: 'vertical', // 'vertical'
           x: 'left', // 'center' | 'left' | {number},
@@ -262,8 +288,8 @@ export default {
             color: 'pink',
             borderColor: '#FFF',
             normal: {
-              borderWidth: '10',
-              borderColor: 'rgba(0,0,0,2)'
+              // borderWidth: '10',
+              // borderColor: 'rgba(0,0,0,2)'
             }
           },
           labelLine: {
@@ -290,17 +316,36 @@ export default {
 </script>
 
 <style scoped>
+.pagination >>> button,
+.pagination >>> .el-pager li {
+  background-color: transparent !important;
+  color: #19e1f0 !important;
+  border: 1px solid #d1d3d4;
+}
+
+.pagination >>> .el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #17e6db !important;
+  color: white !important;
+}
+
+.pagination {
+   height: 10px;
+    width: 500px;
+    float: right;
+    margin-right: 35px;
+}
+
 .box{
   min-width: 100px;
   float: inherit;
   width: 100%;
-  height: 800px;
+  height: 850px;
   margin-left: 30px;
   margin-top: 60px;
 }
 .table{
   width: 68%;
-  height: 80%;
+  /* height: 96%; */
   margin: 10px;
   float: left;
 }
@@ -310,7 +355,7 @@ export default {
   height: 50%;
   border: 1px solid rgba(25, 186, 139, 0.17);
   background-color: rgba(0,0,100,0.3);
-  margin-right: 70px;
+  margin-right: 62px;
   margin-top: 8px;
 }
 .chart1::before {
@@ -354,13 +399,13 @@ export default {
   content: "";
 }
 .chart2{
-  float: right;
-  width: 25%;
-  height: 50%;
-  border: 1px solid rgba(25, 186, 139, 0.17);
-  background-color: rgba(0,0,100,0.3);
-  margin-right: 67px;
-  margin-top: 63px;
+ margin-right: -477px;
+    margin-top: 480px;
+    float: right;
+    width: 25%;
+    height: 50%;
+    border: 1px solid rgba(25, 186, 139, 0.17);
+    background-color: rgba(0,0,100,0.3);
 }
 .chart2::before {
   position: absolute;
@@ -403,4 +448,44 @@ export default {
   content: "";
 }
 
+</style>
+<style>
+.el-table,
+    .el-table__expanded-cell {
+      background-color: transparent !important;
+    }/*表格透明*/
+/* 表格内背景颜色 */
+.el-table th,
+.el-table tr,
+.el-table td {
+  background-color: transparent !important;
+   border-bottom:  1px solid rgb(19, 201, 233) !important
+}
+.el-table td,.building-top .el-table th.is-leaf {
+    border-bottom:  1px solid rgb(19, 201, 233) !important
+  }
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: rgb(2, 10, 39) !important;
+    /* opacity: 0.5; */
+}
+.el-table thead {
+    color: #ebeff7 !important;
+    font-weight: 500 !important;
+     font-size: 20px !important;
+  }
+.el-table{
+    color: #fff !important;
+    font-size: 16px !important;
+  }
+  .el-pagination button, .el-pagination span:not([class*=suffix]) {
+    display: inline-block;
+    font-size: 13px;
+    min-width: 35.5px;
+    height: 28px;
+    line-height: 28px;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff !important;
+}
 </style>
