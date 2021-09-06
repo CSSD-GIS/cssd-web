@@ -1,43 +1,80 @@
 <template>
   <div class="classroom">
-    <dv-border-box-11 :title='floor' style="height: 100%; width:100%">
-      <span class="titleline">监控设备名称 {{"\xa0"}}{{"\xa0"}}课程{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}在线
-        {{"\xa0"}}{{"\xa0"}}{{"\xa0"}}{{"\xa0"}}显示</span>
-      <el-checkbox-group style="position: absolute;top: 25%;">
-        <div style="width:330px;height:280px;overflow: scroll ">
+    <dv-border-box-11 :title="floor" style="height: 100%; width: 100%">
+      <span
+        class="titleline"
+      >监控设备名称 {{ "\xa0" }}{{ "\xa0" }}课程{{ "\xa0" }}{{ "\xa0"
+      }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}在线 {{ "\xa0" }}{{ "\xa0"
+      }}{{ "\xa0" }}{{ "\xa0" }}显示</span>
+      <el-checkbox-group style="position: absolute; top: 25%">
+        <div style="width: 330px; height: 280px; overflow: scroll">
           <span
             v-for="(val, key) in items"
             :key="key"
             class="el-checkbox"
-            :label="key">{{key}}
+            :label="key"
+          >{{ key }}
             <span>c语言</span>
-            <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{ status }}</span>
-            <span v-else id='stateoff'>{{ statusoff }}</span>
-            <input type="checkbox" style="position: absolute;left: 100%">
+            <span v-if="checkList.indexOf(key) !== -1" id="stateon">{{
+              status
+            }}</span>
+            <span v-else id="stateoff">{{ statusoff }}</span>
+            <input type="checkbox" style="position: absolute; left: 100%">
           </span>
-<!--          <span-->
-<!--            v-for="(val, key) in items"-->
-<!--            :key="key"-->
-<!--            class="el-checkbox"-->
-<!--            :label="key">-->
-<!--            {{key}}-->
-<!--            <span style="position: relative;left:60%">c语言</span>-->
-<!--            <span v-if="checkList.indexOf(key) !== -1" id="stateon" style="position: relative;left: 55%">{{ status }}</span>-->
-<!--            <span v-else id='stateoff' style="position: relative;left: 55%">{{ statusoff }}</span>-->
-<!--            <input type="checkbox" style="position: relative;left: 80%">-->
-<!--          </span>-->
+          <!--          <span-->
+          <!--            v-for="(val, key) in items"-->
+          <!--            :key="key"-->
+          <!--            class="el-checkbox"-->
+          <!--            :label="key">-->
+          <!--            {{key}}-->
+          <!--            <span style="position: relative;left:60%">c语言</span>-->
+          <!--            <span v-if="checkList.indexOf(key) !== -1" id="stateon" style="position: relative;left: 55%">{{ status }}</span>-->
+          <!--            <span v-else id='stateoff' style="position: relative;left: 55%">{{ statusoff }}</span>-->
+          <!--            <input type="checkbox" style="position: relative;left: 80%">-->
+          <!--          </span>-->
         </div>
       </el-checkbox-group>
     </dv-border-box-11>
-    <dv-border-box-8 class="outbox" style="height:450px;overflow: hidden; margin-top:50px">
-      <dv-decoration-7 style="width:200px;height:30px;font-size:22px;margin-left:20%; color:#e4e4e4fc; overflow: hidden; ">实时分析结果</dv-decoration-7>
-      <marquee class="content1" width="100%" height="400px" direction="up" behavior="scroll" scrolldelay="10000" scrollamount="250"  onMouseOut="this.start()" onMouseOver="this.stop()">
-        <div class="text" v-for=" val in textbook " :key="val">{{val}}
-          <div class="link-top"></div>
+    <dv-border-box-8
+      class="outbox"
+      style="height: 450px; overflow: hidden; margin-top: 50px"
+    >
+      <dv-decoration-7
+        style="
+          width: 200px;
+          height: 30px;
+          font-size: 22px;
+          margin-left: 20%;
+          color: #e4e4e4fc;
+          overflow: hidden;
+        "
+      >实时分析结果</dv-decoration-7>
+      <marquee
+        class="content1"
+        width="100%"
+        height="400px"
+        direction="up"
+        behavior="scroll"
+        scrolldelay="10000"
+        scrollamount="250"
+        on-mouse-out="this.start()"
+        on-mouse-over="this.stop()"
+      >
+        <div v-for="val in analyseResults" :key="val" class="text">
+          <div id="analyse_results">
+            {{ val.Classroom }}
+            <!-- font-color should be RED. -->
+            {{ val.PlayingNum }}
+            {{ val.SleepingNum }}
+            <!-- font-color should be YELLOW -->
+            {{ val.WritingNum }}
+            <!-- font-color should be GREEN -->
+            {{ val.ListeningNum }}
+          </div>
+          <div class="link-top" />
         </div>
       </marquee>
     </dv-border-box-8>
-
   </div>
 </template>
 
@@ -45,8 +82,8 @@
 const classval = []
 const items = {}
 import config from '@/config.json'
-import { getHealthInfo } from '@/api/cssd_trans'
-
+import axios from 'axios'
+import ip from '@/ip'
 // 一层数据
 const items1 = config.north.front.floor1
 const arr1 = []
@@ -144,7 +181,7 @@ export default {
   name: 'FloorOne',
   data() {
     return {
-      textbook: ['在猜数,估数,数数活动的过程在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程', '建立计数单位“千”的概念会正', '建立计数单位“千”的概', '建立计数单位“千”的概念会正确地读', '支持学生学习事项顺利完成', '支持学生学习事项顺利完成'],
+      analyseResults: [],
       checked: true,
       showPushData: [],
       floor: '',
@@ -169,17 +206,18 @@ export default {
       items4: config.north.front.floor4,
       items5: config.north.front.floor5,
       items6: config.north.front.floor6,
-      tableData: [{
-        monitor: '',
-        curriculum: 'c语言',
-        status: '离线'
-      }],
+      tableData: [
+        {
+          monitor: '',
+          curriculum: 'c语言',
+          status: '离线'
+        }
+      ],
       helathInfo: []
     }
   },
   // 监听路由，实现组件复用
   watch: {
-
     $route(to, from) {
       const nums = this.$route.query.type
       if (nums === 'one') {
@@ -224,12 +262,12 @@ export default {
   },
 
   mounted() {
+    console.log('fuck.')
+    this.getHealthInfo()
+    this.getResults()
   },
 
   created() {
-    const response = getHealthInfo('N111,N112')
-    console.log('----------------------------------------')
-    console.log(response)
     this.handleParmes()
     const indexPushData = []
     const rooms = Object.keys(this.items)
@@ -252,7 +290,26 @@ export default {
     this.showPushData = indexPushData
   },
   methods: {
-    cellStyle(row) { // 根据显示颜色
+    async getHealthInfo() {
+      const form = new FormData()
+      form.append('classrooms', 'N111,N112')
+
+      const response = await axios({
+        method: 'post',
+        url: `${ip.cssd_trans}/api/v1/healthcheck`,
+        data: form
+      })
+      console.log(response.data.data)
+    },
+    async getResults() {
+      const classrooms = 'N111,N112,N113'
+      const response = await axios.get(
+        `${ip.cssd_trans}/api/v1/getResults?classrooms=${classrooms}`
+      )
+      this.analyseResults = response.data.data
+    },
+    cellStyle(row) {
+      // 根据显示颜色
       if (row.column.label === '状态' && row.row.status === '在线') {
         return 'color:green '
       } else if (row.column.label === '状态' && row.row.status === '离线') {
@@ -307,12 +364,11 @@ export default {
         confirmButtonText: '确定'
       })
     }
-
   }
 }
 </script>
 <style scoped>
-.classroom{
+.classroom {
   min-width: 100px;
   float: inherit;
   width: 18%;
@@ -320,20 +376,20 @@ export default {
   margin-left: 30px;
   margin-top: 30px;
 }
-.titleline{
+.titleline {
   background-color: #03171f78;
-    word-spacing: 8px;
-    height: 40px;
-    width:90%;
-    color: #7ed6ff;
-    margin-left: 9px;
-    font-size: 10px;
-    margin-top: 54px;
-    top: 30px;
-    padding-top: 15px;
-    padding-left: 10px;
-    float: left;
-    /*border: 1px solid rgb(4 46 140 / 97%);*/
+  word-spacing: 8px;
+  height: 40px;
+  width: 90%;
+  color: #7ed6ff;
+  margin-left: 9px;
+  font-size: 10px;
+  margin-top: 54px;
+  top: 30px;
+  padding-top: 15px;
+  padding-left: 10px;
+  float: left;
+  /*border: 1px solid rgb(4 46 140 / 97%);*/
 }
 .rightFather {
   background-image: url(../assets/images/background.jpg);
@@ -352,7 +408,7 @@ export default {
 }
 
 .border {
- margin-top: 20px;
+  margin-top: 20px;
   display: inherit;
   float: right;
   min-width: 240px;
@@ -379,20 +435,45 @@ export default {
   margin-right: 23px !important;
   margin-left: 40px !important;
 }
-::-webkit-scrollbar-track{border-radius: 10px;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);}/*滚动条的滑轨背景颜色*/
-::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.05);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);}/*滑块颜色*/
-::-webkit-scrollbar-thumb{background-color: rgba(0,0,0,0.2);border-radius: 10px;-webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);}
-::-webkit-scrollbar{width: 16px;height: 16px;}/* 滑块整体设置*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+} /*滚动条的滑轨背景颜色*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  -webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);
+} /*滑块颜色*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  -webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);
+}
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+} /* 滑块整体设置*/
 ::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb{border-radius: 999px;border: 5px solid transparent;}
-::-webkit-scrollbar-track{box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;}
-::-webkit-scrollbar-thumb{min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 5px rgba(255,255,255,.5) inset;}
-::-webkit-scrollbar-corner{background: transparent;}/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+::-webkit-scrollbar-track {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2) inset;
+}
+::-webkit-scrollbar-thumb {
+  min-height: 20px;
+  background-clip: content-box;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5) inset;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+} /* 横向滚动条和纵向滚动条相交处尖角的颜色 */
 .el-checkbox span {
   margin: 20px;
 }
 .el-checkbox-group {
-  color: #FFFFFF;
+  color: #ffffff;
   /*height: 100%;*/
   width: 20px;
   float: left;
@@ -416,15 +497,15 @@ export default {
   /*line-height: 20px;*/
   color: rgb(172, 23, 13);
 }
-.content1{
+.content1 {
   margin-top: 30px;
   height: 300px;
   /*margin-left: 50px;*/
 }
-.text{
-  width:100%;
+.text {
+  width: 100%;
   color: #eef4f9;
-  font-family: "楷体","楷体_GB2312";
+  font-family: "楷体", "楷体_GB2312";
   padding: 10px;
   height: 20px;
   font-size: 25px;
