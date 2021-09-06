@@ -1,16 +1,16 @@
 <template>
   <div>
     <!-- v-for  循环自动生成盒子 -->
-    <div class="demo-image__preview" v-for="item in URI" :key="item.uri">
-      <video class="video" v-bind:id="item.uri" controls></video>
+    <div v-for="item in URI" :key="item.uri" class="demo-image__preview">
+      <video :id="item.uri" class="video" controls />
     </div>
   </div>
 </template>
 
 <script>
-import Hls from "@/dist/hls";
-import axios from "axios";
-import ip from "@/ip.json";
+import Hls from '@/dist/hls'
+import axios from 'axios'
+import ip from '@/ip.json'
 
 export default {
   data() {
@@ -18,22 +18,22 @@ export default {
       streamUrl: [],
       URL: ip.rh,
       URI: [
-        { uri: `${ip.rr}/stream1`},
-        { uri: `${ip.rr}/stream2` },
-      ],
-    };
+        { uri: `${ip.rr}/stream1` },
+        { uri: `${ip.rr}/stream2` }
+      ]
+    }
   },
 
   mounted() {
-    this.init();
+    this.init()
   },
 
   methods: {
     async init() {
-      await this.getStreamUrl(this.URI);
-      console.log(this.streamUrl);
-      for (let [index, url] of this.streamUrl.entries()) {
-        this.playStream(url, index);
+      await this.getStreamUrl(this.URI)
+      console.log(this.streamUrl)
+      for (const [index, url] of this.streamUrl.entries()) {
+        this.playStream(url, index)
       }
     },
 
@@ -41,14 +41,14 @@ export default {
      * 获取.m3u8视频地址
      */
     async getStreamUrl(URI) {
-      let urlList = [];
-      for (let uri of URI) {
-        let res = await axios.post(`${this.URL}/start`, { uri: uri.uri });
-        console.log(res);
-        let url = `${this.URL}${res.data.uri}`;
-        urlList.push(url);
+      const urlList = []
+      for (const uri of URI) {
+        const res = await axios.post(`${this.URL}/start`, { uri: uri.uri })
+        console.log(res)
+        const url = `${this.URL}${res.data.uri}`
+        urlList.push(url)
       }
-      this.streamUrl = urlList;
+      this.streamUrl = urlList
     },
 
     /**
@@ -56,17 +56,17 @@ export default {
      */
     playStream(url, index) {
       if (Hls.isSupported()) {
-        let hls = new Hls();
-        let video = document.getElementsByClassName("video")[index];
+        const hls = new Hls()
+        const video = document.getElementsByClassName('video')[index]
 
-        hls.loadSource(url);
-        hls.attachMedia(video);
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = url;
+        hls.loadSource(url)
+        hls.attachMedia(video)
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = url
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">

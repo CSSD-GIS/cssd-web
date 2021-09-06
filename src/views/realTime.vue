@@ -253,7 +253,6 @@ export default {
   },
 
   mounted() {
-    console.log('fuck.')
     this.getHealthInfo()
     this.getResults()
   },

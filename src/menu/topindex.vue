@@ -2,73 +2,72 @@
   <div class="clear">
     <div class="top">
       <span class="img">
-        <span class="img1">
-        </span>
+        <span class="img1" />
       </span>
       <span class="titleName">课堂学生行为检测系统</span>
-      <router-link :to="{ path: '/views/floorOne', query: { id: 'null' } }">
-<el-dropdown>
-<span class="realTime" ref="echarType">
-检测画面<i class="el-icon-arrow-down el-icon--right"></i>
-</span>
-<el-dropdown-menu slot="dropdown" >
-  <router-link :to="{ path: '/views/floorOne', query: { id: 'one' } }">
-<el-dropdown-item>天仪楼一层</el-dropdown-item>
-</router-link>
-   <router-link :to="{ path: '/views/floorOne', query: { id: 'two' } }">
-<el-dropdown-item>天仪楼二层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'three' } }">
-<el-dropdown-item>天仪楼三层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'four' } }">
-<el-dropdown-item>天仪楼四层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'five' } }">
-<el-dropdown-item>天仪楼五层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/floorOne', query: { id: 'six' } }">
-<el-dropdown-item>天仪楼六层</el-dropdown-item>
-</router-link>
-</el-dropdown-menu>
-</el-dropdown>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
-<el-dropdown>
-<span class="realTime" ref="echarType">
-实时画面<i class="el-icon-arrow-down el-icon--right"></i>
-</span>
-<el-dropdown-menu slot="dropdown" >
-<router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
-<el-dropdown-item>天仪楼一层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
-<el-dropdown-item>天仪楼二层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
-<el-dropdown-item>天仪楼三层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
-<el-dropdown-item>天仪楼四层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
-<el-dropdown-item>天仪楼五层</el-dropdown-item>
-</router-link>
-<router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
-<el-dropdown-item>天仪楼六层</el-dropdown-item>
-</router-link>
-</el-dropdown-menu>
-</el-dropdown>
-</router-link>
- <router-link to="/views/show">
-<el-dropdown>
-<span class="showChart" ref="echarType">
-结果展示<i class="el-icon-arrow-down el-icon--right"></i>
-</span>
-</el-dropdown>
- </router-link>
-<span class="showTime">{{t}}</span>
-<!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
+      <router-link :to="{ path: '/views/detection', query: { id: 'null' } }">
+        <el-dropdown>
+          <span ref="echarType" class="realTime">
+            检测画面<i class="el-icon-arrow-down el-icon--right" />
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <router-link :to="{ path: '/views/detection', query: { id: 'one' } }">
+              <el-dropdown-item>天仪楼一层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: 'two' } }">
+              <el-dropdown-item>天仪楼二层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/fdetection', query: { id: 'three' } }">
+              <el-dropdown-item>天仪楼三层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: 'four' } }">
+              <el-dropdown-item>天仪楼四层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: 'five' } }">
+              <el-dropdown-item>天仪楼五层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: 'six' } }">
+              <el-dropdown-item>天仪楼六层</el-dropdown-item>
+            </router-link>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </router-link>
+      <router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
+        <el-dropdown>
+          <span ref="echarType" class="realTime">
+            实时画面<i class="el-icon-arrow-down el-icon--right" />
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
+              <el-dropdown-item>天仪楼一层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
+              <el-dropdown-item>天仪楼二层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
+              <el-dropdown-item>天仪楼三层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
+              <el-dropdown-item>天仪楼四层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
+              <el-dropdown-item>天仪楼五层</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
+              <el-dropdown-item>天仪楼六层</el-dropdown-item>
+            </router-link>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </router-link>
+      <router-link to="/views/show">
+        <el-dropdown>
+          <span ref="echarType" class="showChart">
+            结果展示<i class="el-icon-arrow-down el-icon--right" />
+          </span>
+        </el-dropdown>
+      </router-link>
+      <span class="showTime">{{ t }}</span>
+      <!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
       <router-view />
     </div>
   </div>
@@ -85,21 +84,6 @@ export default {
     return {
       logoPath: require('../assets/images/person.svg'),
       t
-    }
-  },
-  methods: {
-    time() {
-      const dt = new Date()
-      const y = dt.getFullYear()
-      const mt = dt.getMonth() + 1
-      const day = dt.getDate()
-      const h = dt.getHours().toString()
-      const m = dt.getMinutes().toString()
-      const s = dt.getSeconds().toString()
-      const H = h.length < 2 ? '0' + h : h
-      const M = m.length < 2 ? '0' + m : m
-      const S = s.length < 2 ? '0' + s : s
-      this.t = y + '年' + mt + '月' + day + '日' + H + ':' + M + ':' + S
     }
   },
   mounted() {
@@ -130,8 +114,22 @@ export default {
     if (this.timer) { // 注意在vue实例销毁前，清除定时器
       clearInterval(this.timer)
     }
+  },
+  methods: {
+    time() {
+      const dt = new Date()
+      const y = dt.getFullYear()
+      const mt = dt.getMonth() + 1
+      const day = dt.getDate()
+      const h = dt.getHours().toString()
+      const m = dt.getMinutes().toString()
+      const s = dt.getSeconds().toString()
+      const H = h.length < 2 ? '0' + h : h
+      const M = m.length < 2 ? '0' + m : m
+      const S = s.length < 2 ? '0' + s : s
+      this.t = y + '年' + mt + '月' + day + '日' + H + ':' + M + ':' + S
+    }
   }
-
 }
 </script>
 
