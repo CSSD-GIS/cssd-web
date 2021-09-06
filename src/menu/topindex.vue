@@ -5,7 +5,7 @@
         <span class="img1" />
       </span>
       <span class="titleName">课堂学生行为检测系统</span>
-      <router-link :to="{ path: '/views/detection', query: { id: 'null' } }">
+      <router-link :to="{ path: '/views/detection', query: { id: 'one' } }">
         <el-dropdown>
           <span ref="echarType" class="realTime">
             检测画面<i class="el-icon-arrow-down el-icon--right" />
@@ -32,7 +32,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </router-link>
-      <router-link :to="{ path: '/views/realTime', query: { type: 'null' } }">
+      <router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
         <el-dropdown>
           <span ref="echarType" class="realTime">
             实时画面<i class="el-icon-arrow-down el-icon--right" />
@@ -66,7 +66,7 @@
           </span>
         </el-dropdown>
       </router-link>
-      <span class="showTime">{{ t }}</span>
+      <span class="showTime">{{ showTime }}</span>
       <!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
       <router-view />
     </div>
@@ -75,15 +75,12 @@
 
 <script>
 import { tokentest } from '@/api/user'
-// import { mount } from '@vue/test-utils'
-const t = ''
-// t = setTimeout(time,1000)
-// t=setTimeout(time,1000)
+
 export default {
   data() {
     return {
       logoPath: require('../assets/images/person.svg'),
-      t
+      showTime: ''
     }
   },
   mounted() {
@@ -127,7 +124,7 @@ export default {
       const H = h.length < 2 ? '0' + h : h
       const M = m.length < 2 ? '0' + m : m
       const S = s.length < 2 ? '0' + s : s
-      this.t = y + '年' + mt + '月' + day + '日' + H + ':' + M + ':' + S
+      this.showTime = y + '年' + mt + '月' + day + '日' + H + ':' + M + ':' + S
     }
   }
 }
