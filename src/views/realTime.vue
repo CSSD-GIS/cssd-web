@@ -67,27 +67,6 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
-<<<<<<< HEAD
-              <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
-              {{ val.Classroom }}
-               </span>
-               <span class="lineTwo">
-              <!-- font-color should be RED. -->
-              <span class="className" style="width:30px height:10px">
-              课程名称：C语言程序设计
-              </span>
-              <span class="badNum" style="display:block;margin-left:122px">
-              玩游戏人数：{{ val.PlayingNum }}
-              睡觉人数：{{ val.SleepingNum }}
-              </span>
-               </span>
-               <span class="goodNum" style="display:block;margin-left:122px">
-              <!-- font-color should be YELLOW -->
-               做笔记人数：{{ val.WritingNum }}
-              <!-- font-color should be GREEN -->
-               听课人数：{{ val.ListeningNum }}
-               </span>
-=======
               <p>
                 教室号：{{ val.Classroom }}
                 玩手机人数：{{ val.PlayingNum }}
@@ -108,7 +87,6 @@
                 <!-- font-color should be GREEN -->
                 {{ val.ListeningNum }}
               </p>
->>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
             </div>
             <div class="link-top" />
           </div>
@@ -120,11 +98,7 @@
         <!-- <span v-if="showPic" class="fapic">
           <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
         </span> -->
-<<<<<<< HEAD
         <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">
-=======
-        <img :src="demoImg" alt="none">
->>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
       </dv-border-box-11>
     </div>
   </div>
@@ -301,9 +275,6 @@ export default {
   height: 300px;
   /*margin-left: 50px;*/
 }
-<<<<<<< HEAD
-
-=======
 .text {
   width: 100%;
   color: #eef4f9;
@@ -316,7 +287,6 @@ export default {
   white-space: nowrap;
   margin-bottom: 5px;
 }
->>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
 .fapic {
   min-width: 400px;
   display: inherit;
