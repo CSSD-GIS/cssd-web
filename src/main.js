@@ -1,11 +1,13 @@
 import Vue from 'vue'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
+import locale from 'element-ui/lib/locale/lang/en' // lang i18n 英文
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN' // 中文
+// 选择elementUi 默认语言为中文
+Vue.use(ElementUI, { zhLocale })
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
-
 import '@/styles/index.scss' // global css
 
 import App from './App'
