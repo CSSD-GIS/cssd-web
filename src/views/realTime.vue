@@ -2,41 +2,43 @@
   <div class="view">
     <div class="room">
       <dv-border-box-11
-        class='dv-border-box-11'
-        :title='floor'
+        class="dv-border-box-11"
+        :title="floor"
         style="width: 100%;
-        height: 100%">
+        height: 100%"
+      >
         <el-table
           ref="multipleTable"
           height="80%"
-          :cell-style=cellStyle
+          :cell-style="cellStyle"
           align="center"
           :data="showPushData"
           tooltip-effect="dark"
-          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF">
+          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
+        >
           <el-table-column
-            label="监控设备名称"
+            label="教室号"
             width="110"
-            prop="cameraid">
-          </el-table-column>
+            prop="cameraid"
+          />
           <el-table-column
             prop="source"
-            label="课程"
-            width="120">
-          </el-table-column>
+            label="所授课程"
+            width="120"
+          />
           <el-table-column
             prop="status"
-            label="状态"
+            label="监控设备"
             width="80"
-            show-overflow-tooltip>
-          </el-table-column>
+            show-overflow-tooltip
+          />
           <el-table-column
+            v-model="checked"
             type="selection"
             width="55"
             prop="show"
             label="显示"
-            v-model="checked">
-          </el-table-column>
+          />
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8
@@ -81,10 +83,11 @@
       </dv-border-box-8>
     </div>
     <div class="camera">
-      <dv-border-box-11>
-        <span v-if="showPic" class="fapic">
-      <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-    </span>
+      <dv-border-box-11 :title='courseName'>
+        <!-- <span v-if="showPic" class="fapic">
+          <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
+        </span> -->
+        <img src="http://localhost:8082/images/demo.png" alt="none">
       </dv-border-box-11>
     </div>
   </div>
@@ -195,7 +198,6 @@ export default {
       analyseResults: [],
       checked: true,
       showPic: false,
-      textbook: ['在猜数,估数,数数活动的过程在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程', '建立计数单位“千”的概念会正', '建立计数单位“千”的概', '建立计数单位“千”的概念会正确地读', '支持学生学习事项顺利完成', '支持学生学习事项顺利完成'],
       showPushData: [],
       floor: '',
       floorOne: '天仪楼一层',
@@ -209,15 +211,15 @@ export default {
       checkList: [],
       items,
       num: 1,
-      statusoff: '离线',
-      status: '在线',
       img: '',
       items1: config.north.front.floor1,
       items2: config.north.front.floor2,
       items3: config.north.front.floor3,
       items4: config.north.front.floor4,
       items5: config.north.front.floor5,
-      items6: config.north.front.floor6
+      items6: config.north.front.floor6,
+      courses: ['Python程序设计', 'C语言程序设计', '思想道德修养与法律基础', '大学英语1', '大学语文', '网络工程专业导论', '自然灾害概论'],
+      courseName: 'Python程序设计'
     }
   },
   // 监听路由，实现组件复用
@@ -280,13 +282,12 @@ export default {
       console.log(room)
       const data = {}
       data['cameraid'] = room
-      data['source'] = '数据结构'
-      const code = -1
-      if (code === -1) {
-        data['status'] = '离线'
+      if (i === 3) {
+        data['status'] = 'offline'
       } else {
-        data['status'] = '在线'
+        data['status'] = 'online'
       }
+      data['source'] = this.courses[i]
       indexPushData.push(data)
     }
     console.log('--------------------------')
@@ -313,9 +314,9 @@ export default {
       this.analyseResults = response.data.data
     },
     cellStyle(row) { // 根据显示颜色
-      if (row.column.label === '状态' && row.row.status === '在线') {
+      if (row.column.label === '监控设备' && row.row.status === 'online') {
         return 'color:green '
-      } else if (row.column.label === '状态' && row.row.status === '离线') {
+      } else if (row.column.label === '监控设备' && row.row.status === 'offline') {
         return 'color:red'
       }
     },
@@ -387,6 +388,16 @@ export default {
   top: 10%;
   width: 75%;
   height: 90%;
+}
+.camera dv-border-box-11 {
+  z-index: 999;
+}
+.camera img {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 99%;
+  height: 95%;
 }
 .content1 {
   margin-top: 30px;

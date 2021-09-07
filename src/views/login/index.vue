@@ -44,7 +44,7 @@
     </div>
     <div class="systen-title">
       <h1>CSSD</h1>
-      <h2>课堂学生行为检测系统</h2>
+      <h2>课堂学生状态检测系统</h2>
     </div>
   </div>
 </template>

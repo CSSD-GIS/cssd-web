@@ -4,7 +4,7 @@
       <span class="img">
         <span class="img1" />
       </span>
-      <span class="titleName">课堂学生行为检测系统</span>
+      <span class="titleName">课堂学生状态检测系统</span>
       <router-link :to="{ path: '/views/detection', query: { id: 'one' } }">
         <el-dropdown>
           <span ref="echarType" class="realTime">
