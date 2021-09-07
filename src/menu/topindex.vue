@@ -11,50 +11,80 @@
             检测画面<i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
-            <router-link :to="{ path: '/views/detection', query: { id: 'one' } }">
-              <el-dropdown-item>天仪楼一层</el-dropdown-item>
+            <router-link :to="{ path: '/views/detection', query: { id: '0' } }">
+              <el-dropdown-item>信息工程学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/detection', query: { id: 'two' } }">
-              <el-dropdown-item>天仪楼二层</el-dropdown-item>
+            <router-link :to="{ path: '/views/detection', query: { id: '1' } }">
+              <el-dropdown-item>应急管理学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/fdetection', query: { id: 'three' } }">
-              <el-dropdown-item>天仪楼三层</el-dropdown-item>
+            <router-link :to="{ path: '/views/fdetection', query: { id: '2' } }">
+              <el-dropdown-item>地球科学学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/detection', query: { id: 'four' } }">
-              <el-dropdown-item>天仪楼四层</el-dropdown-item>
+            <router-link :to="{ path: '/views/detection', query: { id: '3' } }">
+              <el-dropdown-item>生态环境学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/detection', query: { id: 'five' } }">
-              <el-dropdown-item>天仪楼五层</el-dropdown-item>
+            <router-link :to="{ path: '/views/detection', query: { id: '4' } }">
+              <el-dropdown-item>土木工程学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/detection', query: { id: 'six' } }">
-              <el-dropdown-item>天仪楼六层</el-dropdown-item>
+            <router-link :to="{ path: '/views/detection', query: { id: '5' } }">
+              <el-dropdown-item>地质工程学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: '6' } }">
+              <el-dropdown-item>经济管理学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: '7' } }">
+              <el-dropdown-item>文化与传播学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: '8' } }">
+              <el-dropdown-item>外国语学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: '9' } }">
+              <el-dropdown-item>马克思主义学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/detection', query: { id: '10' } }">
+              <el-dropdown-item>电子科学与控制工程学院</el-dropdown-item>
             </router-link>
           </el-dropdown-menu>
         </el-dropdown>
       </router-link>
-      <router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
+      <router-link :to="{ path: '/views/realTime', query: { id: 'realTime' } }">
         <el-dropdown>
           <span ref="echarType" class="realTime">
             实时画面<i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
-            <router-link :to="{ path: '/views/realTime', query: { type: 'one' } }">
-              <el-dropdown-item>天仪楼一层</el-dropdown-item>
+            <router-link :to="{ path: '/views/realTime', query: { id: '0' } }">
+              <el-dropdown-item>信息工程学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'two' } }">
-              <el-dropdown-item>天仪楼二层</el-dropdown-item>
+            <router-link :to="{ path: '/views/realTime', query: { id: '1' } }">
+              <el-dropdown-item>应急管理学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'three' } }">
-              <el-dropdown-item>天仪楼三层</el-dropdown-item>
+            <router-link :to="{ path: '/views/realTime', query: { id: '2' } }">
+              <el-dropdown-item>地球科学学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'four' } }">
-              <el-dropdown-item>天仪楼四层</el-dropdown-item>
+            <router-link :to="{ path: '/views/realTime', query: { id: '3' } }">
+              <el-dropdown-item>生态环境学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'five' } }">
-              <el-dropdown-item>天仪楼五层</el-dropdown-item>
+            <router-link :to="{ path: '/views/realTime', query: { id: '4' } }">
+              <el-dropdown-item>土木工程学院</el-dropdown-item>
             </router-link>
-            <router-link :to="{ path: '/views/realTime', query: { type: 'six' } }">
-              <el-dropdown-item>天仪楼六层</el-dropdown-item>
+            <router-link :to="{ path: '/viewsrealTime', query: { id: '5' } }">
+              <el-dropdown-item>地质工程学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { id: '6' } }">
+              <el-dropdown-item>经济管理学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { id: '7' } }">
+              <el-dropdown-item>文化与传播学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { id: '8' } }">
+              <el-dropdown-item>外国语学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { id: '9' } }">
+              <el-dropdown-item>马克思主义学院</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ path: '/views/realTime', query: { id: '10' } }">
+              <el-dropdown-item>电子科学与控制工程学院</el-dropdown-item>
             </router-link>
           </el-dropdown-menu>
         </el-dropdown>

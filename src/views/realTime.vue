@@ -3,7 +3,7 @@
     <div class="room">
       <dv-border-box-11
         class="dv-border-box-11"
-        :title="floor"
+        :title="collegeName"
         style="width: 100%;
         height: 100%"
       >
@@ -12,24 +12,24 @@
           height="80%"
           :cell-style="cellStyle"
           align="center"
-          :data="showPushData"
+          :data="courseData"
           tooltip-effect="dark"
           style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
         >
           <el-table-column
-            label="教室号"
-            width="110"
-            prop="cameraid"
-          />
-          <el-table-column
-            prop="source"
-            label="所授课程"
+            label="课程名称"
             width="120"
+            prop="courseName"
           />
           <el-table-column
-            prop="status"
+            label="教室号"
+            width="100"
+            prop="courseRoom"
+          />
+          <el-table-column
             label="监控设备"
-            width="80"
+            width="100"
+            prop="camera"
             show-overflow-tooltip
           />
           <el-table-column
@@ -200,70 +200,32 @@ export default {
       showPic: false,
       showPushData: [],
       floor: '',
-      floorOne: '天仪楼一层',
-      floorTwo: '天仪楼二层',
-      floorThree: '天仪楼三层',
-      floorFour: '天仪楼四层',
-      floorFive: '天仪楼五层',
-      floorSix: '天仪楼六层',
+      floorName: '',
       checkAll: false,
       classval,
       checkList: [],
       items,
       num: 1,
       img: '',
-      items1: config.north.front.floor1,
-      items2: config.north.front.floor2,
-      items3: config.north.front.floor3,
-      items4: config.north.front.floor4,
-      items5: config.north.front.floor5,
-      items6: config.north.front.floor6,
+      floorData: [],
+      collegeName: '信息工程学院',
+      colleges: ['信息工程学院', '应急管理学院'],
       courses: ['Python程序设计', 'C语言程序设计', '思想道德修养与法律基础', '大学英语1', '大学语文', '网络工程专业导论', '自然灾害概论'],
-      courseName: 'Python程序设计'
+      courseName: 'Python程序设计',
+      courseData: []
     }
   },
   // 监听路由，实现组件复用
   watch: {
 
     $route(to, from) {
-      const nums = this.$route.query.type
-      if (nums === 'one') {
-        this.items = this.items1
-        this.showPic = true
-        this.floor = this.floorOne
-        console.log(this.floor)
-      } else if (nums === 'two') {
-        this.items = this.items2
-        this.showPic = true
-        this.floor = this.floorTwo
-      } else if (nums === 'three') {
-        this.items = this.items3
-        this.showPic = true
-        this.floor = this.floorThree
-      } else if (nums === 'four') {
-        this.items = this.items4
-        this.showPic = true
-        this.floor = this.floorFour
-      } else if (nums === 'five') {
-        this.items = this.items5
-        this.showPic = true
-        this.floor = this.floorFive
-      } else if (nums === 'six') {
-        this.items = this.items6
-        this.showPic = true
-        this.floor = this.floorSix
-      } else {
-        this.items = null
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: (action) => {
-            this.$message({
-              type: 'info',
-              message: `已确定`
-            })
-          }
-        })
+      const nums = this.$route.query.id
+      for (let i = 0; i < 6; i++) {
+        if (nums === i) {
+          this.showPIc = true
+          this.collegeName = this.college[i]
+          break
+        }
       }
     }
   },
@@ -271,6 +233,8 @@ export default {
     console.log('fuck.')
     this.getHealthInfo()
     this.getResults()
+    this.getFloorData()
+    this.getCourseData()
   },
   created() {
     this.handleParmes()
@@ -294,7 +258,28 @@ export default {
     console.log(indexPushData)
     this.showPushData = indexPushData
   },
+
   methods: {
+    // 获取JSON文件中的楼层数据
+    getFloorData() {
+      for (let i = 1; i < 7; i++) {
+        const data = `config.north.front.floor${i}`
+        this.floorData.push(data)
+      }
+    },
+
+    async getCourseData() {
+      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCourseData`)
+      const courseInfo = response.data.data
+      for (const item of courseInfo) {
+        const data = {}
+        data['courseName'] = item.CourseName
+        data['courseRoom'] = item.CourseRoom
+        data['camera'] = '在线'
+        this.courseData.push(data)
+      }
+      console.log(this.courseData)
+    },
     async getHealthInfo() {
       const form = new FormData()
       form.append('classrooms', 'N111,N112')
@@ -306,6 +291,7 @@ export default {
       })
       console.log(response.data.data)
     },
+
     async getResults() {
       const classrooms = 'N111,N112,N113'
       const response = await axios.get(
@@ -313,55 +299,26 @@ export default {
       )
       this.analyseResults = response.data.data
     },
+
     cellStyle(row) { // 根据显示颜色
-      if (row.column.label === '监控设备' && row.row.status === 'online') {
-        return 'color:green '
-      } else if (row.column.label === '监控设备' && row.row.status === 'offline') {
-        return 'color:red'
+      if (row.column.label === '监控设备' && row.row.camera === '在线') {
+        return 'color:#25f52b'
+      } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
+        return 'color:#ff1111'
       }
     },
     // 路由参数判断
-    handleParmes() {
-      const nums = this.$route.query.type
-      if (nums === 'one') {
-        this.items = this.items1
-        this.showPic = true
-        this.floor = this.floorOne
-        console.log(this.floor)
-      } else if (nums === 'two') {
-        this.items = this.items2
-        this.showPic = true
-        this.floor = this.floorTwo
-      } else if (nums === 'three') {
-        this.items = this.items3
-        this.showPic = true
-        this.floor = this.floorThree
-      } else if (nums === 'four') {
-        this.items = this.items4
-        this.showPic = true
-        this.floor = this.floorFour
-      } else if (nums === 'five') {
-        this.items = this.items5
-        this.showPic = true
-        this.floor = this.floorFive
-      } else if (nums === 'six') {
-        this.items = this.items6
-        this.showPic = true
-        this.floor = this.floorSix
-      } else {
-        this.items = null
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: '已确定'
-            })
-          }
-        })
-      }
-    },
+    // handleParmes() {
+    //   const nums = this.$route.query.type
+    //   for (let i = 0; i < 11; i++) {
+    //     if (nums === this.floorNum[i]) {
+    //       this.showPIc = true
+    //       this.floor = this.college[i]
+    //       this.items = this.floorData[i]
+    //       break
+    //     }
+    //   }
+    // },
     handleChange(v) {
       // console.log(v);    打印出来为一个数组，第二个值为URL
       this.$alert(v[1], '标题名称', {
