@@ -8,6 +8,7 @@
         height: 100%"
       >
         <el-table
+          @row-click="getDetails"
           ref="multipleTable"
           height="80%"
           :cell-style="cellStyle"
@@ -30,15 +31,21 @@
             label="监控设备"
             width="100"
             prop="camera"
-            show-overflow-tooltip
           />
           <el-table-column
             v-model="checked"
             type="selection"
-            width="50"
+            width="60"
             prop="show"
-            label="显示"
           />
+<!--          <el-table-column-->
+<!--            label="显示"-->
+<!--            width="60"-->
+<!--            align="center">-->
+<!--            <template>-->
+<!--              <el-checkbox></el-checkbox>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8
@@ -67,16 +74,14 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
-<<<<<<< HEAD
+<!--<<<<<<< HEAD-->
               <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
-              {{ val.Classroom }}
-               </span>
-               <span class="lineTwo">
-              <!-- font-color should be RED. -->
-              <span class="className" style="width:30px height:10px">
-              课程名称：C语言程序设计
+                {{ val.Classroom }}
               </span>
-              <span class="badNum" style="display:block;margin-left:122px">
+              <span class="lineTwo">
+                <!-- font-color should be RED. -->
+                <span class="className" style="width:30px;height:10px">课程名称：C语言程序设计</span>
+                <span class="badNum" style="display:block;margin-left:122px">
               玩游戏人数：{{ val.PlayingNum }}
               睡觉人数：{{ val.SleepingNum }}
               </span>
@@ -87,7 +92,7 @@
               <!-- font-color should be GREEN -->
                听课人数：{{ val.ListeningNum }}
                </span>
-=======
+<!--=======-->
               <p>
                 教室号：{{ val.Classroom }}
                 玩手机人数：{{ val.PlayingNum }}
@@ -108,7 +113,7 @@
                 <!-- font-color should be GREEN -->
                 {{ val.ListeningNum }}
               </p>
->>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
+<!--&gt;>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2-->
             </div>
             <div class="link-top" />
           </div>
@@ -117,14 +122,27 @@
     </div>
     <div class="camera">
       <dv-border-box-11 :title="courseName">
+        <div style="width: 94%;height:92%;position:absolute;top:5%;left:4%;">
+          <video
+            v-for="(videosrc) in checkList"
+            controls="controls"
+            v-bind:key="videosrc"
+            style="height:31%;width:31%;margin:1%;margin-bottom: 0.5%"></video>
+        </div>
         <!-- <span v-if="showPic" class="fapic">
           <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
         </span> -->
-<<<<<<< HEAD
-        <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">
-=======
-        <img :src="demoImg" alt="none">
->>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
+<!--<<<<<<< HEAD-->
+<!--        <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">-->
+<!--=======-->
+<!--        <img :src="demoImg" alt="none">-->
+<!--&gt;>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2-->
+<!--        <div-->
+<!--          style="width:30%;height:30%;background-color: #FFFFFF;position: absolute;top: 6%;left: 5%">-->
+<!--          &lt;!&ndash;          v-for="(videxsrc,index)in checkList"&ndash;&gt;-->
+<!--          &lt;!&ndash;          v-bind:key="index">&ndash;&gt;-->
+<!--          <video :src="videxsrc" controls="controls" style="height: 100%;width: 100%"></video>-->
+<!--        </div>-->
       </dv-border-box-11>
     </div>
   </div>
@@ -240,7 +258,11 @@ export default {
       )
       this.analyseResults = response.data.data
     },
-
+    // 获取表格内容(教室号等)
+    getDetails(row) {
+      console.log(row.className)
+      this.checkList.push(row.className)
+    },
     cellStyle(row) { // 根据显示颜色
       if (row.column.label === '监控设备' && row.row.camera === '在线') {
         return 'color:#25f52b'
@@ -301,9 +323,9 @@ export default {
   height: 300px;
   /*margin-left: 50px;*/
 }
-<<<<<<< HEAD
+/*<<<<<<< HEAD*/
 
-=======
+/*=======*/
 .text {
   width: 100%;
   color: #eef4f9;
