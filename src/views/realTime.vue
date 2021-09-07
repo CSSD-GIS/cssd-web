@@ -12,7 +12,7 @@
           height="80%"
           :cell-style="cellStyle"
           align="center"
-          :data="courseData"
+          :data="coursesData"
           tooltip-effect="dark"
           style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
         >
@@ -35,7 +35,7 @@
           <el-table-column
             v-model="checked"
             type="selection"
-            width="55"
+            width="50"
             prop="show"
             label="显示"
           />
@@ -49,7 +49,7 @@
           width: 200px;
           height: 30px;
           font-size: 22px;
-          margin-left: 20%;
+          margin-left: 30%;
           color: #e4e4e4fc;
           overflow: hidden;
         "
@@ -67,6 +67,7 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
+<<<<<<< HEAD
               <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
               {{ val.Classroom }}
                </span>
@@ -86,6 +87,28 @@
               <!-- font-color should be GREEN -->
                听课人数：{{ val.ListeningNum }}
                </span>
+=======
+              <p>
+                教室号：{{ val.Classroom }}
+                玩手机人数：{{ val.PlayingNum }}
+                睡觉人数：{{ val.SleepingNum }}
+              </p>
+
+              <p>
+                <!-- font-color should be RED. -->
+                {{ val.PlayingNum }}
+              </p>
+
+              <p>
+                <!-- font-color should be YELLOW -->
+                {{ val.WritingNum }}
+              </p>
+
+              <p>
+                <!-- font-color should be GREEN -->
+                {{ val.ListeningNum }}
+              </p>
+>>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
             </div>
             <div class="link-top" />
           </div>
@@ -93,11 +116,15 @@
       </dv-border-box-8>
     </div>
     <div class="camera">
-      <dv-border-box-11 :title='courseName'>
+      <dv-border-box-11 :title="courseName">
         <!-- <span v-if="showPic" class="fapic">
           <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
         </span> -->
+<<<<<<< HEAD
         <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">
+=======
+        <img :src="demoImg" alt="none">
+>>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
       </dv-border-box-11>
     </div>
   </div>
@@ -105,106 +132,15 @@
 <script>
 const classval = []
 const items = {}
-import config from '@/assets/config'
+// import config from '@/assets/config'
 import axios from 'axios'
 import ip from '@/assets/ip'
-// 一层数据
-const items1 = config.north.front.floor1
-const arr1 = []
-const array1 = []
-for (const i in items1) {
-  arr1.push(items1[i])
-}
-
-// 用   value   label将数据分开
-for (const i in items1) {
-  const obj = {
-    value: items1[i],
-    label: i
-  }
-  array1.push(obj)
-}
-
-// 二层数据
-const items2 = config.north.front.floor2
-const arr2 = []
-const array2 = []
-for (const i in items2) {
-  arr2.push(items2[i])
-}
-// 用 value   label将数据分开
-for (const i in items2) {
-  const obj = {
-    value: items2[i],
-    label: i
-  }
-  array2.push(obj)
-}
-// 三层数据
-const items3 = config.north.front.floor3
-const arr3 = []
-const array3 = []
-for (const i in items3) {
-  arr3.push(items3[i])
-}
-// 用   value   label将数据分开
-for (const i in items3) {
-  const obj = {
-    value: items3[i],
-    label: i
-  }
-  array3.push(obj)
-}
-// 四层数据
-const items4 = config.north.front.floor4
-const arr4 = []
-const array4 = []
-for (const i in items4) {
-  arr4.push(items4[i])
-}
-// 用   value   label将数据分开
-for (var i in items4) {
-  const obj = {
-    value: items4[i],
-    label: i
-  }
-  array4.push(obj)
-}
-// 五层数据
-const items5 = config.north.front.floor5
-const arr5 = []
-const array5 = []
-for (const i in items5) {
-  arr5.push(items5[i])
-}
-// 用   value   label将数据分开
-for (const i in items5) {
-  const obj = {
-    value: items5[i],
-    label: i
-  }
-  array5.push(obj)
-}
-// 六层数据
-const items6 = config.north.front.floor6
-const arr6 = []
-const array6 = []
-for (const i in items6) {
-  arr6.push(items6[i])
-}
-// 用   value   label将数据分开
-for (const i in items6) {
-  const obj = {
-    value: items6[i],
-    label: i
-  }
-  array6.push(obj)
-}
 
 export default {
   name: 'FloorOne',
   data() {
     return {
+      demoImg: `${ip.cssd_trans}/images/demo1.jpg`,
       analyseResults: [],
       checked: true,
       showPic: false,
@@ -222,7 +158,7 @@ export default {
       colleges: ['信息工程学院', '应急管理学院'],
       courses: ['Python程序设计', 'C语言程序设计', '思想道德修养与法律基础', '大学英语1', '大学语文', '网络工程专业导论', '自然灾害概论'],
       courseName: 'Python程序设计',
-      courseData: []
+      coursesData: []
     }
   },
   // 监听路由，实现组件复用
@@ -243,8 +179,7 @@ export default {
     console.log('fuck.')
     this.getHealthInfo()
     this.getResults()
-    this.getFloorData()
-    this.getCourseData()
+    this.getCoursesData()
   },
   created() {
     this.handleParmes()
@@ -270,15 +205,8 @@ export default {
   },
 
   methods: {
-    // 获取JSON文件中的楼层数据
-    getFloorData() {
-      for (let i = 1; i < 7; i++) {
-        const data = `config.north.front.floor${i}`
-        this.floorData.push(data)
-      }
-    },
-
-    async getCourseData() {
+    // 左上角显示信息数据获取
+    async getCoursesData() {
       const response = await axios.get(`${ip.cssd_trans}/api/v1/getCourseData`)
       const courseInfo = response.data.data
       for (const item of courseInfo) {
@@ -286,10 +214,12 @@ export default {
         data['courseName'] = item.CourseName
         data['courseRoom'] = item.CourseRoom
         data['camera'] = '在线'
-        this.courseData.push(data)
+        this.coursesData.push(data)
       }
       console.log(this.courseData)
     },
+
+    // 监控设备在线数据获取
     async getHealthInfo() {
       const form = new FormData()
       form.append('classrooms', 'N111,N112')
@@ -302,6 +232,7 @@ export default {
       console.log(response.data.data)
     },
 
+    // 左下角实时分析结果数据获取
     async getResults() {
       const classrooms = 'N111,N112,N113'
       const response = await axios.get(
@@ -316,7 +247,7 @@ export default {
       } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
         return 'color:#ff1111'
       }
-    },
+    }
     // 路由参数判断
     // handleParmes() {
     //   const nums = this.$route.query.type
@@ -329,13 +260,6 @@ export default {
     //     }
     //   }
     // },
-    handleChange(v) {
-      // console.log(v);    打印出来为一个数组，第二个值为URL
-      this.$alert(v[1], '标题名称', {
-        confirmButtonText: '确定'
-      })
-    }
-
   }
 }
 </script>
@@ -377,7 +301,22 @@ export default {
   height: 300px;
   /*margin-left: 50px;*/
 }
+<<<<<<< HEAD
 
+=======
+.text {
+  width: 100%;
+  color: #eef4f9;
+  font-family: "楷体", "楷体_GB2312";
+  padding: 10px;
+  height: 20px;
+  font-size: 25px;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+>>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
 .fapic {
   min-width: 400px;
   display: inherit;
