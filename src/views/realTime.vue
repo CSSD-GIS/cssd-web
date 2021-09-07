@@ -42,8 +42,7 @@
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8
-        class="outbox"
-        style="height: 450px; overflow: hidden; margin-top: 50px"
+        class="dv-border-box-8"
       >
         <dv-decoration-7
           style="
@@ -68,14 +67,25 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
+              <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
               {{ val.Classroom }}
+               </span>
+               <span class="lineTwo">
               <!-- font-color should be RED. -->
-              {{ val.PlayingNum }}
-              {{ val.SleepingNum }}
+              <span class="className" style="width:30px height:10px">
+              课程名称：C语言程序设计
+              </span>
+              <span class="badNum" style="display:block;margin-left:122px">
+              玩游戏人数：{{ val.PlayingNum }}
+              睡觉人数：{{ val.SleepingNum }}
+              </span>
+               </span>
+               <span class="goodNum" style="display:block;margin-left:122px">
               <!-- font-color should be YELLOW -->
-              {{ val.WritingNum }}
+               做笔记人数：{{ val.WritingNum }}
               <!-- font-color should be GREEN -->
-              {{ val.ListeningNum }}
+               听课人数：{{ val.ListeningNum }}
+               </span>
             </div>
             <div class="link-top" />
           </div>
@@ -87,7 +97,7 @@
         <!-- <span v-if="showPic" class="fapic">
           <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
         </span> -->
-        <img src="http://localhost:8082/images/demo.png" alt="none">
+        <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">
       </dv-border-box-11>
     </div>
   </div>
@@ -339,6 +349,19 @@ export default {
   position: absolute;
   top: 10%;
 }
+.imgfix{
+  margin-top: 65px;
+  margin-left: 30px;
+  width: 96%;
+  height: 90%;
+}
+.dv-border-box-8{
+  height: 485px !important;
+  overflow: hidden;
+  margin-top: 50px;
+  width:100% !important
+
+}
 .camera{
   position: absolute;
   left:25%;
@@ -349,30 +372,12 @@ export default {
 .camera dv-border-box-11 {
   z-index: 999;
 }
-.camera img {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  width: 99%;
-  height: 95%;
-}
 .content1 {
   margin-top: 30px;
   height: 300px;
   /*margin-left: 50px;*/
 }
-.text {
-  width: 100%;
-  color: #eef4f9;
-  font-family: "楷体", "楷体_GB2312";
-  padding: 10px;
-  height: 20px;
-  font-size: 25px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-bottom: 5px;
-}
+
 .fapic {
   min-width: 400px;
   display: inherit;
@@ -435,7 +440,7 @@ export default {
   color: #eef4f9;
   font-family: "楷体", "楷体_GB2312";
   padding: 10px;
-  height: 20px;
+  height: 120px;
   font-size: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
