@@ -15,30 +15,41 @@
           :data="coursesData"
           tooltip-effect="dark"
           style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
+          @row-click="getDetails"
         >
           <el-table-column
             label="课程名称"
+            align="center"
             width="120"
             prop="courseName"
           />
           <el-table-column
             label="教室号"
             width="100"
+            align="center"
             prop="courseRoom"
           />
           <el-table-column
             label="监控设备"
             width="100"
+            align="center"
             prop="camera"
-            show-overflow-tooltip
           />
           <el-table-column
             v-model="checked"
             type="selection"
-            width="50"
+            align="center"
+            width="60"
             prop="show"
-            label="显示"
           />
+          <!--          <el-table-column-->
+          <!--            label="显示"-->
+          <!--            width="60"-->
+          <!--            align="center">-->
+          <!--            <template>-->
+          <!--              <el-checkbox></el-checkbox>-->
+          <!--            </template>-->
+          <!--          </el-table-column>-->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8
@@ -67,6 +78,24 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
+              <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
+                {{ val.Classroom }}
+              </span>
+              <span class="lineTwo">
+                <!-- font-color should be RED. -->
+                <span class="className" style="width:30px;height:10px">课程名称：C语言程序设计</span>
+                <span class="badNum" style="display:block;margin-left:122px">
+                  玩游戏人数：{{ val.PlayingNum }}
+                  睡觉人数：{{ val.SleepingNum }}
+                </span>
+              </span>
+              <span class="goodNum" style="display:block;margin-left:122px">
+                <!-- font-color should be YELLOW -->
+                做笔记人数：{{ val.WritingNum }}
+                <!-- font-color should be GREEN -->
+                听课人数：{{ val.ListeningNum }}
+              </span>
+              <!--=======-->
               <p>
                 教室号：{{ val.Classroom }}
                 玩手机人数：{{ val.PlayingNum }}
@@ -95,10 +124,14 @@
     </div>
     <div class="camera">
       <dv-border-box-11 :title="courseName">
-        <!-- <span v-if="showPic" class="fapic">
-          <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-        </span> -->
-        <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">
+        <div style="width: 94%;height:92%;position:absolute;top:5%;left:4%;">
+          <video
+            v-for="(videosrc) in checkList"
+            :key="videosrc"
+            controls="controls"
+            style="height:31%;width:31%;margin:1%;margin-bottom: 0.5%"
+          />
+        </div>
       </dv-border-box-11>
     </div>
   </div>
@@ -106,7 +139,6 @@
 <script>
 const classval = []
 const items = {}
-// import config from '@/assets/config'
 import axios from 'axios'
 import ip from '@/assets/ip'
 
@@ -214,7 +246,11 @@ export default {
       )
       this.analyseResults = response.data.data
     },
-
+    // 获取表格内容(教室号等)
+    getDetails(row) {
+      console.log(row.className)
+      this.checkList.push(row.className)
+    },
     cellStyle(row) { // 根据显示颜色
       if (row.column.label === '监控设备' && row.row.camera === '在线') {
         return 'color:#25f52b'

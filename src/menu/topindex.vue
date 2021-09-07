@@ -6,7 +6,7 @@
       </span>
       <span class="titleName">课堂学生状态检测系统</span>
       <router-link :to="{ path: '/views/detection', query: { id: 'one' } }">
-        <el-dropdown>
+        <el-dropdown placement="bottom">
           <span ref="echarType" class="realTime">
             检测画面<i class="el-icon-arrow-down el-icon--right" />
           </span>
@@ -48,7 +48,7 @@
         </el-dropdown>
       </router-link>
       <router-link :to="{ path: '/views/realTime', query: { id: 'realTime' } }">
-        <el-dropdown>
+        <el-dropdown placement="top">
           <span ref="echarType" class="realTime">
             实时画面<i class="el-icon-arrow-down el-icon--right" />
           </span>

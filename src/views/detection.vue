@@ -2,53 +2,61 @@
   <div class="view">
     <div class="room">
       <dv-border-box-11
-        class='dv-border-box-11'
-        :title='floor'
+        class="dv-border-box-11"
+        :title="collegeName"
         style="width: 100%;
-        height: 100%">
+        height: 100%"
+      >
         <el-table
+          @row-click="getDetails"
           ref="multipleTable"
           height="80%"
-          :cell-style=cellStyle
+          :cell-style="cellStyle"
           align="center"
-          :data="showPushData"
+          :data="coursesData"
           tooltip-effect="dark"
-          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF">
+          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
+        >
           <el-table-column
-            label="监控设备名称"
-            width="110"
-            prop="cameraid">
-          </el-table-column>
+            label="课程名称"
+            width="120"
+            prop="courseName"
+          />
           <el-table-column
-            prop="source"
-            label="课程"
-            width="120">
-          </el-table-column>
+            label="教室号"
+            width="100"
+            prop="courseRoom"
+          />
           <el-table-column
-            prop="status"
-            label="状态"
-            width="80"
-            show-overflow-tooltip>
-          </el-table-column>
+            label="监控设备"
+            width="100"
+            prop="camera"
+          />
           <el-table-column
+            v-model="checked"
             type="selection"
-            width="55"
+            width="60"
             prop="show"
-            label="显示"
-            v-model="checked">
-          </el-table-column>
+          />
+          <!--          <el-table-column-->
+          <!--            label="显示"-->
+          <!--            width="60"-->
+          <!--            align="center">-->
+          <!--            <template>-->
+          <!--              <el-checkbox></el-checkbox>-->
+          <!--            </template>-->
+          <!--          </el-table-column>-->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8
-        class="outbox"
-        style="height: 450px; overflow: hidden; margin-top: 50px"
+        class="dv-border-box-8"
       >
         <dv-decoration-7
           style="
           width: 200px;
           height: 30px;
           font-size: 22px;
-          margin-left: 20%;
+          margin-left: 30%;
           color: #e4e4e4fc;
           overflow: hidden;
         "
@@ -66,14 +74,46 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
-              {{ val.Classroom }}
-              <!-- font-color should be RED. -->
-              {{ val.PlayingNum }}
-              {{ val.SleepingNum }}
+              <!--<<<<<<< HEAD-->
+              <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
+                {{ val.Classroom }}
+              </span>
+              <span class="lineTwo">
+                <!-- font-color should be RED. -->
+                <span class="className" style="width:30px;height:10px">课程名称：C语言程序设计</span>
+                <span class="badNum" style="display:block;margin-left:122px">
+              玩游戏人数：{{ val.PlayingNum }}
+              睡觉人数：{{ val.SleepingNum }}
+              </span>
+               </span>
+              <span class="goodNum" style="display:block;margin-left:122px">
               <!-- font-color should be YELLOW -->
-              {{ val.WritingNum }}
-              <!-- font-color should be GREEN -->
-              {{ val.ListeningNum }}
+               做笔记人数：{{ val.WritingNum }}
+                <!-- font-color should be GREEN -->
+               听课人数：{{ val.ListeningNum }}
+               </span>
+              <!--=======-->
+              <p>
+                教室号：{{ val.Classroom }}
+                玩手机人数：{{ val.PlayingNum }}
+                睡觉人数：{{ val.SleepingNum }}
+              </p>
+
+              <p>
+                <!-- font-color should be RED. -->
+                {{ val.PlayingNum }}
+              </p>
+
+              <p>
+                <!-- font-color should be YELLOW -->
+                {{ val.WritingNum }}
+              </p>
+
+              <p>
+                <!-- font-color should be GREEN -->
+                {{ val.ListeningNum }}
+              </p>
+              <!--&gt;>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2-->
             </div>
             <div class="link-top" />
           </div>
@@ -81,10 +121,28 @@
       </dv-border-box-8>
     </div>
     <div class="camera">
-      <dv-border-box-11>
-        <span v-if="showPic" class="fapic">
-      <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-    </span>
+      <dv-border-box-11 :title="courseName">
+        <div style="width: 94%;height:92%;position:absolute;top:5%;left:4%;">
+          <video
+            v-for="(videosrc) in checkList"
+            controls="controls"
+            v-bind:key="videosrc"
+            style="height:31%;width:31%;margin:1%;margin-bottom: 0.5%"></video>
+        </div>
+        <!-- <span v-if="showPic" class="fapic">
+          <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
+        </span> -->
+        <!--<<<<<<< HEAD-->
+        <!--        <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">-->
+        <!--=======-->
+        <!--        <img :src="demoImg" alt="none">-->
+        <!--&gt;>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2-->
+        <!--        <div-->
+        <!--          style="width:30%;height:30%;background-color: #FFFFFF;position: absolute;top: 6%;left: 5%">-->
+        <!--          &lt;!&ndash;          v-for="(videxsrc,index)in checkList"&ndash;&gt;-->
+        <!--          &lt;!&ndash;          v-bind:key="index">&ndash;&gt;-->
+        <!--          <video :src="videxsrc" controls="controls" style="height: 100%;width: 100%"></video>-->
+        <!--        </div>-->
       </dv-border-box-11>
     </div>
   </div>
@@ -92,176 +150,46 @@
 <script>
 const classval = []
 const items = {}
-import config from '@/assets/config'
+// import config from '@/assets/config'
 import axios from 'axios'
 import ip from '@/assets/ip'
-// 一层数据
-const items1 = config.north.front.floor1
-const arr1 = []
-const array1 = []
-for (const i in items1) {
-  arr1.push(items1[i])
-}
-
-// 用   value   label将数据分开
-for (const i in items1) {
-  const obj = {
-    value: items1[i],
-    label: i
-  }
-  array1.push(obj)
-}
-
-// 二层数据
-const items2 = config.north.front.floor2
-const arr2 = []
-const array2 = []
-for (const i in items2) {
-  arr2.push(items2[i])
-}
-// 用 value   label将数据分开
-for (const i in items2) {
-  const obj = {
-    value: items2[i],
-    label: i
-  }
-  array2.push(obj)
-}
-// 三层数据
-const items3 = config.north.front.floor3
-const arr3 = []
-const array3 = []
-for (const i in items3) {
-  arr3.push(items3[i])
-}
-// 用   value   label将数据分开
-for (const i in items3) {
-  const obj = {
-    value: items3[i],
-    label: i
-  }
-  array3.push(obj)
-}
-// 四层数据
-const items4 = config.north.front.floor4
-const arr4 = []
-const array4 = []
-for (const i in items4) {
-  arr4.push(items4[i])
-}
-// 用   value   label将数据分开
-for (var i in items4) {
-  const obj = {
-    value: items4[i],
-    label: i
-  }
-  array4.push(obj)
-}
-// 五层数据
-const items5 = config.north.front.floor5
-const arr5 = []
-const array5 = []
-for (const i in items5) {
-  arr5.push(items5[i])
-}
-// 用   value   label将数据分开
-for (const i in items5) {
-  const obj = {
-    value: items5[i],
-    label: i
-  }
-  array5.push(obj)
-}
-// 六层数据
-const items6 = config.north.front.floor6
-const arr6 = []
-const array6 = []
-for (const i in items6) {
-  arr6.push(items6[i])
-}
-// 用   value   label将数据分开
-for (const i in items6) {
-  const obj = {
-    value: items6[i],
-    label: i
-  }
-  array6.push(obj)
-}
 
 export default {
   name: 'FloorOne',
   data() {
     return {
+      demoImg: `${ip.cssd_trans}/images/demo1.jpg`,
       analyseResults: [],
       checked: true,
       showPic: false,
-      textbook: ['在猜数,估数,数数活动的过程在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程中培', '在猜数,估数,数数活动的过程', '建立计数单位“千”的概念会正', '建立计数单位“千”的概', '建立计数单位“千”的概念会正确地读', '支持学生学习事项顺利完成', '支持学生学习事项顺利完成'],
       showPushData: [],
       floor: '',
-      floorOne: '天仪楼一层',
-      floorTwo: '天仪楼二层',
-      floorThree: '天仪楼三层',
-      floorFour: '天仪楼四层',
-      floorFive: '天仪楼五层',
-      floorSix: '天仪楼六层',
+      floorName: '',
       checkAll: false,
       classval,
       checkList: [],
       items,
       num: 1,
-      statusoff: '离线',
-      status: '在线',
       img: '',
-      items1: config.north.front.floor1,
-      items2: config.north.front.floor2,
-      items3: config.north.front.floor3,
-      items4: config.north.front.floor4,
-      items5: config.north.front.floor5,
-      items6: config.north.front.floor6
+      floorData: [],
+      collegeName: '信息工程学院',
+      colleges: ['信息工程学院', '应急管理学院'],
+      courses: ['Python程序设计', 'C语言程序设计', '思想道德修养与法律基础', '大学英语1', '大学语文', '网络工程专业导论', '自然灾害概论'],
+      courseName: 'Python程序设计',
+      coursesData: []
     }
   },
   // 监听路由，实现组件复用
   watch: {
 
     $route(to, from) {
-      const nums = this.$route.query.type
-      if (nums === 'one') {
-        this.items = this.items1
-        this.showPic = true
-        this.floor = this.floorOne
-        console.log(this.floor)
-      } else if (nums === 'two') {
-        this.items = this.items2
-        this.showPic = true
-        this.floor = this.floorTwo
-      } else if (nums === 'three') {
-        this.items = this.items3
-        this.showPic = true
-        this.floor = this.floorThree
-      } else if (nums === 'four') {
-        this.items = this.items4
-        this.showPic = true
-        this.floor = this.floorFour
-      } else if (nums === 'five') {
-        this.items = this.items5
-        this.showPic = true
-        this.floor = this.floorFive
-      } else if (nums === 'six') {
-        this.items = this.items6
-        this.showPic = true
-        this.floor = this.floorSix
-      } else {
-        this.items = null
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: (action) => {
-            this.$message({
-              type: 'info',
-              message: `已确定`
-            })
-          }
-        })
+      const nums = this.$route.query.id
+      for (let i = 0; i < 6; i++) {
+        if (nums === i) {
+          this.showPIc = true
+          this.collegeName = this.college[i]
+          break
+        }
       }
     }
   },
@@ -269,6 +197,7 @@ export default {
     console.log('fuck.')
     this.getHealthInfo()
     this.getResults()
+    this.getCoursesData()
   },
   created() {
     this.handleParmes()
@@ -280,20 +209,35 @@ export default {
       console.log(room)
       const data = {}
       data['cameraid'] = room
-      data['source'] = '数据结构'
-      const code = -1
-      if (code === -1) {
-        data['status'] = '离线'
+      if (i === 3) {
+        data['status'] = 'offline'
       } else {
-        data['status'] = '在线'
+        data['status'] = 'online'
       }
+      data['source'] = this.courses[i]
       indexPushData.push(data)
     }
     console.log('--------------------------')
     console.log(indexPushData)
     this.showPushData = indexPushData
   },
+
   methods: {
+    // 左上角显示信息数据获取
+    async getCoursesData() {
+      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCourseData`)
+      const courseInfo = response.data.data
+      for (const item of courseInfo) {
+        const data = {}
+        data['courseName'] = item.CourseName
+        data['courseRoom'] = item.CourseRoom
+        data['camera'] = '在线'
+        this.coursesData.push(data)
+      }
+      console.log(this.courseData)
+    },
+
+    // 监控设备在线数据获取
     async getHealthInfo() {
       const form = new FormData()
       form.append('classrooms', 'N111,N112')
@@ -305,6 +249,8 @@ export default {
       })
       console.log(response.data.data)
     },
+
+    // 左下角实时分析结果数据获取
     async getResults() {
       const classrooms = 'N111,N112,N113'
       const response = await axios.get(
@@ -312,62 +258,30 @@ export default {
       )
       this.analyseResults = response.data.data
     },
+    // 获取表格内容(教室号等)
+    getDetails(row) {
+      console.log(row.className)
+      this.checkList.push(row.className)
+    },
     cellStyle(row) { // 根据显示颜色
-      if (row.column.label === '状态' && row.row.status === '在线') {
-        return 'color:green '
-      } else if (row.column.label === '状态' && row.row.status === '离线') {
-        return 'color:red'
+      if (row.column.label === '监控设备' && row.row.camera === '在线') {
+        return 'color:#25f52b'
+      } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
+        return 'color:#ff1111'
       }
-    },
-    // 路由参数判断
-    handleParmes() {
-      const nums = this.$route.query.type
-      if (nums === 'one') {
-        this.items = this.items1
-        this.showPic = true
-        this.floor = this.floorOne
-        console.log(this.floor)
-      } else if (nums === 'two') {
-        this.items = this.items2
-        this.showPic = true
-        this.floor = this.floorTwo
-      } else if (nums === 'three') {
-        this.items = this.items3
-        this.showPic = true
-        this.floor = this.floorThree
-      } else if (nums === 'four') {
-        this.items = this.items4
-        this.showPic = true
-        this.floor = this.floorFour
-      } else if (nums === 'five') {
-        this.items = this.items5
-        this.showPic = true
-        this.floor = this.floorFive
-      } else if (nums === 'six') {
-        this.items = this.items6
-        this.showPic = true
-        this.floor = this.floorSix
-      } else {
-        this.items = null
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: '已确定'
-            })
-          }
-        })
-      }
-    },
-    handleChange(v) {
-      // console.log(v);    打印出来为一个数组，第二个值为URL
-      this.$alert(v[1], '标题名称', {
-        confirmButtonText: '确定'
-      })
     }
-
+    // 路由参数判断
+    // handleParmes() {
+    //   const nums = this.$route.query.type
+    //   for (let i = 0; i < 11; i++) {
+    //     if (nums === this.floorNum[i]) {
+    //       this.showPIc = true
+    //       this.floor = this.college[i]
+    //       this.items = this.floorData[i]
+    //       break
+    //     }
+    //   }
+    // },
   }
 }
 </script>
@@ -381,6 +295,19 @@ export default {
   position: absolute;
   top: 10%;
 }
+.imgfix{
+  margin-top: 65px;
+  margin-left: 30px;
+  width: 96%;
+  height: 90%;
+}
+.dv-border-box-8{
+  height: 485px !important;
+  overflow: hidden;
+  margin-top: 50px;
+  width:100% !important
+
+}
 .camera{
   position: absolute;
   left:25%;
@@ -388,11 +315,17 @@ export default {
   width: 75%;
   height: 90%;
 }
+.camera dv-border-box-11 {
+  z-index: 999;
+}
 .content1 {
   margin-top: 30px;
   height: 300px;
   /*margin-left: 50px;*/
 }
+/*<<<<<<< HEAD*/
+
+/*=======*/
 .text {
   width: 100%;
   color: #eef4f9;
@@ -401,18 +334,19 @@ export default {
   height: 20px;
   font-size: 25px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   white-space: nowrap;
   margin-bottom: 5px;
 }
-.fapic {
-  min-width: 400px;
-  display: inherit;
-  overflow: hidden;
-  float: left;
-  width: 85%;
-  height: 100%;
-}
+>>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2
+         .fapic {
+           min-width: 400px;
+           display: inherit;
+           overflow: hidden;
+           float: left;
+           width: 85%;
+           height: 100%;
+         }
 .el-table,
 .el-table__expanded-cell {
   background-color: transparent !important;
@@ -467,7 +401,7 @@ export default {
   color: #eef4f9;
   font-family: "楷体", "楷体_GB2312";
   padding: 10px;
-  height: 20px;
+  height: 120px;
   font-size: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
