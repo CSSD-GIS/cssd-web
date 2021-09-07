@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-     <!-- <div class="pagination"> -->
+    <!-- <div class="pagination"> -->
 
     <!-- </div> -->
     <el-table
@@ -24,19 +24,18 @@
     </el-table>
     <div id="myChart1" class="chart1" />
     <div id="myChart2" class="chart2" />
-    <div   class="pagination">
-     <el-pagination
-            prev-text="上一页"
-            next-text="下一页"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]"
-            :page-size="pagesize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData.length"
-          >
-          </el-pagination>
+    <div class="pagination">
+      <el-pagination
+        prev-text="上一页"
+        next-text="下一页"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="tableData.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
@@ -233,7 +232,7 @@ export default {
             }
           },
           type: 'pie',
-          radius: '70%',
+          radius: '65%',
           selectedMode: 'single',
           selectedOffset: 10,
           clockwise: true,
