@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Topmenu from '@/menu/topindex.vue'
 import Login from '@/views/login/index.vue'
-import Detection from '@/views/detection.vue'
+// import Detection from '@/views/detection.vue'
 import RealTime from '@/views/realTime.vue'
 import Show from '@/views/resultShow.vue'
 Vue.use(Router)
@@ -37,16 +37,17 @@ const routes = [{
       icon: 'el-icon-user-solid',
       hasSubMenu: true
     }
-  }, {
-    path: '/views/detection',
-    name: 'detection',
-    component: Detection,
-    meta: {
-      title: '检测画面',
-      icon: 'el-icon-user-solid',
-      hasSubMenu: true
-    }
   },
+  // {
+  //   path: '/views/detection',
+  //   name: 'detection',
+  //   component: Detection,
+  //   meta: {
+  //     title: '检测画面',
+  //     icon: 'el-icon-user-solid',
+  //     hasSubMenu: true
+  //   }
+  // },
   {
     path: '/views/show',
     name: 'Show',
