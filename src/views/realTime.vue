@@ -58,7 +58,7 @@
           on-mouse-out="this.start()"
           on-mouse-over="this.stop()"
         >
-          <div v-for="val in analyseResults" :key="val" class="text">
+          <div v-for="val in analyseResults" :key="val.Classroom" class="text">
             <div id="analyse_results">
               <div
                 class="classId"
@@ -101,7 +101,7 @@
       <dv-border-box-11 :title="courseName">
         <div class="videoBox">
           <video
-            v-for="(videosrc) in checkList"
+            v-for="videosrc in checkList"
             :key="videosrc"
             class="videos"
             controls="controls"
@@ -157,49 +157,61 @@ export default {
   },
 
   mounted() {
-    // 以下调用顺序不可更改
-    this.getCoursesData()
-    this.getHealthInfo()
-    this.getResults()
+    this.getData()
   },
 
   methods: {
-    // 左上角显示信息数据获取
-    async getCoursesData() {
-      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
-      const courseInfo = response.data.data
-      for (const item of courseInfo) {
+    async getData() {
+      // 课程数据获取
+      const coursesResponse = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
+      const coursesInfo = coursesResponse.data.data
+
+      // 获取所上课程的教室号
+      const classesList = []
+      for (const course of coursesInfo) {
+        classesList.push(course.CourseRoom)
+      }
+      const classrooms = classesList.join(',')
+
+      // 根据所上课程教室号获取监控设备在线信息
+      const cameraInfo = await this.getHealthInfo(classrooms)
+      const cameraData = {}
+      for (const camera of cameraInfo) {
+        cameraData[camera.className] = camera.isOnline
+      }
+
+      // 根据所上课程教室号获取实时分析结果数据
+      this.analyseResults = await this.getResults(classrooms)
+
+      // 左上角显示数据处理
+      for (const course of coursesInfo) {
         const data = {}
-        data['courseName'] = item.CourseName
-        data['courseRoom'] = item.CourseRoom
-        data['camera'] = '在线'
+        data['courseName'] = course.CourseName
+        data['courseRoom'] = course.CourseRoom
+        data['camera'] = cameraData[course.CourseRoom]
         this.coursesData.push(data)
       }
     },
 
     // 监控设备在线数据获取
-    async getHealthInfo() {
-      for (const item of this.coursesData) {
-        console.log(item.courseRoom)
-      }
+    async getHealthInfo(classrooms) {
       const form = new FormData()
-      form.append('classrooms', 'N111,N112')
+      form.append('classrooms', classrooms)
 
       const response = await axios({
         method: 'post',
         url: `${ip.cssd_trans}/api/v1/healthcheck`,
         data: form
       })
-      console.log(response.data.data)
+      return response.data.data
     },
 
-    // 左下角实时分析结果数据获取
-    async getResults() {
-      const classrooms = 'N111,N112,N113'
+    // 实时分析结果数据获取
+    async getResults(classrooms) {
       const response = await axios.get(
         `${ip.cssd_trans}/api/v1/getResults?classrooms=${classrooms}`
       )
-      this.analyseResults = response.data.data
+      return response.data.data
     },
 
     // 获取表格内容(教室号等)
