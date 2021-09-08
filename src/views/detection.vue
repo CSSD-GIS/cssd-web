@@ -13,23 +13,32 @@
           :data="coursesData"
           tooltip-effect="dark"
           class="elTable"
-          @row-click="getDetails"
+          @select="itemHandleSelectionChange"
         >
-          >
-          <el-table-column label="课程名称" width="120" prop="courseName" />
-          <el-table-column label="教室号" width="100" prop="courseRoom" />
+          <el-table-column
+            label="课程名称"
+            align="center"
+            width="120"
+            prop="courseName"
+          />
+          <el-table-column
+            label="教室号"
+            width="100"
+            align="center"
+            prop="courseRoom"
+          />
           <el-table-column
             label="监控设备"
             width="100"
+            align="center"
             prop="camera"
-            show-overflow-tooltip
           />
           <el-table-column
             v-model="checked"
             type="selection"
-            width="50"
+            align="center"
+            width="60"
             prop="show"
-            label="显示"
           />
         </el-table>
       </dv-border-box-11>
@@ -37,7 +46,7 @@
         <dv-decoration-7
           class="dv-decoration-7"
         >
-          >实时分析结果</dv-decoration-7>
+          实时分析结果</dv-decoration-7>
         <marquee
           class="content1"
           width="100%"
@@ -65,20 +74,20 @@
                     玩游戏人数：<span class="fontColor">{{ val.PlayingNum }}
                     </span>
                     睡觉人数：<span
-                      class="fontColor"
-                    >{{ val.SleepingNum }}
+                    class="fontColor"
+                  >{{ val.SleepingNum }}
                     </span>
                   </span>
                 </span>
                 <span class="goodNum">
                   做笔记人数：<span
-                    class="fontColor2"
-                  >{{ val.WritingNum }}
+                  class="fontColor2"
+                >{{ val.WritingNum }}
                   </span>
                   <!-- font-color should be GREEN -->
                   听课人数：<span
-                    class="fontColor3"
-                  >{{ val.ListeningNum }}
+                  class="fontColor3"
+                >{{ val.ListeningNum }}
                   </span>
                 </span>
               </div>
@@ -98,20 +107,6 @@
             controls="controls"
           />
         </div>
-        <!-- <span v-if="showPic" class="fapic">
-          <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-        </span> -->
-        <!--<<<<<<< HEAD-->
-        <!--        <img class="imgfix" src="http://172.17.130.212:8082/images/demo1.jpg" alt="none">-->
-        <!--=======-->
-        <!--        <img :src="demoImg" alt="none">-->
-        <!--&gt;>>>>>> 1f960f6c279000a1d81a8f6028b0fac5161336f2-->
-        <!--        <div-->
-        <!--          style="width:30%;height:30%;background-color: #FFFFFF;position: absolute;top: 6%;left: 5%">-->
-        <!--          &lt;!&ndash;          v-for="(videxsrc,index)in checkList"&ndash;&gt;-->
-        <!--          &lt;!&ndash;          v-bind:key="index">&ndash;&gt;-->
-        <!--          <video :src="videxsrc" controls="controls" style="height: 100%;width: 100%"></video>-->
-        <!--        </div>-->
       </dv-border-box-11>
     </div>
   </div>
@@ -119,19 +114,17 @@
 <script>
 const classval = []
 const items = {}
-// import config from '@/assets/config'
 import axios from 'axios'
 import ip from '@/assets/ip'
 
 export default {
-  name: 'FloorOne',
+  name: 'RealTime',
   data() {
     return {
       demoImg: `${ip.cssd_trans}/images/demo1.jpg`,
       analyseResults: [],
       checked: true,
       showPic: false,
-      showPushData: [],
       floor: '',
       floorName: '',
       checkAll: false,
@@ -150,7 +143,7 @@ export default {
   },
   // 监听路由，实现组件复用
   watch: {
-
+    // 学院之间切换
     $route(to, from) {
       const nums = this.$route.query.id
       for (let i = 0; i < 6; i++) {
@@ -162,39 +155,18 @@ export default {
       }
     }
   },
+
   mounted() {
-    console.log('fuck.')
+    // 以下调用顺序不可更改
+    this.getCoursesData()
     this.getHealthInfo()
     this.getResults()
-    this.getCoursesData()
-  },
-  created() {
-    this.handleParmes()
-    const indexPushData = []
-    const rooms = Object.keys(this.items)
-    console.log(rooms)
-    for (let i = 0; i < rooms.length; i++) {
-      const room = rooms[i]
-      console.log(room)
-      const data = {}
-      data['cameraid'] = room
-      if (i === 3) {
-        data['status'] = 'offline'
-      } else {
-        data['status'] = 'online'
-      }
-      data['source'] = this.courses[i]
-      indexPushData.push(data)
-    }
-    console.log('--------------------------')
-    console.log(indexPushData)
-    this.showPushData = indexPushData
   },
 
   methods: {
     // 左上角显示信息数据获取
     async getCoursesData() {
-      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCourseData`)
+      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
       const courseInfo = response.data.data
       for (const item of courseInfo) {
         const data = {}
@@ -203,11 +175,13 @@ export default {
         data['camera'] = '在线'
         this.coursesData.push(data)
       }
-      console.log(this.courseData)
     },
 
     // 监控设备在线数据获取
     async getHealthInfo() {
+      for (const item of this.coursesData) {
+        console.log(item.courseRoom)
+      }
       const form = new FormData()
       form.append('classrooms', 'N111,N112')
 
@@ -227,30 +201,25 @@ export default {
       )
       this.analyseResults = response.data.data
     },
+
     // 获取表格内容(教室号等)
-    getDetails(row) {
-      console.log(row.className)
-      this.checkList.push(row.className)
+    itemHandleSelectionChange(selection, row) {
+      const selected = selection.length && selection.indexOf(row) !== -1
+      if (selected === true) {
+        this.checkList.push(row.className)
+        console.log(this.checkList)
+      } else {
+        this.checkList.splice(this.checkList.indexOf(row.className), 1)
+      }
     },
-    cellStyle(row) { // 根据显示颜色
+    // 根据显示颜色
+    cellStyle(row) {
       if (row.column.label === '监控设备' && row.row.camera === '在线') {
         return 'color:#25f52b'
       } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
         return 'color:#ff1111'
       }
     }
-    // 路由参数判断
-    // handleParmes() {
-    //   const nums = this.$route.query.type
-    //   for (let i = 0; i < 11; i++) {
-    //     if (nums === this.floorNum[i]) {
-    //       this.showPIc = true
-    //       this.floor = this.college[i]
-    //       this.items = this.floorData[i]
-    //       break
-    //     }
-    //   }
-    // },
   }
 }
 </script>
@@ -279,11 +248,11 @@ export default {
   height: 90%;
 }
 .videoBox{
-width: 94%;
-height:92%;
-position:absolute;
-top:5%;
-left:4%
+  width: 94%;
+  height:92%;
+  position:absolute;
+  top:5%;
+  left:4%
 }
 .videos{
   height:31%;
@@ -322,30 +291,30 @@ left:4%
 
 }
 .className{
-width:30px;
- height:auto;
- margin-left: 15px
+  width:30px;
+  height:auto;
+  margin-left: 15px
 }
 .badNum{
-display: block;
- margin-left: 122px;
- height:28px
+  display: block;
+  margin-left: 122px;
+  height:28px
 }
 .fontColor{
-color: red;
- display: inline-block
+  color: red;
+  display: inline-block
 }
 .goodNum{
-display: block;
-margin-left: 122px
+  display: block;
+  margin-left: 122px
 }
 .fontColor2{
   color: yellow;
- display: inline-block
+  display: inline-block
 }
 .fontColor3{
-color: #25f52b;
-display: inline-block
+  color: #25f52b;
+  display: inline-block
 }
 .camera dv-border-box-11 {
   z-index: 999;
