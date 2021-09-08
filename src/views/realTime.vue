@@ -101,13 +101,7 @@
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
         <div class="videoBox">
-          <video
-            v-for="videosrc in checkList"
-            :key="videosrc"
-            :src="uri"
-            class="videos"
-            controls="controls"
-          />
+          <video id="video" controls="controls" />
         </div>
       </dv-border-box-11>
     </div>
@@ -118,6 +112,7 @@ const classval = []
 const items = {}
 import axios from 'axios'
 import ip from '@/assets/ip'
+// import Hls from '@/dist/hls'
 
 export default {
   name: 'RealTime',
@@ -171,6 +166,14 @@ export default {
     // setInterval(this.getData, 10000)
 
     this.getHlsIP('rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream')
+
+    // const video = document.getElementById('video')
+    // const videoSrc = 'http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8'
+    // if (Hls.isSupported()) {
+    //   const hls = new Hls()
+    //   hls.loadSource(videoSrc)
+    //   hls.attachMedia(video)
+    // }
   },
 
   methods: {
