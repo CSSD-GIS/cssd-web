@@ -69,7 +69,7 @@
               <div class="rightbox">
                 <span class="lineTwo">
                   <span class="className">
-                    课程名称：{{ classCourse[val.Classroom] }}
+                    {{ classCourse[val.Classroom] }}
                   </span>
                   <span class="badNum">
                     玩游戏人数：<span class="fontColor">{{ val.PlayingNum }}
@@ -317,7 +317,7 @@ left:4%
   color:red;
   width: 80px;
   height: 80px;
-  margin-left: 30px;
+  margin-left: 2px;
   font-size: 40px;
   float:left;
   padding-top: 20px;
@@ -329,13 +329,15 @@ left:4%
 
 }
 .className{
+  font-size: 30px;
 width:30px;
  height:auto;
  margin-left: 15px
 }
 .badNum{
-display: block;
- margin-left: 122px;
+margin-top: 5px;
+ display: block;
+ margin-left: 95px;
  height:28px
 }
 .fontColor{
@@ -344,7 +346,7 @@ color: red;
 }
 .goodNum{
 display: block;
-margin-left: 122px
+margin-left: 95px
 }
 .fontColor2{
   color: yellow;
@@ -431,4 +433,28 @@ display: inline-block
   white-space: nowrap;
   margin-bottom: 5px;
 }
-</style>
+.el-dropdown-menu a {
+    text-align: center;
+    margin-left: 11px;
+    display: block;
+}
+.el-dropdown-menu {
+    /* margin-right: 6px; */
+    margin-left: 82px !important;
+    position: absolute;
+    /* top: 0; */
+    /* left: 0; */
+    padding: 27px 0;
+    /* margin: 5px 0; */
+    background-color: #FFF;
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+}
+  .el-popper[x-placement^=bottom] .popper__arrow {
+		border-bottom-color: #1EBEF4 !important;
+		left: 50% !important;
+	}
+
+  </style>
