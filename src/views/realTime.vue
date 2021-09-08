@@ -104,6 +104,7 @@
           <video
             v-for="videosrc in checkList"
             :key="videosrc"
+            :src="uri"
             class="videos"
             controls="controls"
           />
@@ -131,6 +132,7 @@ export default {
       checkAll: false,
       classval,
       checkList: [],
+      uri: '',
       items,
       num: 1,
       img: '',
@@ -166,7 +168,9 @@ export default {
     }
 
     // 每10s刷新一次数据
-    setInterval(this.getData, 10000)
+    // setInterval(this.getData, 10000)
+
+    this.getHlsIP('rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream')
   },
 
   methods: {
@@ -192,6 +196,7 @@ export default {
       // 根据所上课程教室号获取实时分析结果数据
       this.analyseResults = await this.getResults()
 
+      this.getCameraIP()
       // 左上角显示数据处理
       this.coursesData = []
       for (const course of coursesInfo) {
@@ -214,7 +219,7 @@ export default {
         data: form
       })
       this.$message({
-        message: response.data.data,
+        message: response.data.data.data,
         type: 'success'
       })
     },
@@ -240,16 +245,41 @@ export default {
       return response.data.data
     },
 
+    async getCameraIP() {
+      const form = new FormData()
+      form.append('classrooms', this.classrooms)
+
+      const response = await axios({
+        method: 'post',
+        url: `${ip.cssd_trans}/api/v1/parse`,
+        data: form
+      })
+      console.log(response)
+    },
+
+    async getHlsIP(rtsp) {
+      const response = await axios({
+        method: 'post',
+        url: `${ip.rh}/start`,
+        data: {
+          'uri': rtsp
+        }
+      })
+      console.log('-------------------------')
+      console.log(response.data.uri)
+      this.uri = `${ip.rh}` + response.data.uri
+    },
+
     // 获取表格内容(教室号等)
     itemHandleSelectionChange(selection, row) {
       const selected = selection.length && selection.indexOf(row) !== -1
       if (selected === true) {
         this.checkList.push(row.className)
-        console.log(this.checkList)
       } else {
         this.checkList.splice(this.checkList.indexOf(row.className), 1)
       }
     },
+
     // 根据显示颜色
     cellStyle(row) {
       if (row.column.label === '监控设备' && row.row.camera === '在线') {
