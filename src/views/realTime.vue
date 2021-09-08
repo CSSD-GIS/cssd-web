@@ -13,7 +13,7 @@
           :data="coursesData"
           tooltip-effect="dark"
           class="elTable"
-          @row-click="getDetails"
+          @select="itemHandleSelectionChange"
         >
           <el-table-column
             label="课程名称"
@@ -215,11 +215,15 @@ export default {
     },
 
     // 获取表格内容(教室号等)
-    getDetails(row) {
-      console.log(row.className)
-      this.checkList.push(row.className)
+    itemHandleSelectionChange(selection, row) {
+      const selected = selection.length && selection.indexOf(row) !== -1
+      if (selected === true) {
+        this.checkList.push(row.className)
+        console.log(this.checkList)
+      } else {
+        this.checkList.splice(this.checkList.indexOf(row.className), 1)
+      }
     },
-
     // 根据显示颜色
     cellStyle(row) {
       if (row.column.label === '监控设备' && row.row.camera === '在线') {

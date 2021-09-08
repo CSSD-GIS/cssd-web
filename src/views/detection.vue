@@ -14,30 +14,33 @@
           align="center"
           :data="showPushData"
           tooltip-effect="dark"
-          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
+          class="elTable"
+          @select="itemHandleSelectionChange"
         >
           <el-table-column
-            label="监控设备名称"
-            width="110"
-            prop="cameraid"
-          />
-          <el-table-column
-            prop="source"
-            label="课程"
+            label="课程名称"
+            align="center"
             width="120"
+            prop="courseName"
           />
           <el-table-column
-            prop="status"
-            label="状态"
-            width="80"
-            show-overflow-tooltip
+            label="教室号"
+            width="100"
+            align="center"
+            prop="courseRoom"
+          />
+          <el-table-column
+            label="监控设备"
+            width="100"
+            align="center"
+            prop="camera"
           />
           <el-table-column
             v-model="checked"
             type="selection"
-            width="55"
+            align="center"
+            width="60"
             prop="show"
-            label="显示"
           />
         </el-table>
       </dv-border-box-11>
@@ -46,15 +49,9 @@
         style="height: 450px; overflow: hidden; margin-top: 50px"
       >
         <dv-decoration-7
-          style="
-          width: 200px;
-          height: 30px;
-          font-size: 22px;
-          margin-left: 20%;
-          color: #e4e4e4fc;
-          overflow: hidden;
-        "
-        >实时分析结果</dv-decoration-7>
+          class="dv-decoration-7"
+        >
+          实时分析结果</dv-decoration-7>
         <marquee
           class="content1"
           width="100%"
@@ -68,14 +65,37 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
-              {{ val.Classroom }}
-              <!-- font-color should be RED. -->
-              {{ val.PlayingNum }}
-              {{ val.SleepingNum }}
-              <!-- font-color should be YELLOW -->
-              {{ val.WritingNum }}
-              <!-- font-color should be GREEN -->
-              {{ val.ListeningNum }}
+              <div
+                class="classId"
+              >
+                {{ val.Classroom }}
+              </div>
+              <div class="rightbox">
+                <span class="lineTwo">
+                  <span class="className">
+                    课程名称：C语言程序设计
+                  </span>
+                  <span class="badNum">
+                    玩游戏人数：<span class="fontColor">{{ val.PlayingNum }}
+                    </span>
+                    睡觉人数：<span
+                      class="fontColor"
+                    >{{ val.SleepingNum }}
+                    </span>
+                  </span>
+                </span>
+                <span class="goodNum">
+                  做笔记人数：<span
+                    class="fontColor2"
+                  >{{ val.WritingNum }}
+                  </span>
+                  <!-- font-color should be GREEN -->
+                  听课人数：<span
+                    class="fontColor3"
+                  >{{ val.ListeningNum }}
+                  </span>
+                </span>
+              </div>
             </div>
             <div class="link-top" />
           </div>
@@ -83,10 +103,15 @@
       </dv-border-box-8>
     </div>
     <div class="camera">
-      <dv-border-box-11>
-        <span v-if="showPic" class="fapic">
-          <video v-for="(val, key) in checkList" :key="key+10" class="video" controls muted />
-        </span>
+      <dv-border-box-11 :title="courseName">
+        <div class="videoBox">
+          <video
+            v-for="(videosrc) in checkList"
+            :key="videosrc"
+            class="videos"
+            controls="controls"
+          />
+        </div>
       </dv-border-box-11>
     </div>
   </div>
@@ -94,7 +119,6 @@
 <script>
 const classval = []
 const items = {}
-import config from '@/assets/config'
 import axios from 'axios'
 import ip from '@/assets/ip'
 
@@ -121,18 +145,12 @@ export default {
       num: 1,
       statusoff: '离线',
       status: '在线',
-      img: '',
-      items1: config.north.front.floor1,
-      items2: config.north.front.floor2,
-      items3: config.north.front.floor3,
-      items4: config.north.front.floor4,
-      items5: config.north.front.floor5,
-      items6: config.north.front.floor6
+      img: ''
     }
   },
   // 监听路由，实现组件复用
   watch: {
-
+    // 学院之间切换
     $route(to, from) {
       const nums = this.$route.query.type
       if (nums === 'one') {
@@ -175,36 +193,32 @@ export default {
       }
     }
   },
+
   mounted() {
-    console.log('fuck.')
+    // 以下调用顺序不可更改
+    this.getCoursesData()
     this.getHealthInfo()
     this.getResults()
   },
-  created() {
-    this.handleParmes()
-    const indexPushData = []
-    const rooms = Object.keys(this.items)
-    console.log(rooms)
-    for (let i = 0; i < rooms.length; i++) {
-      const room = rooms[i]
-      console.log(room)
-      const data = {}
-      data['cameraid'] = room
-      data['source'] = '数据结构'
-      const code = -1
-      if (code === -1) {
-        data['status'] = '离线'
-      } else {
-        data['status'] = '在线'
-      }
-      indexPushData.push(data)
-    }
-    console.log('--------------------------')
-    console.log(indexPushData)
-    this.showPushData = indexPushData
-  },
   methods: {
+    // 左上角显示信息数据获取
+    async getCoursesData() {
+      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
+      const courseInfo = response.data.data
+      for (const item of courseInfo) {
+        const data = {}
+        data['courseName'] = item.CourseName
+        data['courseRoom'] = item.CourseRoom
+        data['camera'] = '在线'
+        this.coursesData.push(data)
+      }
+    },
+
+    // 监控设备在线数据获取
     async getHealthInfo() {
+      for (const item of this.coursesData) {
+        console.log(item.courseRoom)
+      }
       const form = new FormData()
       form.append('classrooms', 'N111,N112')
 
@@ -222,62 +236,25 @@ export default {
       )
       this.analyseResults = response.data.data
     },
-    cellStyle(row) { // 根据显示颜色
-      if (row.column.label === '状态' && row.row.status === '在线') {
-        return 'color:green '
-      } else if (row.column.label === '状态' && row.row.status === '离线') {
-        return 'color:red'
-      }
-    },
-    // 路由参数判断
-    handleParmes() {
-      const nums = this.$route.query.type
-      if (nums === 'one') {
-        this.items = this.items1
-        this.showPic = true
-        this.floor = this.floorOne
-        console.log(this.floor)
-      } else if (nums === 'two') {
-        this.items = this.items2
-        this.showPic = true
-        this.floor = this.floorTwo
-      } else if (nums === 'three') {
-        this.items = this.items3
-        this.showPic = true
-        this.floor = this.floorThree
-      } else if (nums === 'four') {
-        this.items = this.items4
-        this.showPic = true
-        this.floor = this.floorFour
-      } else if (nums === 'five') {
-        this.items = this.items5
-        this.showPic = true
-        this.floor = this.floorFive
-      } else if (nums === 'six') {
-        this.items = this.items6
-        this.showPic = true
-        this.floor = this.floorSix
-      } else {
-        this.items = null
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: '已确定'
-            })
-          }
-        })
-      }
-    },
-    handleChange(v) {
-      // console.log(v);    打印出来为一个数组，第二个值为URL
-      this.$alert(v[1], '标题名称', {
-        confirmButtonText: '确定'
-      })
-    }
 
+    // 获取表格内容(教室号等)
+    itemHandleSelectionChange(selection, row) {
+      const selected = selection.length && selection.indexOf(row) !== -1
+      if (selected === true) {
+        this.checkList.push(row.className)
+        console.log(this.checkList)
+      } else {
+        this.checkList.splice(this.checkList.indexOf(row.className), 1)
+      }
+    },
+    // 根据显示颜色
+    cellStyle(row) {
+      if (row.column.label === '监控设备' && row.row.camera === '在线') {
+        return 'color:#25f52b'
+      } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
+        return 'color:#ff1111'
+      }
+    }
   }
 }
 </script>
@@ -297,6 +274,78 @@ export default {
   top: 10%;
   width: 75%;
   height: 90%;
+}
+.videoBox{
+  width: 94%;
+  height:92%;
+  position:absolute;
+  top:5%;
+  left:4%
+}
+.videos{
+  height:31%;
+  width:31%;
+  margin:1%;
+  margin-bottom: 0.5%
+
+}
+.dv-decoration-7{
+  width: 200px !important;
+  height: 30px !important;
+  font-size: 22px;
+  margin-left: 30%;
+  color: #e4e4e4fc;
+  overflow: hidden;
+}
+.dv-border-box-8 {
+  height: 485px !important;
+  overflow: hidden;
+  margin-top: 50px;
+  width: 100% !important;
+}
+.classId{
+  color:red;
+  width: 80px;
+  height: 80px;
+  margin-left: 30px;
+  font-size: 40px;
+  float:left;
+  padding-top: 20px;
+  font-weight:bold
+}
+.rightbox{
+  width:400px;
+  margin-left:2px
+
+}
+.className{
+  width:30px;
+  height:auto;
+  margin-left: 15px
+}
+.badNum{
+  display: block;
+  margin-left: 122px;
+  height:28px
+}
+.fontColor{
+  color: red;
+  display: inline-block
+}
+.goodNum{
+  display: block;
+  margin-left: 122px
+}
+.fontColor2{
+  color: yellow;
+  display: inline-block
+}
+.fontColor3{
+  color: #25f52b;
+  display: inline-block
+}
+.camera dv-border-box-11 {
+  z-index: 999;
 }
 .content1 {
   margin-top: 30px;
