@@ -4,8 +4,6 @@
       <dv-border-box-11
         class="dv-border-box-11"
         :title="collegeName"
-        style="width: 100%;
-        height: 100%"
       >
         <el-table
           ref="multipleTable"
@@ -14,7 +12,7 @@
           align="center"
           :data="coursesData"
           tooltip-effect="dark"
-          style="width: 90%;position: relative;left: 5%;top:15%;color: #FFFFFF"
+          class="elTable"
           @row-click="getDetails"
         >
           <el-table-column
@@ -42,29 +40,13 @@
             width="60"
             prop="show"
           />
-          <!--          <el-table-column-->
-          <!--            label="显示"-->
-          <!--            width="60"-->
-          <!--            align="center">-->
-          <!--            <template>-->
-          <!--              <el-checkbox></el-checkbox>-->
-          <!--            </template>-->
-          <!--          </el-table-column>-->
         </el-table>
       </dv-border-box-11>
-      <dv-border-box-8
-        class="dv-border-box-8"
-      >
+      <dv-border-box-8 class="dv-border-box-8">
         <dv-decoration-7
-          style="
-          width: 200px;
-          height: 30px;
-          font-size: 22px;
-          margin-left: 30%;
-          color: #e4e4e4fc;
-          overflow: hidden;
-        "
-        >实时分析结果</dv-decoration-7>
+          class="dv-decoration-7"
+        >
+          实时分析结果</dv-decoration-7>
         <marquee
           class="content1"
           width="100%"
@@ -78,44 +60,37 @@
         >
           <div v-for="val in analyseResults" :key="val" class="text">
             <div id="analyse_results">
-              <span class="classId" style="width:80px;height:40px;margin-left:30px;font-size:35px;padding-top:30px">
+              <div
+                class="classId"
+              >
                 {{ val.Classroom }}
-              </span>
-              <span class="lineTwo">
-                <!-- font-color should be RED. -->
-                <span class="className" style="width:30px;height:10px">课程名称：C语言程序设计</span>
-                <span class="badNum" style="display:block;margin-left:122px">
-                  玩游戏人数：{{ val.PlayingNum }}
-                  睡觉人数：{{ val.SleepingNum }}
+              </div>
+              <div class="rightbox">
+                <span class="lineTwo">
+                  <span class="className">
+                    课程名称：C语言程序设计
+                  </span>
+                  <span class="badNum">
+                    玩游戏人数：<span class="fontColor">{{ val.PlayingNum }}
+                    </span>
+                    睡觉人数：<span
+                      class="fontColor"
+                    >{{ val.SleepingNum }}
+                    </span>
+                  </span>
                 </span>
-              </span>
-              <span class="goodNum" style="display:block;margin-left:122px">
-                <!-- font-color should be YELLOW -->
-                做笔记人数：{{ val.WritingNum }}
-                <!-- font-color should be GREEN -->
-                听课人数：{{ val.ListeningNum }}
-              </span>
-              <!--=======-->
-              <p>
-                教室号：{{ val.Classroom }}
-                玩手机人数：{{ val.PlayingNum }}
-                睡觉人数：{{ val.SleepingNum }}
-              </p>
-
-              <p>
-                <!-- font-color should be RED. -->
-                {{ val.PlayingNum }}
-              </p>
-
-              <p>
-                <!-- font-color should be YELLOW -->
-                {{ val.WritingNum }}
-              </p>
-
-              <p>
-                <!-- font-color should be GREEN -->
-                {{ val.ListeningNum }}
-              </p>
+                <span class="goodNum">
+                  做笔记人数：<span
+                    class="fontColor2"
+                  >{{ val.WritingNum }}
+                  </span>
+                  <!-- font-color should be GREEN -->
+                  听课人数：<span
+                    class="fontColor3"
+                  >{{ val.ListeningNum }}
+                  </span>
+                </span>
+              </div>
             </div>
             <div class="link-top" />
           </div>
@@ -124,12 +99,12 @@
     </div>
     <div class="camera">
       <dv-border-box-11 :title="courseName">
-        <div style="width: 94%;height:92%;position:absolute;top:5%;left:4%;">
+        <div class="videoBox">
           <video
             v-for="(videosrc) in checkList"
             :key="videosrc"
+            class="videos"
             controls="controls"
-            style="height:31%;width:31%;margin:1%;margin-bottom: 0.5%"
           />
         </div>
       </dv-border-box-11>
@@ -143,14 +118,13 @@ import axios from 'axios'
 import ip from '@/assets/ip'
 
 export default {
-  name: 'FloorOne',
+  name: 'RealTime',
   data() {
     return {
       demoImg: `${ip.cssd_trans}/images/demo1.jpg`,
       analyseResults: [],
       checked: true,
       showPic: false,
-      showPushData: [],
       floor: '',
       floorName: '',
       checkAll: false,
@@ -169,7 +143,7 @@ export default {
   },
   // 监听路由，实现组件复用
   watch: {
-
+    // 学院之间切换
     $route(to, from) {
       const nums = this.$route.query.id
       for (let i = 0; i < 6; i++) {
@@ -181,39 +155,18 @@ export default {
       }
     }
   },
+
   mounted() {
-    console.log('fuck.')
+    // 以下调用顺序不可更改
+    this.getCoursesData()
     this.getHealthInfo()
     this.getResults()
-    this.getCoursesData()
-  },
-  created() {
-    this.handleParmes()
-    const indexPushData = []
-    const rooms = Object.keys(this.items)
-    console.log(rooms)
-    for (let i = 0; i < rooms.length; i++) {
-      const room = rooms[i]
-      console.log(room)
-      const data = {}
-      data['cameraid'] = room
-      if (i === 3) {
-        data['status'] = 'offline'
-      } else {
-        data['status'] = 'online'
-      }
-      data['source'] = this.courses[i]
-      indexPushData.push(data)
-    }
-    console.log('--------------------------')
-    console.log(indexPushData)
-    this.showPushData = indexPushData
   },
 
   methods: {
     // 左上角显示信息数据获取
     async getCoursesData() {
-      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCourseData`)
+      const response = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
       const courseInfo = response.data.data
       for (const item of courseInfo) {
         const data = {}
@@ -222,11 +175,13 @@ export default {
         data['camera'] = '在线'
         this.coursesData.push(data)
       }
-      console.log(this.courseData)
     },
 
     // 监控设备在线数据获取
     async getHealthInfo() {
+      for (const item of this.coursesData) {
+        console.log(item.courseRoom)
+      }
       const form = new FormData()
       form.append('classrooms', 'N111,N112')
 
@@ -246,55 +201,40 @@ export default {
       )
       this.analyseResults = response.data.data
     },
+
     // 获取表格内容(教室号等)
     getDetails(row) {
       console.log(row.className)
       this.checkList.push(row.className)
     },
-    cellStyle(row) { // 根据显示颜色
+
+    // 根据显示颜色
+    cellStyle(row) {
       if (row.column.label === '监控设备' && row.row.camera === '在线') {
         return 'color:#25f52b'
       } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
         return 'color:#ff1111'
       }
     }
-    // 路由参数判断
-    // handleParmes() {
-    //   const nums = this.$route.query.type
-    //   for (let i = 0; i < 11; i++) {
-    //     if (nums === this.floorNum[i]) {
-    //       this.showPIc = true
-    //       this.floor = this.college[i]
-    //       this.items = this.floorData[i]
-    //       break
-    //     }
-    //   }
-    // },
   }
 }
 </script>
 <style>
-.view{
+.elTable{
+  width: 90% !important;
+  position: relative;
+  left: 5%;
+  top: 15%;
+  color: #ffffff;
+}
+.view {
   width: 100%;
 }
-.room{
+.room {
   width: 25%;
   height: 40%;
   position: absolute;
   top: 10%;
-}
-.imgfix{
-  margin-top: 65px;
-  margin-left: 30px;
-  width: 96%;
-  height: 90%;
-}
-.dv-border-box-8{
-  height: 485px !important;
-  overflow: hidden;
-  margin-top: 50px;
-  width:100% !important
-
 }
 .camera{
   position: absolute;
@@ -303,6 +243,75 @@ export default {
   width: 75%;
   height: 90%;
 }
+.videoBox{
+width: 94%;
+height:92%;
+position:absolute;
+top:5%;
+left:4%
+}
+.videos{
+  height:31%;
+  width:31%;
+  margin:1%;
+  margin-bottom: 0.5%
+
+}
+.dv-decoration-7{
+  width: 200px !important;
+  height: 30px !important;
+  font-size: 22px;
+  margin-left: 30%;
+  color: #e4e4e4fc;
+  overflow: hidden;
+}
+.dv-border-box-8 {
+  height: 485px !important;
+  overflow: hidden;
+  margin-top: 50px;
+  width: 100% !important;
+}
+.classId{
+  color:red;
+  width: 80px;
+  height: 80px;
+  margin-left: 30px;
+  font-size: 40px;
+  float:left;
+  padding-top: 20px;
+  font-weight:bold
+}
+.rightbox{
+  width:400px;
+  margin-left:2px
+
+}
+.className{
+width:30px;
+ height:auto;
+ margin-left: 15px
+}
+.badNum{
+display: block;
+ margin-left: 122px;
+ height:28px
+}
+.fontColor{
+color: red;
+ display: inline-block
+}
+.goodNum{
+display: block;
+margin-left: 122px
+}
+.fontColor2{
+  color: yellow;
+ display: inline-block
+}
+.fontColor3{
+color: #25f52b;
+display: inline-block
+}
 .camera dv-border-box-11 {
   z-index: 999;
 }
@@ -310,18 +319,6 @@ export default {
   margin-top: 30px;
   height: 300px;
   /*margin-left: 50px;*/
-}
-.text {
-  width: 100%;
-  color: #eef4f9;
-  font-family: "楷体", "楷体_GB2312";
-  padding: 10px;
-  height: 20px;
-  font-size: 25px;
-  overflow: hidden;
-  /* text-overflow: ellipsis; */
-  white-space: nowrap;
-  margin-bottom: 5px;
 }
 .fapic {
   min-width: 400px;
@@ -334,47 +331,47 @@ export default {
 .el-table,
 .el-table__expanded-cell {
   background-color: transparent !important;
-}/*表格透明*/
+} /*表格透明*/
 /* 表格内背景颜色 */
 .el-table th,
 .el-table tr,
 .el-table td {
   background-color: transparent !important;
 }
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
-}/*滚动条的滑轨背景颜色*/
-::-webkit-scrollbar-thumb{
-  background-color: rgba(0,0,0,0.05);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+} /*滚动条的滑轨背景颜色*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   -webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);
-}/*滑块颜色*/
-::-webkit-scrollbar-thumb{
-  background-color: rgba(0,0,0,0.2);
+} /*滑块颜色*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   -webkit-box-shadow: inset 1px 1px 0 rgba(48, 48, 48, 0.92);
 }
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 16px;
   height: 16px;
-}/* 滑块整体设置*/
+} /* 滑块整体设置*/
 ::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   border-radius: 999px;
   border: 5px solid transparent;
 }
-::-webkit-scrollbar-track{
-  box-shadow: 1px 1px 5px rgba(0,0,0,.2) inset;
+::-webkit-scrollbar-track {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2) inset;
 }
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   min-height: 20px;
   background-clip: content-box;
-  box-shadow: 0 0 0 5px rgba(255,255,255,.5) inset;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5) inset;
 }
-::-webkit-scrollbar-corner{
+::-webkit-scrollbar-corner {
   background: transparent;
-}/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+} /* 横向滚动条和纵向滚动条相交处尖角的颜色 */
 .content1 {
   margin-top: 30px;
   height: 300px;
