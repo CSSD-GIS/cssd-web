@@ -13,6 +13,7 @@
           :data="coursesData"
           tooltip-effect="dark"
           class="elTable"
+          empty-text="暂无进行中的课程"
           @select="itemHandleSelectionChange"
         >
           <el-table-column
@@ -68,7 +69,7 @@
               <div class="rightbox">
                 <span class="lineTwo">
                   <span class="className">
-                    课程名称：C语言程序设计
+                    课程名称：{{ classCourse[val.Classroom] }}
                   </span>
                   <span class="badNum">
                     玩游戏人数：<span class="fontColor">{{ val.PlayingNum }}
@@ -98,7 +99,7 @@
       </dv-border-box-8>
     </div>
     <div class="camera">
-      <dv-border-box-11 :title="courseName">
+      <dv-border-box-11 title="教室监控实时画面">
         <div class="videoBox">
           <video
             v-for="videosrc in checkList"
@@ -136,9 +137,9 @@ export default {
       floorData: [],
       collegeName: '信息工程学院',
       colleges: ['信息工程学院', '应急管理学院'],
-      courses: ['Python程序设计', 'C语言程序设计', '思想道德修养与法律基础', '大学英语1', '大学语文', '网络工程专业导论', '自然灾害概论'],
-      courseName: 'Python程序设计',
-      coursesData: []
+      coursesData: [],
+      classrooms: '',
+      classCourse: {}
     }
   },
   // 监听路由，实现组件复用
@@ -158,6 +159,14 @@ export default {
 
   mounted() {
     this.getData()
+
+    // 等待教室数据获取
+    if (this.classrooms.length === 0) {
+      setTimeout(this.startPridect, 3000)
+    }
+
+    // 每10s刷新一次数据
+    setInterval(this.getData, 10000)
   },
 
   methods: {
@@ -171,32 +180,49 @@ export default {
       for (const course of coursesInfo) {
         classesList.push(course.CourseRoom)
       }
-      const classrooms = classesList.join(',')
+      this.classrooms = classesList.join(',')
 
       // 根据所上课程教室号获取监控设备在线信息
-      const cameraInfo = await this.getHealthInfo(classrooms)
+      const cameraInfo = await this.getHealthInfo()
       const cameraData = {}
       for (const camera of cameraInfo) {
         cameraData[camera.className] = camera.isOnline
       }
 
       // 根据所上课程教室号获取实时分析结果数据
-      this.analyseResults = await this.getResults(classrooms)
+      this.analyseResults = await this.getResults()
 
       // 左上角显示数据处理
+      this.coursesData = []
       for (const course of coursesInfo) {
         const data = {}
         data['courseName'] = course.CourseName
         data['courseRoom'] = course.CourseRoom
-        data['camera'] = cameraData[course.CourseRoom]
+        data['camera'] = cameraData[course.CourseRoom] === '1' ? '在线' : '离线'
         this.coursesData.push(data)
+        this.classCourse[course.CourseRoom] = course.CourseName
       }
     },
 
-    // 监控设备在线数据获取
-    async getHealthInfo(classrooms) {
+    async startPridect() {
       const form = new FormData()
-      form.append('classrooms', classrooms)
+      form.append('classrooms', this.classrooms)
+
+      const response = await axios({
+        method: 'post',
+        url: `${ip.cssd_trans}/api/v1/start`,
+        data: form
+      })
+      this.$message({
+        message: response.data.data,
+        type: 'success'
+      })
+    },
+
+    // 监控设备在线数据获取
+    async getHealthInfo() {
+      const form = new FormData()
+      form.append('classrooms', this.classrooms)
 
       const response = await axios({
         method: 'post',
@@ -207,9 +233,9 @@ export default {
     },
 
     // 实时分析结果数据获取
-    async getResults(classrooms) {
+    async getResults() {
       const response = await axios.get(
-        `${ip.cssd_trans}/api/v1/getResults?classrooms=${classrooms}`
+        `${ip.cssd_trans}/api/v1/getResults?classrooms=${this.classrooms}`
       )
       return response.data.data
     },

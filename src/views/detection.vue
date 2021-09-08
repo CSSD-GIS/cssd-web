@@ -178,18 +178,6 @@ export default {
         this.items = this.items6
         this.showPic = true
         this.floor = this.floorSix
-      } else {
-        this.items = null
-        this.showPic = false
-        this.$alert('点击具体楼层可查看信息，一次性最多可勾九个教室', '温馨提示', {
-          confirmButtonText: '确定',
-          callback: (action) => {
-            this.$message({
-              type: 'info',
-              message: `已确定`
-            })
-          }
-        })
       }
     }
   },
