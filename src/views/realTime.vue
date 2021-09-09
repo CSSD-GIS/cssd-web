@@ -101,7 +101,10 @@
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
         <div class="videoBox">
-          <video id="video" controls="controls" />
+          <!-- <div v-if="judge">111</div>
+          <div v-else>222</div> -->
+          <video v-if="judge" id="video" controls="controls" />
+          <img v-else class="imgfix" :src="demoImg" alt="none">
         </div>
       </dv-border-box-11>
     </div>
@@ -118,7 +121,8 @@ export default {
   name: 'RealTime',
   data() {
     return {
-      demoImg: `${ip.cssd_trans}/images/demo1.jpg`,
+      judge: true,
+      demoImg: `${ip.cssd_trans}/images/demo2.jpg`,
       analyseResults: [],
       checked: true,
       showPic: false,
@@ -126,7 +130,7 @@ export default {
       floorName: '',
       checkAll: false,
       classval,
-      checkList: [],
+      check: [],
       uri: '',
       items,
       num: 1,
@@ -151,6 +155,17 @@ export default {
           break
         }
       }
+      const names = this.$route.query.name
+      if (names === 'detection') {
+        this.judge = false
+        this.getData()
+        console.log(this.judge)
+      }
+      if (names === 'realTime') {
+        this.judge = true
+        console.log(this.judge)
+        this.getData()
+      }
     }
   },
 
@@ -158,9 +173,9 @@ export default {
     this.getData()
 
     // 等待教室数据获取
-    if (this.classrooms.length === 0) {
-      setTimeout(this.startPridect, 3000)
-    }
+    // if (this.classrooms.length === 0) {
+    //   setTimeout(this.startPridect, 3000)
+    // }
 
     // 每10s刷新一次数据
     setInterval(this.getData, 10000)
@@ -298,9 +313,9 @@ export default {
     itemHandleSelectionChange(selection, row) {
       const selected = selection.length && selection.indexOf(row) !== -1
       if (selected === true) {
-        this.checkList.push(row.className)
+        this.check.push(row.className)
       } else {
-        this.checkList.splice(this.checkList.indexOf(row.className), 1)
+        this.check.splice(this.check.indexOf(row.className), 1)
       }
     },
 
@@ -338,6 +353,13 @@ export default {
   top: 10%;
   width: 75%;
   height: 90%;
+}
+.imgfix {
+  margin-top: 40px;
+    margin-left: -13px;
+    width: 100%;
+    height: 95%;
+    margin-bottom: 10px;
 }
 .videoBox{
 width: 94%;
