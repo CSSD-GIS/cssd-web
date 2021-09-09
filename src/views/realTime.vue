@@ -34,13 +34,13 @@
             align="center"
             prop="camera"
           />
-<!--          <el-table-column-->
-<!--            v-model="checked"-->
-<!--            type="selection"-->
-<!--            align="center"-->
-<!--            width="60"-->
-<!--            prop="show"-->
-<!--          />-->
+          <!--          <el-table-column-->
+          <!--            v-model="checked"-->
+          <!--            type="selection"-->
+          <!--            align="center"-->
+          <!--            width="60"-->
+          <!--            prop="show"-->
+          <!--          />-->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
@@ -100,20 +100,21 @@
     </div>
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
-        <div
-          class="videoBox">
-          <!-- <div v-if="judge">111</div>
+        <!-- <div
+          class="videoBox"
+        > -->
+        <!-- <div v-if="judge">111</div>
           <div v-else>222</div> -->
-<!--          <video v-if="judge" id="video" controls="controls" />-->
-          <el-image
-            v-for="imgurl in imgsUrl"
-            :key="imgurl"
-            style="width: 100px; height: 100px"
-            :src="imgurl.Url"
-            :preview-src-list="srcList">
-          </el-image>
-<!--          <img v-else class="imgfix" :src="demoImg" alt="none">-->
-        </div>
+        <!--          <video v-if="judge" id="video" controls="controls" />-->
+        <el-image
+          v-for="imgurl in imgsUrl"
+          :key="imgurl.url"
+          style="width: 100px; height: 100px"
+          :src="imgurl.url"
+          :preview-src-list="srcList"
+        />
+        <!--          <img v-else class="imgfix" :src="demoImg" alt="none">-->
+        <!-- </div> -->
       </dv-border-box-11>
     </div>
   </div>
@@ -149,7 +150,7 @@ export default {
       coursesData: [],
       classrooms: '',
       classCourse: {},
-      imgsUrl: [{ Url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' }],
+      imgsUrl: [],
       srcList: []
     }
   },
@@ -183,9 +184,9 @@ export default {
     this.getData()
 
     // 等待教室数据获取
-    // if (this.classrooms.length === 0) {
-    //   setTimeout(this.startPridect, 3000)
-    // }
+    if (this.classrooms.length === 0) {
+      setTimeout(this.startPridect, 3000)
+    }
 
     // 每10s刷新一次数据
     setInterval(this.getData, 10000)
@@ -225,7 +226,15 @@ export default {
       this.analyseResults = await this.getResults()
 
       // 获取最新识别图片
-      this.imgsUrl = await this.getLatestFrame()
+      const imgsData = await this.getLatestFrame()
+      this.imgsUrl = []
+      for (const img of imgsData) {
+        const data = {}
+        data['url'] = `${ip.cssd_trans}${img.Url}`
+        data['classroom'] = img.Classroom
+        this.imgsUrl.push(data)
+      }
+      console.log(this.imgsUrl)
 
       this.getCameraIP()
       // 左上角显示数据处理
