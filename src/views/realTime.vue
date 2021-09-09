@@ -19,28 +19,28 @@
           <el-table-column
             label="课程名称"
             align="center"
-            width="120"
+            width="150"
             prop="courseName"
           />
           <el-table-column
             label="教室号"
-            width="100"
+            width="120"
             align="center"
             prop="courseRoom"
           />
           <el-table-column
             label="监控设备"
-            width="100"
+            width="120"
             align="center"
             prop="camera"
           />
-          <el-table-column
-            v-model="checked"
-            type="selection"
-            align="center"
-            width="60"
-            prop="show"
-          />
+          <!--          <el-table-column-->
+          <!--            v-model="checked"-->
+          <!--            type="selection"-->
+          <!--            align="center"-->
+          <!--            width="60"-->
+          <!--            prop="show"-->
+          <!--          />-->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
@@ -100,10 +100,23 @@
     </div>
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
-        <div class="videoBox">
-          <video  v-if="judge" id="video" controls="controls" />
-          <img v-else class="imgfix" :src="demoImg" alt="none">
-        </div>
+        <!-- <div
+          class="videoBox"
+        > -->
+        <!-- <div v-if="judge">111</div>
+          <div v-else>222</div> -->
+        <!--          <video v-if="judge" id="video" controls="controls" />-->
+        <!-- <div class="imgebox"> -->
+        <el-image
+          v-for="imgurl in imgsUrl"
+          :key="imgurl.url"
+          class="imgsize"
+          :src="imgurl.url"
+          :preview-src-list="srcList"
+        />
+        <!-- </div> -->
+        <!--          <img v-else class="imgfix" :src="demoImg" alt="none">-->
+        <!-- </div> -->
       </dv-border-box-11>
     </div>
   </div>
@@ -139,7 +152,8 @@ export default {
       coursesData: [],
       classrooms: '',
       classCourse: {},
-      imgsUrl: []
+      imgsUrl: [],
+      srcList: []
     }
   },
   // 监听路由，实现组件复用
@@ -172,9 +186,9 @@ export default {
     this.getData()
 
     // 等待教室数据获取
-    // if (this.classrooms.length === 0) {
-    //   setTimeout(this.startPridect, 3000)
-    // }
+    if (this.classrooms.length === 0) {
+      setTimeout(this.startPridect, 3000)
+    }
 
     // 每10s刷新一次数据
     setInterval(this.getData, 10000)
@@ -214,7 +228,17 @@ export default {
       this.analyseResults = await this.getResults()
 
       // 获取最新识别图片
-      this.imgsUrl = await this.getLatestFrame()
+      const imgsData = await this.getLatestFrame()
+      this.imgsUrl = []
+      this.srcList = []
+      for (const img of imgsData) {
+        const data = {}
+        data['url'] = `${ip.cssd_trans}${img.Url}`
+        data['classroom'] = img.Classroom
+        this.imgsUrl.push(data)
+        this.srcList.push(`${ip.cssd_trans}${img.Url}`)
+      }
+      console.log(this.imgsUrl)
 
       this.getCameraIP()
       // 左上角显示数据处理
@@ -329,7 +353,7 @@ export default {
   }
 }
 </script>
-<style>
+<style >
 .elTable{
   width: 90% !important;
   position: relative;
@@ -360,6 +384,7 @@ export default {
     height: 95%;
     margin-bottom: 10px;
 }
+
 .videoBox{
 width: 94%;
 height:92%;
@@ -531,5 +556,24 @@ display: inline-block
 		border-bottom-color: #1EBEF4 !important;
 		left: 50% !important;
 	}
-
+  .imgsize{
+  width: 45%;
+    height: 40%;
+    position: absolute;
+    top: 8%;
+    left: 2%;
+    margin-top: 30px;
+ /* width: 30%;  ---------9个框的样式
+ height:28%;
+ position:absolute;
+ top:8%;
+ left:1%;
+ margin-top:10px */
+}
+  .el-image {
+    margin-left: 30px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
   </style>
