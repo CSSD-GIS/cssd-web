@@ -138,7 +138,8 @@ export default {
       colleges: ['信息工程学院', '应急管理学院'],
       coursesData: [],
       classrooms: '',
-      classCourse: {}
+      classCourse: {},
+      imgsUrl: []
     }
   },
   // 监听路由，实现组件复用
@@ -213,8 +214,8 @@ export default {
       this.analyseResults = await this.getResults()
 
       // 获取最新识别图片
-      const test = await this.getLatestFrame()
-      console.log(test)
+      this.imgsUrl = await this.getLatestFrame()
+
       this.getCameraIP()
       // 左上角显示数据处理
       this.coursesData = []
