@@ -5,7 +5,8 @@
         <span class="img1" />
       </span>
       <span class="titleName">课堂学生状态检测系统</span>
-      <router-link :to="{ path: '/views/realTime', query: { name: 'detection' } }">
+      <!-- <router-link :to="{ path: '/views/realTime', query: { name: 'detection' }  }">为了测试上传而注释 -->
+      <router-link :to="{ path: '/views/realTime', query: { name: 'detection' }  }">
         <el-dropdown placement="bottom">
           <span ref="echarType" class="realTime">
             检测画面<i class="el-icon-arrow-down el-icon--right" />
