@@ -19,28 +19,28 @@
           <el-table-column
             label="课程名称"
             align="center"
-            width="120"
+            width="150"
             prop="courseName"
           />
           <el-table-column
             label="教室号"
-            width="100"
+            width="120"
             align="center"
             prop="courseRoom"
           />
           <el-table-column
             label="监控设备"
-            width="100"
+            width="120"
             align="center"
             prop="camera"
           />
-          <el-table-column
-            v-model="checked"
-            type="selection"
-            align="center"
-            width="60"
-            prop="show"
-          />
+<!--          <el-table-column-->
+<!--            v-model="checked"-->
+<!--            type="selection"-->
+<!--            align="center"-->
+<!--            width="60"-->
+<!--            prop="show"-->
+<!--          />-->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
@@ -100,11 +100,19 @@
     </div>
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
-        <div class="videoBox">
+        <div
+          class="videoBox">
           <!-- <div v-if="judge">111</div>
           <div v-else>222</div> -->
-          <video v-if="judge" id="video" controls="controls" />
-          <img v-else class="imgfix" :src="demoImg" alt="none">
+<!--          <video v-if="judge" id="video" controls="controls" />-->
+          <el-image
+            v-for="imgurl in imgsUrl"
+            :key="imgurl"
+            style="width: 100px; height: 100px"
+            :src="imgurl.Url"
+            :preview-src-list="srcList">
+          </el-image>
+<!--          <img v-else class="imgfix" :src="demoImg" alt="none">-->
         </div>
       </dv-border-box-11>
     </div>
@@ -141,7 +149,8 @@ export default {
       coursesData: [],
       classrooms: '',
       classCourse: {},
-      imgsUrl: []
+      imgsUrl: [{ Url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' }],
+      srcList: []
     }
   },
   // 监听路由，实现组件复用
