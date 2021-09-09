@@ -228,11 +228,13 @@ export default {
       // 获取最新识别图片
       const imgsData = await this.getLatestFrame()
       this.imgsUrl = []
+      this.srcList = []
       for (const img of imgsData) {
         const data = {}
         data['url'] = `${ip.cssd_trans}${img.Url}`
         data['classroom'] = img.Classroom
         this.imgsUrl.push(data)
+        this.srcList.push(`${ip.cssd_trans}${img.Url}`)
       }
       console.log(this.imgsUrl)
 
