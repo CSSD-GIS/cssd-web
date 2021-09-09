@@ -101,9 +101,7 @@
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
         <div class="videoBox">
-          <!-- <div v-if="judge">111</div>
-          <div v-else>222</div> -->
-          <video v-if="judge" id="video" controls="controls" />
+          <video  v-if="judge" id="video" controls="controls" />
           <img v-else class="imgfix" :src="demoImg" alt="none">
         </div>
       </dv-border-box-11>
@@ -130,7 +128,7 @@ export default {
       floorName: '',
       checkAll: false,
       classval,
-      check: [],
+      checkList: [],
       uri: '',
       items,
       num: 1,
@@ -292,9 +290,9 @@ export default {
     itemHandleSelectionChange(selection, row) {
       const selected = selection.length && selection.indexOf(row) !== -1
       if (selected === true) {
-        this.check.push(row.className)
+        this.checkList.push(row.className)
       } else {
-        this.check.splice(this.check.indexOf(row.className), 1)
+        this.checkList.splice(this.check.indexOf(row.className), 1)
       }
     },
 
