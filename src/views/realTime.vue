@@ -176,7 +176,7 @@ export default {
     // }
 
     // 每10s刷新一次数据
-    // setInterval(this.getData, 10000)
+    setInterval(this.getData, 10000)
 
     this.getHlsIP('rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream')
 
@@ -212,6 +212,9 @@ export default {
       // 根据所上课程教室号获取实时分析结果数据
       this.analyseResults = await this.getResults()
 
+      // 获取最新识别图片
+      const test = await this.getLatestFrame()
+      console.log(test)
       this.getCameraIP()
       // 左上角显示数据处理
       this.coursesData = []
@@ -255,9 +258,27 @@ export default {
 
     // 实时分析结果数据获取
     async getResults() {
-      const response = await axios.get(
-        `${ip.cssd_trans}/api/v1/getResults?classrooms=${this.classrooms}`
-      )
+      const form = new FormData()
+      form.append('classrooms', this.classrooms)
+
+      const response = await axios({
+        method: 'post',
+        url: `${ip.cssd_trans}/api/v1/getResults`,
+        data: form
+      })
+      return response.data.data
+    },
+
+    // 实时分析结果数据获取
+    async getLatestFrame() {
+      const form = new FormData()
+      form.append('classrooms', this.classrooms)
+
+      const response = await axios({
+        method: 'post',
+        url: `${ip.cssd_trans}/api/v1/getLatestFrame`,
+        data: form
+      })
       return response.data.data
     },
 
