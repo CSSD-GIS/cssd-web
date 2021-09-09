@@ -338,7 +338,7 @@ export default {
       if (selected === true) {
         this.checkList.push(row.className)
       } else {
-        this.checkList.splice(this.check.indexOf(row.className), 1)
+        this.checkList.splice(this.checkList.indexOf(row.className), 1)
       }
     },
 
@@ -354,6 +354,12 @@ export default {
 }
 </script>
 <style >
+  .link-top {
+           width: 100%;
+    height: 1px;
+    border-top: solid #c8dbf3 1px;
+}
+
 .elTable{
   width: 90% !important;
   position: relative;
@@ -414,6 +420,7 @@ left:4%
   width: 100% !important;
 }
 .classId{
+  font-family: 	'YouYuan';
   color:red;
   width: 80px;
   height: 80px;
@@ -432,7 +439,8 @@ left:4%
   font-size: 30px;
 width:30px;
  height:auto;
- margin-left: 15px
+ margin-left: 15px;
+ font-family: 'NSimSun';
 }
 .badNum{
 margin-top: 5px;
@@ -446,7 +454,8 @@ color: red;
 }
 .goodNum{
 display: block;
-margin-left: 95px
+margin-left: 95px;
+margin-bottom: 17px;
 }
 .fontColor2{
   color: yellow;
@@ -526,12 +535,12 @@ display: inline-block
   color: #eef4f9;
   font-family: "楷体", "楷体_GB2312";
   padding: 10px;
-  height: 120px;
+  height: 110px;
   font-size: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 5px;
+  /* margin-bottom: 10px; */
 }
 .el-dropdown-menu a {
     text-align: center;
