@@ -34,13 +34,13 @@
             align="center"
             prop="camera"
           />
-          <el-table-column
+          <!-- <el-table-column
             v-model="checked"
             type="selection"
             align="center"
             width="60"
             prop="show"
-          />
+          /> -->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
@@ -100,21 +100,21 @@
     </div>
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
-        <!-- <div
+        <div
           class="videoBox"
-        > -->
-        <!-- <div v-if="judge">111</div>
+        >
+          <!-- <div v-if="judge">111</div>
           <div v-else>222</div> -->
-        <!--          <video v-if="judge" id="video" controls="controls" />-->
-        <!-- <div class="imgebox"> -->
-        <el-image
-          v-for="imgurl in imgsUrl"
-          :key="imgurl.url"
-          class="imgsize"
-          :src="imgurl.url"
-          :preview-src-list="srcList"
-        />
-        <!-- </div> -->
+          <!--          <video v-if="judge" id="video" controls="controls" />-->
+          <!-- <div class="imgebox"> -->
+          <el-image
+            v-for="imgurl in imgsUrl"
+            :key="imgurl.url"
+            class="imgsize"
+            :src="imgurl.url"
+            :preview-src-list="srcList"
+          />
+        </div>
         <!--          <img v-else class="imgfix" :src="demoImg" alt="none">-->
         <!-- </div> -->
       </dv-border-box-11>
@@ -235,6 +235,11 @@ export default {
         const data = {}
         data['url'] = `${ip.cssd_trans}${img.Url}`
         data['classroom'] = img.Classroom
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
         this.imgsUrl.push(data)
         this.srcList.push(`${ip.cssd_trans}${img.Url}`)
       }
@@ -358,6 +363,26 @@ export default {
 }
 </script>
 <style >
+.el-image-viewer__next, .el-image-viewer__prev{
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    /* color: rgb(235, 226, 226) !important; */
+    background-color: #0f82b8 !important;
+    /* border-color: rgb(221, 30, 30) !important; */
+}
+.el-image-viewer__close {
+    top: 40px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    color: rgb(141, 12, 12);
+    /* z-index: 1; */
+    background-color:  #0f82b8 !important;
+}
+
   .link-top {
            width: 100%;
     height: 1px;
@@ -400,7 +425,8 @@ width: 94%;
 height:92%;
 position:absolute;
 top:5%;
-left:4%
+left:4%;
+overflow:scroll
 }
 .videos{
   height:31%;
@@ -497,10 +523,10 @@ display: inline-block
 }
 ::-webkit-scrollbar-track {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+  -webkit-box-shadow: inset 0 0 6px rgba(22, 70, 133, 0);
 } /*滚动条的滑轨背景颜色*/
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(3, 4, 80, 0.05);
   border-radius: 10px;
   -webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);
 } /*滑块颜色*/
@@ -570,10 +596,11 @@ display: inline-block
 		left: 50% !important;
 	}
   .imgsize{
-  width: 45%;
+
+    width: 45%;
     height: 40%;
     position: absolute;
-    top: 8%;
+    top: 5%;
     left: 2%;
     margin-top: 30px;
  /* width: 30%;  ---------9个框的样式
@@ -583,6 +610,7 @@ display: inline-block
  left:1%;
  margin-top:10px */
 }
+
   .el-image {
     margin-left: 30px;
     position: relative;
@@ -590,3 +618,4 @@ display: inline-block
     overflow: hidden;
 }
   </style>
+
