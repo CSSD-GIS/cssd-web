@@ -34,13 +34,13 @@
             align="center"
             prop="camera"
           />
-          <!--          <el-table-column-->
-          <!--            v-model="checked"-->
-          <!--            type="selection"-->
-          <!--            align="center"-->
-          <!--            width="60"-->
-          <!--            prop="show"-->
-          <!--          />-->
+          <el-table-column
+            v-model="checked"
+            type="selection"
+            align="center"
+            width="60"
+            prop="show"
+          />
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
@@ -334,11 +334,15 @@ export default {
 
     // 获取表格内容(教室号等)
     itemHandleSelectionChange(selection, row) {
-      const selected = selection.length && selection.indexOf(row) !== -1
-      if (selected === true) {
-        this.checkList.push(row.className)
+      if (this.checkList.length <= 9) {
+        const selected = selection.length && selection.indexOf(row) !== -1
+        if (selected === true) {
+          this.checkList.push(row.className)
+        } else {
+          this.checkList.splice(this.checkList.indexOf(row.className), 1)
+        }
       } else {
-        this.checkList.splice(this.checkList.indexOf(row.className), 1)
+        alert('成功')
       }
     },
 
