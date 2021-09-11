@@ -72,7 +72,7 @@
                     {{ classCourse[val.Classroom] }}
                   </span>
                   <span class="badNum">
-                    玩游戏人数：<span class="fontColor">{{ val.PlayingNum }}
+                    玩手机人数：<span class="fontColor">{{ val.PlayingNum }}
                     </span>
                     睡觉人数：<span
                       class="fontColor"
@@ -191,7 +191,7 @@ export default {
     }
 
     // 每10s刷新一次数据
-    setInterval(this.getData, 10000)
+    setInterval(this.getData, 30000)
 
     this.getHlsIP('rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream')
 
@@ -209,6 +209,7 @@ export default {
       // 课程数据获取
       const coursesResponse = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
       const coursesInfo = coursesResponse.data.data
+      console.log(coursesInfo)
 
       // 获取所上课程的教室号
       const classesList = []
@@ -216,6 +217,7 @@ export default {
         classesList.push(course.CourseRoom)
       }
       this.classrooms = classesList.join(',')
+      // this.classrooms = 'S202'
 
       // 根据所上课程教室号获取监控设备在线信息
       const cameraInfo = await this.getHealthInfo()
@@ -238,7 +240,6 @@ export default {
         this.imgsUrl.push(data)
         this.srcList.push(`${ip.cssd_trans}${img.Url}`)
       }
-      console.log(this.imgsUrl)
 
       this.getCameraIP()
       // 左上角显示数据处理
