@@ -34,13 +34,13 @@
             align="center"
             prop="camera"
           />
-          <!--          <el-table-column-->
-          <!--            v-model="checked"-->
-          <!--            type="selection"-->
-          <!--            align="center"-->
-          <!--            width="60"-->
-          <!--            prop="show"-->
-          <!--          />-->
+          <!-- <el-table-column
+            v-model="checked"
+            type="selection"
+            align="center"
+            width="60"
+            prop="show"
+          /> -->
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
@@ -100,21 +100,21 @@
     </div>
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
-        <!-- <div
+        <div
           class="videoBox"
-        > -->
-        <!-- <div v-if="judge">111</div>
+        >
+          <!-- <div v-if="judge">111</div>
           <div v-else>222</div> -->
-        <!--          <video v-if="judge" id="video" controls="controls" />-->
-        <!-- <div class="imgebox"> -->
-        <el-image
-          v-for="imgurl in imgsUrl"
-          :key="imgurl.url"
-          class="imgsize"
-          :src="imgurl.url"
-          :preview-src-list="srcList"
-        />
-        <!-- </div> -->
+          <!--          <video v-if="judge" id="video" controls="controls" />-->
+          <!-- <div class="imgebox"> -->
+          <el-image
+            v-for="imgurl in imgsUrl"
+            :key="imgurl.url"
+            class="imgsize"
+            :src="imgurl.url"
+            :preview-src-list="srcList"
+          />
+        </div>
         <!--          <img v-else class="imgfix" :src="demoImg" alt="none">-->
         <!-- </div> -->
       </dv-border-box-11>
@@ -238,6 +238,11 @@ export default {
         data['url'] = `${ip.cssd_trans}${img.Url}`
         data['classroom'] = img.Classroom
         this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
+        this.imgsUrl.push(data)
         this.srcList.push(`${ip.cssd_trans}${img.Url}`)
       }
 
@@ -335,11 +340,15 @@ export default {
 
     // 获取表格内容(教室号等)
     itemHandleSelectionChange(selection, row) {
-      const selected = selection.length && selection.indexOf(row) !== -1
-      if (selected === true) {
-        this.checkList.push(row.className)
+      if (this.checkList.length <= 9) {
+        const selected = selection.length && selection.indexOf(row) !== -1
+        if (selected === true) {
+          this.checkList.push(row.className)
+        } else {
+          this.checkList.splice(this.checkList.indexOf(row.className), 1)
+        }
       } else {
-        this.checkList.splice(this.check.indexOf(row.className), 1)
+        alert('成功')
       }
     },
 
@@ -355,6 +364,32 @@ export default {
 }
 </script>
 <style >
+.el-image-viewer__next, .el-image-viewer__prev{
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    /* color: rgb(235, 226, 226) !important; */
+    background-color: #0f82b8 !important;
+    /* border-color: rgb(221, 30, 30) !important; */
+}
+.el-image-viewer__close {
+    top: 40px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    color: rgb(141, 12, 12);
+    /* z-index: 1; */
+    background-color:  #0f82b8 !important;
+}
+
+  .link-top {
+           width: 100%;
+    height: 1px;
+    border-top: solid #c8dbf3 1px;
+}
+
 .elTable{
   width: 90% !important;
   position: relative;
@@ -391,7 +426,8 @@ width: 94%;
 height:92%;
 position:absolute;
 top:5%;
-left:4%
+left:4%;
+overflow:scroll
 }
 .videos{
   height:31%;
@@ -415,6 +451,7 @@ left:4%
   width: 100% !important;
 }
 .classId{
+  font-family: 	'YouYuan';
   color:red;
   width: 80px;
   height: 80px;
@@ -433,7 +470,8 @@ left:4%
   font-size: 30px;
 width:30px;
  height:auto;
- margin-left: 15px
+ margin-left: 15px;
+ font-family: 'NSimSun';
 }
 .badNum{
 margin-top: 5px;
@@ -447,7 +485,8 @@ color: red;
 }
 .goodNum{
 display: block;
-margin-left: 95px
+margin-left: 95px;
+margin-bottom: 17px;
 }
 .fontColor2{
   color: yellow;
@@ -485,10 +524,10 @@ display: inline-block
 }
 ::-webkit-scrollbar-track {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+  -webkit-box-shadow: inset 0 0 6px rgba(22, 70, 133, 0);
 } /*滚动条的滑轨背景颜色*/
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(3, 4, 80, 0.05);
   border-radius: 10px;
   -webkit-box-shadow: inset 1px 1px 0 rgba(75, 75, 75, 0.58);
 } /*滑块颜色*/
@@ -527,12 +566,12 @@ display: inline-block
   color: #eef4f9;
   font-family: "楷体", "楷体_GB2312";
   padding: 10px;
-  height: 120px;
+  height: 110px;
   font-size: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 5px;
+  /* margin-bottom: 10px; */
 }
 .el-dropdown-menu a {
     text-align: center;
@@ -558,10 +597,11 @@ display: inline-block
 		left: 50% !important;
 	}
   .imgsize{
-  width: 45%;
+
+    width: 45%;
     height: 40%;
     position: absolute;
-    top: 8%;
+    top: 5%;
     left: 2%;
     margin-top: 30px;
  /* width: 30%;  ---------9个框的样式
@@ -571,6 +611,7 @@ display: inline-block
  left:1%;
  margin-top:10px */
 }
+
   .el-image {
     margin-left: 30px;
     position: relative;
@@ -578,3 +619,4 @@ display: inline-block
     overflow: hidden;
 }
   </style>
+
