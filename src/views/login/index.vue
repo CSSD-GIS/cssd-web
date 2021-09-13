@@ -2,7 +2,14 @@
 <template>
   <div class="bgimg">
     <div class="login-container">
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+        auto-complete="on"
+        label-position="left"
+      >
         <div class="title-container">
           <h3 class="title">系统登录</h3>
         </div>
@@ -36,10 +43,18 @@
             @keyup.enter.native="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            <svg-icon
+              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+            />
           </span>
         </el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handLogin">Login</el-button>
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width: 100%; margin-bottom: 30px"
+          @click.native.prevent="handLogin"
+          >Login</el-button
+        >
       </el-form>
     </div>
     <div class="systen-title">
@@ -50,94 +65,101 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import axios from 'axios'
+import { validUsername } from "@/utils/validate";
+import axios from "axios";
 // import crypto from 'crypto'
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error("Please enter the correct user name"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error("The password can not be less than 6 digits"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loginForm: {
-        username: 'lingyin',
-        password: '123456'
+        username: "lingyin",
+        password: "123456",
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       loading: false,
-      passwordType: 'password',
+      passwordType: "password",
       redirect: undefined,
-      token: ''
-    }
+      token: "",
+    };
   },
   methods: {
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handLogin() {
-      const _this = this
-      const sha256 = require('js-sha256').sha256 // 这里用的是require方法，所以没用import
-      const username = sha256(this.loginForm.username)
-      const password = sha256(this.loginForm.password) // 要加密的密码
-      axios.post('/api/login', this.$qs.stringify(
-        {
-          username: username,
-          password: password
-        }))
+      const _this = this;
+      const sha256 = require("js-sha256").sha256; // 这里用的是require方法，所以没用import
+      const username = sha256(this.loginForm.username);
+      const password = sha256(this.loginForm.password); // 要加密的密码
+      axios
+        .post(
+          "/api/login",
+          this.$qs.stringify({
+            username: username,
+            password: password,
+          })
+        )
         .then((response) => {
-          console.log(response)
+          console.log(response);
           if (response.data.code === 200) {
-            const token = response.data.data.token
+            const token = response.data.data.token;
             // setToken(token)
             // Cookie.set('token', token)
-            localStorage.setItem('token', token)
-            _this.$router.push('/main')
+            localStorage.setItem("token", token);
+            _this.$router.push("/main");
           }
           if (response.data.code === 20003) {
             // alert(response.data.msg)
-            this.$message.error(response.data.msg)
+            this.$message.error(response.data.msg);
           }
         })
-        .catch(function(error) {
-          console.log(error)
-        })
-    }
-  }
-}
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not(cater-color: $cursor)) {
+@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
   }
@@ -145,11 +167,11 @@ $cursor: #fff;
 
 /* reset element-ui css */
 
-.bgimg{
+.bgimg {
   width: 100%;
   height: 100%;
   background-image: url(../../assets/images/login_bg1.jpg);
-  background-size: cover
+  background-size: cover;
 }
 .login-container {
   .el-input {
@@ -185,15 +207,21 @@ $cursor: #fff;
 
 <style lang="scss" scoped>
 //$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
   width: 100%;
   overflow: hidden;
   .login-form {
-    background-image: linear-gradient(25deg, #3e0e90, #4e59aa, #4a99c3, #0adbdc);
+    background-image: linear-gradient(
+      25deg,
+      #3e0e90,
+      #4e59aa,
+      #4a99c3,
+      #0adbdc
+    );
     position: absolute;
     top: 20%;
     right: 200px;
@@ -246,15 +274,15 @@ $light_gray:#eee;
     user-select: none;
   }
 }
-.systen-title{
+.systen-title {
   position: absolute;
-  top:20%;
+  top: 20%;
   left: 20%;
   font-size: 50px;
   font-family: "微软雅黑", "黑体";
-  color: #FFFFFF;
+  color: #ffffff;
 }
-.systen-title h1{
+.systen-title h1 {
   position: relative;
   left: 20%;
 }

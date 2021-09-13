@@ -8,32 +8,29 @@
 </template>
 
 <script>
-import Hls from '@/dist/hls'
-import axios from 'axios'
-import ip from '@/ip.json'
+import Hls from "@/dist/hls";
+import axios from "axios";
+import ip from "@/ip.json";
 
 export default {
   data() {
     return {
       streamUrl: [],
       URL: ip.rh,
-      URI: [
-        { uri: `${ip.rr}/stream1` },
-        { uri: `${ip.rr}/stream2` }
-      ]
-    }
+      URI: [{ uri: `${ip.rr}/stream1` }, { uri: `${ip.rr}/stream2` }],
+    };
   },
 
   mounted() {
-    this.init()
+    this.init();
   },
 
   methods: {
     async init() {
-      await this.getStreamUrl(this.URI)
-      console.log(this.streamUrl)
+      await this.getStreamUrl(this.URI);
+      console.log(this.streamUrl);
       for (const [index, url] of this.streamUrl.entries()) {
-        this.playStream(url, index)
+        this.playStream(url, index);
       }
     },
 
@@ -41,14 +38,14 @@ export default {
      * 获取.m3u8视频地址
      */
     async getStreamUrl(URI) {
-      const urlList = []
+      const urlList = [];
       for (const uri of URI) {
-        const res = await axios.post(`${this.URL}/start`, { uri: uri.uri })
-        console.log(res)
-        const url = `${this.URL}${res.data.uri}`
-        urlList.push(url)
+        const res = await axios.post(`${this.URL}/start`, { uri: uri.uri });
+        console.log(res);
+        const url = `${this.URL}${res.data.uri}`;
+        urlList.push(url);
       }
-      this.streamUrl = urlList
+      this.streamUrl = urlList;
     },
 
     /**
@@ -56,17 +53,17 @@ export default {
      */
     playStream(url, index) {
       if (Hls.isSupported()) {
-        const hls = new Hls()
-        const video = document.getElementsByClassName('video')[index]
+        const hls = new Hls();
+        const video = document.getElementsByClassName("video")[index];
 
-        hls.loadSource(url)
-        hls.attachMedia(video)
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = url
+        hls.loadSource(url);
+        hls.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = url;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -86,4 +83,3 @@ export default {
   height: 100%;
 }
 </style>
-
