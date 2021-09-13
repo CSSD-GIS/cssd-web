@@ -238,11 +238,6 @@ export default {
         data['url'] = `${ip.cssd_trans}${img.Url}`
         data['classroom'] = img.Classroom
         this.imgsUrl.push(data)
-        this.imgsUrl.push(data)
-        this.imgsUrl.push(data)
-        this.imgsUrl.push(data)
-        this.imgsUrl.push(data)
-        this.imgsUrl.push(data)
         this.srcList.push(`${ip.cssd_trans}${img.Url}`)
       }
 
