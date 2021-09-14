@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
 // export function login(data) {
 //   return request({
@@ -25,8 +25,10 @@ import request from '@/utils/request'
 
 export function tokentest(token) {
   return request({
-    url: '/api/api/v1/test',
-    method: 'get',
-    params: { token }
-  })
+    url: "/api/api/v1/test",
+    method: "get",
+    params: {
+      token,
+    },
+  });
 }

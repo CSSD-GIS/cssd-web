@@ -1,10 +1,7 @@
 <template>
   <div class="view">
     <div class="room">
-      <dv-border-box-11
-        class="dv-border-box-11"
-        :title="collegeName"
-      >
+      <dv-border-box-11 class="dv-border-box-11" :title="collegeName">
         <el-table
           ref="multipleTable"
           height="80%"
@@ -44,10 +41,7 @@
         </el-table>
       </dv-border-box-11>
       <dv-border-box-8 class="dv-border-box-8">
-        <dv-decoration-7
-          class="dv-decoration-7"
-        >
-          实时分析结果</dv-decoration-7>
+        <dv-decoration-7 class="dv-decoration-7"> 实时分析结果</dv-decoration-7>
         <marquee
           class="content1"
           width="100%"
@@ -61,9 +55,7 @@
         >
           <div v-for="val in analyseResults" :key="val.Classroom" class="text">
             <div id="analyse_results">
-              <div
-                class="classId"
-              >
+              <div class="classId">
                 {{ val.Classroom }}
               </div>
               <div class="rightbox">
@@ -72,23 +64,21 @@
                     {{ classCourse[val.Classroom] }}
                   </span>
                   <span class="badNum">
-                    玩手机人数：<span class="fontColor">{{ val.PlayingNum }}
+                    玩手机人数：<span class="fontColor"
+                      >{{ val.PlayingNum }}
                     </span>
-                    睡觉人数：<span
-                      class="fontColor"
-                    >{{ val.SleepingNum }}
+                    睡觉人数：<span class="fontColor"
+                      >{{ val.SleepingNum }}
                     </span>
                   </span>
                 </span>
                 <span class="goodNum">
-                  做笔记人数：<span
-                    class="fontColor2"
-                  >{{ val.WritingNum }}
+                  做笔记人数：<span class="fontColor2"
+                    >{{ val.WritingNum }}
                   </span>
                   <!-- font-color should be GREEN -->
-                  听课人数：<span
-                    class="fontColor3"
-                  >{{ val.ListeningNum }}
+                  听课人数：<span class="fontColor3"
+                    >{{ val.ListeningNum }}
                   </span>
                 </span>
               </div>
@@ -100,9 +90,7 @@
     </div>
     <div class="camera">
       <dv-border-box-11 title="教室监控实时画面">
-        <div
-          class="videoBox"
-        >
+        <div class="videoBox">
           <!-- <div v-if="judge">111</div>
           <div v-else>222</div> -->
           <!--          <video v-if="judge" id="video" controls="controls" />-->
@@ -122,14 +110,14 @@
   </div>
 </template>
 <script>
-const classval = []
-const items = {}
-import axios from 'axios'
-import ip from '@/assets/ip'
+const classval = [];
+const items = {};
+import axios from "axios";
+import ip from "@/assets/ip";
 // import Hls from '@/dist/hls'
 
 export default {
-  name: 'RealTime',
+  name: "RealTime",
   data() {
     return {
       judge: true,
@@ -137,63 +125,65 @@ export default {
       analyseResults: [],
       checked: true,
       showPic: false,
-      floor: '',
-      floorName: '',
+      floor: "",
+      floorName: "",
       checkAll: false,
       classval,
       checkList: [],
-      uri: '',
+      uri: "",
       items,
       num: 1,
-      img: '',
+      img: "",
       floorData: [],
-      collegeName: '信息工程学院',
-      colleges: ['信息工程学院', '应急管理学院'],
+      collegeName: "信息工程学院",
+      colleges: ["信息工程学院", "应急管理学院"],
       coursesData: [],
-      classrooms: '',
+      classrooms: "",
       classCourse: {},
       imgsUrl: [],
-      srcList: []
-    }
+      srcList: [],
+    };
   },
   // 监听路由，实现组件复用
   watch: {
     // 学院之间切换
     $route(to, from) {
-      const nums = this.$route.query.id
+      const nums = this.$route.query.id;
       for (let i = 0; i < 6; i++) {
         if (nums === i) {
-          this.showPIc = true
-          this.collegeName = this.college[i]
-          break
+          this.showPIc = true;
+          this.collegeName = this.college[i];
+          break;
         }
       }
-      const names = this.$route.query.name
-      if (names === 'detection') {
-        this.judge = false
-        this.getData()
-        console.log(this.judge)
+      const names = this.$route.query.name;
+      if (names === "detection") {
+        this.judge = false;
+        this.getData();
+        console.log(this.judge);
       }
-      if (names === 'realTime') {
-        this.judge = true
-        console.log(this.judge)
-        this.getData()
+      if (names === "realTime") {
+        this.judge = true;
+        console.log(this.judge);
+        this.getData();
       }
-    }
+    },
   },
 
   mounted() {
-    this.getData()
+    this.getData();
 
     // 等待教室数据获取
     if (this.classrooms.length === 0) {
-      setTimeout(this.startPridect, 3000)
+      setTimeout(this.startPridect, 3000);
     }
 
-    // 每10s刷新一次数据
-    setInterval(this.getData, 30000)
+    // 每30s刷新一次数据
+    setInterval(this.getData, 30000);
 
-    this.getHlsIP('rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream')
+    this.getHlsIP(
+      "rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream"
+    );
 
     // const video = document.getElementById('video')
     // const videoSrc = 'http://cctvalih5ca.v.myalicdn.com/live/cctv1_2/index.m3u8'
@@ -207,185 +197,188 @@ export default {
   methods: {
     async getData() {
       // 课程数据获取
-      const coursesResponse = await axios.get(`${ip.cssd_trans}/api/v1/getCoursesData`)
-      const coursesInfo = coursesResponse.data.data
-      console.log(coursesInfo)
+      const coursesResponse = await axios.get(
+        `${ip.cssd_trans}/api/v1/getCoursesData`
+      );
+      const coursesInfo = coursesResponse.data.data;
+      console.log(coursesInfo);
 
       // 获取所上课程的教室号
-      const classesList = []
+      const classesList = [];
       for (const course of coursesInfo) {
-        classesList.push(course.CourseRoom)
+        classesList.push(course.CourseRoom);
       }
-      this.classrooms = classesList.join(',')
-      // this.classrooms = 'S202'
+      this.classrooms = classesList.join(",");
 
       // 根据所上课程教室号获取监控设备在线信息
-      const cameraInfo = await this.getHealthInfo()
-      const cameraData = {}
+      const cameraInfo = await this.getHealthInfo();
+      const cameraData = {};
       for (const camera of cameraInfo) {
-        cameraData[camera.className] = camera.isOnline
+        cameraData[camera.className] = camera.isOnline;
       }
 
       // 根据所上课程教室号获取实时分析结果数据
-      this.analyseResults = await this.getResults()
+      this.analyseResults = await this.getResults();
 
       // 获取最新识别图片
-      const imgsData = await this.getLatestFrame()
-      this.imgsUrl = []
-      this.srcList = []
+      const imgsData = await this.getLatestFrame();
+      this.imgsUrl = [];
+      this.srcList = [];
       for (const img of imgsData) {
-        const data = {}
-        data['url'] = `${ip.cssd_trans}${img.Url}`
-        data['classroom'] = img.Classroom
-        this.imgsUrl.push(data)
-        this.srcList.push(`${ip.cssd_trans}${img.Url}`)
+        const data = {};
+        data["url"] = `${ip.cssd_trans}${img.Url}`;
+        data["classroom"] = img.Classroom;
+        this.imgsUrl.push(data);
+        this.srcList.push(`${ip.cssd_trans}${img.Url}`);
       }
 
-      this.getCameraIP()
+      this.getCameraIP();
       // 左上角显示数据处理
-      this.coursesData = []
+      this.coursesData = [];
       for (const course of coursesInfo) {
-        const data = {}
-        data['courseName'] = course.CourseName
-        data['courseRoom'] = course.CourseRoom
-        data['camera'] = cameraData[course.CourseRoom] === '1' ? '在线' : '离线'
-        this.coursesData.push(data)
-        this.classCourse[course.CourseRoom] = course.CourseName
+        const data = {};
+        data["courseName"] = course.CourseName;
+        data["courseRoom"] = course.CourseRoom;
+        data["camera"] =
+          cameraData[course.CourseRoom] === "1" ? "在线" : "离线";
+        this.coursesData.push(data);
+        this.classCourse[course.CourseRoom] = course.CourseName;
       }
     },
 
     async startPridect() {
-      const form = new FormData()
-      form.append('classrooms', this.classrooms)
+      const form = new FormData();
+      form.append("classrooms", this.classrooms);
 
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${ip.cssd_trans}/api/v1/start`,
-        data: form
-      })
+        data: form,
+      });
       this.$message({
         message: response.data.data.data,
-        type: 'success'
-      })
+        type: "success",
+      });
     },
 
     // 监控设备在线数据获取
     async getHealthInfo() {
-      const form = new FormData()
-      form.append('classrooms', this.classrooms)
+      const form = new FormData();
+      form.append("classrooms", this.classrooms);
 
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${ip.cssd_trans}/api/v1/healthcheck`,
-        data: form
-      })
-      return response.data.data
+        data: form,
+      });
+      return response.data.data;
     },
 
     // 实时分析结果数据获取
     async getResults() {
-      const form = new FormData()
-      form.append('classrooms', this.classrooms)
+      const form = new FormData();
+      form.append("classrooms", this.classrooms);
 
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${ip.cssd_trans}/api/v1/getResults`,
-        data: form
-      })
-      return response.data.data
+        data: form,
+      });
+      return response.data.data;
     },
 
     // 实时分析结果数据获取
     async getLatestFrame() {
-      const form = new FormData()
-      form.append('classrooms', this.classrooms)
+      const form = new FormData();
+      form.append("classrooms", this.classrooms);
 
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${ip.cssd_trans}/api/v1/getLatestFrame`,
-        data: form
-      })
-      return response.data.data
+        data: form,
+      });
+      return response.data.data;
     },
 
     async getCameraIP() {
-      const form = new FormData()
-      form.append('classrooms', this.classrooms)
+      const form = new FormData();
+      form.append("classrooms", this.classrooms);
 
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${ip.cssd_trans}/api/v1/parse`,
-        data: form
-      })
-      console.log(response)
+        data: form,
+      });
+      console.log(response);
     },
 
     async getHlsIP(rtsp) {
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${ip.rh}/start`,
         data: {
-          'uri': rtsp
-        }
-      })
-      console.log('-------------------------')
-      console.log(response.data.uri)
-      this.uri = `${ip.rh}` + response.data.uri
+          uri: rtsp,
+        },
+      });
+      console.log("-------------------------");
+      console.log(response.data.uri);
+      this.uri = `${ip.rh}` + response.data.uri;
     },
 
     // 获取表格内容(教室号等)
     itemHandleSelectionChange(selection, row) {
       if (this.checkList.length <= 9) {
-        const selected = selection.length && selection.indexOf(row) !== -1
+        const selected = selection.length && selection.indexOf(row) !== -1;
         if (selected === true) {
-          this.checkList.push(row.className)
+          this.checkList.push(row.className);
         } else {
-          this.checkList.splice(this.checkList.indexOf(row.className), 1)
+          this.checkList.splice(this.checkList.indexOf(row.className), 1);
         }
       } else {
-        alert('成功')
+        alert("成功");
       }
     },
 
     // 根据显示颜色
     cellStyle(row) {
-      if (row.column.label === '监控设备' && row.row.camera === '在线') {
-        return 'color:#25f52b'
-      } else if (row.column.label === '监控设备' && row.row.camera === '离线') {
-        return 'color:#ff1111'
+      if (row.column.label === "监控设备" && row.row.camera === "在线") {
+        return "color:#25f52b";
+      } else if (row.column.label === "监控设备" && row.row.camera === "离线") {
+        return "color:#ff1111";
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
-<style >
-.el-image-viewer__next, .el-image-viewer__prev{
-    top: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 24px;
-    /* color: rgb(235, 226, 226) !important; */
-    background-color: #0f82b8 !important;
-    /* border-color: rgb(221, 30, 30) !important; */
+<style>
+.el-image-viewer__next,
+.el-image-viewer__prev {
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  /* color: rgb(235, 226, 226) !important; */
+  background-color: #0f82b8 !important;
+  /* border-color: rgb(221, 30, 30) !important; */
 }
 .el-image-viewer__close {
-    top: 40px;
-    right: 40px;
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    color: rgb(141, 12, 12);
-    /* z-index: 1; */
-    background-color:  #0f82b8 !important;
+  top: 40px;
+  right: 40px;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  color: rgb(141, 12, 12);
+  /* z-index: 1; */
+  background-color: #0f82b8 !important;
 }
 
-  .link-top {
-           width: 100%;
-    height: 1px;
-    border-top: solid #c8dbf3 1px;
+.link-top {
+  width: 100%;
+  height: 1px;
+  border-top: solid #c8dbf3 1px;
 }
 
-.elTable{
+.elTable {
   width: 90% !important;
   position: relative;
   left: 5%;
@@ -401,37 +394,36 @@ export default {
   position: absolute;
   top: 10%;
 }
-.camera{
+.camera {
   position: absolute;
-  left:25%;
+  left: 25%;
   top: 10%;
   width: 75%;
   height: 90%;
 }
 .imgfix {
   margin-top: 40px;
-    margin-left: -13px;
-    width: 100%;
-    height: 95%;
-    margin-bottom: 10px;
+  margin-left: -13px;
+  width: 100%;
+  height: 95%;
+  margin-bottom: 10px;
 }
 
-.videoBox{
-width: 94%;
-height:92%;
-position:absolute;
-top:5%;
-left:4%;
-overflow:scroll
+.videoBox {
+  width: 94%;
+  height: 92%;
+  position: absolute;
+  top: 5%;
+  left: 4%;
+  overflow: scroll;
 }
-.videos{
-  height:31%;
-  width:31%;
-  margin:1%;
-  margin-bottom: 0.5%
-
+.videos {
+  height: 31%;
+  width: 31%;
+  margin: 1%;
+  margin-bottom: 0.5%;
 }
-.dv-decoration-7{
+.dv-decoration-7 {
   width: 200px !important;
   height: 30px !important;
   font-size: 22px;
@@ -445,51 +437,50 @@ overflow:scroll
   margin-top: 50px;
   width: 100% !important;
 }
-.classId{
-  font-family: 	'YouYuan';
-  color:red;
+.classId {
+  font-family: "YouYuan";
+  color: red;
   width: 80px;
   height: 80px;
   margin-left: 2px;
   font-size: 40px;
-  float:left;
+  float: left;
   padding-top: 20px;
-  font-weight:bold
+  font-weight: bold;
 }
-.rightbox{
-  width:400px;
-  margin-left:2px
-
+.rightbox {
+  width: 400px;
+  margin-left: 2px;
 }
-.className{
+.className {
   font-size: 30px;
-width:30px;
- height:auto;
- margin-left: 15px;
- font-family: 'NSimSun';
+  width: 30px;
+  height: auto;
+  margin-left: 15px;
+  font-family: "NSimSun";
 }
-.badNum{
-margin-top: 5px;
- display: block;
- margin-left: 95px;
- height:28px
+.badNum {
+  margin-top: 5px;
+  display: block;
+  margin-left: 95px;
+  height: 28px;
 }
-.fontColor{
-color: red;
- display: inline-block
+.fontColor {
+  color: red;
+  display: inline-block;
 }
-.goodNum{
-display: block;
-margin-left: 95px;
-margin-bottom: 17px;
+.goodNum {
+  display: block;
+  margin-left: 95px;
+  margin-bottom: 17px;
 }
-.fontColor2{
+.fontColor2 {
   color: yellow;
- display: inline-block
+  display: inline-block;
 }
-.fontColor3{
-color: #25f52b;
-display: inline-block
+.fontColor3 {
+  color: #25f52b;
+  display: inline-block;
 }
 .camera dv-border-box-11 {
   z-index: 999;
@@ -569,37 +560,36 @@ display: inline-block
   /* margin-bottom: 10px; */
 }
 .el-dropdown-menu a {
-    text-align: center;
-    margin-left: 11px;
-    display: block;
+  text-align: center;
+  margin-left: 11px;
+  display: block;
 }
 .el-dropdown-menu {
-    /* margin-right: 6px; */
-    margin-left: 82px !important;
-    position: absolute;
-    /* top: 0; */
-    /* left: 0; */
-    padding: 27px 0;
-    /* margin: 5px 0; */
-    background-color: #FFF;
-    border: 1px solid #EBEEF5;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  /* margin-right: 6px; */
+  margin-left: 82px !important;
+  position: absolute;
+  /* top: 0; */
+  /* left: 0; */
+  padding: 27px 0;
+  /* margin: 5px 0; */
+  background-color: #fff;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
-  .el-popper[x-placement^=bottom] .popper__arrow {
-		border-bottom-color: #1EBEF4 !important;
-		left: 50% !important;
-	}
-  .imgsize{
-
-    width: 45%;
-    height: 40%;
-    position: absolute;
-    top: 5%;
-    left: 2%;
-    margin-top: 30px;
- /* width: 30%;  ---------9个框的样式
+.el-popper[x-placement^="bottom"] .popper__arrow {
+  border-bottom-color: #1ebef4 !important;
+  left: 50% !important;
+}
+.imgsize {
+  width: 45%;
+  height: 40%;
+  position: absolute;
+  top: 5%;
+  left: 2%;
+  margin-top: 30px;
+  /* width: 30%;  ---------9个框的样式
  height:28%;
  position:absolute;
  top:8%;
@@ -607,11 +597,10 @@ display: inline-block
  margin-top:10px */
 }
 
-  .el-image {
-    margin-left: 30px;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
+.el-image {
+  margin-left: 30px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
 }
-  </style>
-
+</style>
