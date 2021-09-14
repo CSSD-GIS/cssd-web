@@ -333,6 +333,7 @@ export default {
           this.checkList.push(row.className);
         } else {
           this.checkList.splice(this.checkList.indexOf(row.className), 1);
+          console.log(1);
         }
       } else {
         alert("成功");
