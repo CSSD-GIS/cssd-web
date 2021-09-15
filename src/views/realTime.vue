@@ -333,7 +333,6 @@ export default {
           this.checkList.push(row.className);
         } else {
           this.checkList.splice(this.checkList.indexOf(row.className), 1);
-          console.log(1);
         }
       } else {
         alert("成功");
@@ -348,6 +347,10 @@ export default {
         return "color:#ff1111";
       }
     },
+  },
+
+  destroyed() {
+    axios.get(`${ip.cssd_trans}/api/v1/stop`);
   },
 };
 </script>
