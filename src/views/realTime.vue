@@ -440,6 +440,7 @@ export default {
   height: 485px !important;
   overflow: hidden;
   margin-top: 50px;
+  /* margin-bottom: 10px; */
   width: 100% !important;
 }
 .classId {
@@ -490,11 +491,11 @@ export default {
 .camera dv-border-box-11 {
   z-index: 999;
 }
-.content1 {
+/* .content1 {
   margin-top: 30px;
-  height: 300px;
+  height: 360px;
   /*margin-left: 50px;*/
-}
+
 .fapic {
   min-width: 400px;
   display: inherit;
@@ -548,8 +549,8 @@ export default {
   background: transparent;
 } /* 横向滚动条和纵向滚动条相交处尖角的颜色 */
 .content1 {
-  margin-top: 30px;
-  height: 300px;
+  margin-top: 60px;
+  height: 350px;
   /*margin-left: 50px;*/
 }
 .text {
@@ -557,7 +558,7 @@ export default {
   color: #eef4f9;
   font-family: "楷体", "楷体_GB2312";
   padding: 10px;
-  height: 110px;
+  height: 120px;
   font-size: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -588,11 +589,11 @@ export default {
   left: 50% !important;
 }
 .imgsize {
-  width: 45%;
-  height: 40%;
+  width: 48%;
+  height: 42%;
   position: absolute;
-  top: 5%;
-  left: 2%;
+  top: 1%;
+  left: -25px;
   margin-top: 30px;
   /* width: 30%;  ---------9个框的样式
  height:28%;
@@ -603,7 +604,7 @@ export default {
 }
 
 .el-image {
-  margin-left: 30px;
+  margin-left: 20px;
   position: relative;
   display: inline-block;
   overflow: hidden;
