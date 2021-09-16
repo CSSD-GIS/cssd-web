@@ -2,4 +2,5 @@ build/*.js
 src/accets
 public
 dist
+src/*
 

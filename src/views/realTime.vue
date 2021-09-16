@@ -160,11 +160,9 @@ export default {
       if (names === "detection") {
         this.judge = false;
         this.getData();
-        console.log(this.judge);
       }
       if (names === "realTime") {
         this.judge = true;
-        console.log(this.judge);
         this.getData();
       }
     },
@@ -201,7 +199,6 @@ export default {
         `${ip.cssd_trans}/api/v1/getCoursesData`
       );
       const coursesInfo = coursesResponse.data.data;
-      console.log(coursesInfo);
 
       // 获取所上课程的教室号
       const classesList = [];
@@ -309,7 +306,6 @@ export default {
         url: `${ip.cssd_trans}/api/v1/parse`,
         data: form,
       });
-      console.log(response);
     },
 
     async getHlsIP(rtsp) {
@@ -320,8 +316,6 @@ export default {
           uri: rtsp,
         },
       });
-      console.log("-------------------------");
-      console.log(response.data.uri);
       this.uri = `${ip.rh}` + response.data.uri;
     },
 
@@ -589,7 +583,7 @@ export default {
 }
 .imgsize {
   width: 48%;
-  height: 42%;
+  height: 45%;
   position: absolute;
   top: 1%;
   left: -25px;
