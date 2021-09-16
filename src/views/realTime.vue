@@ -149,6 +149,7 @@ export default {
     // 学院之间切换
     $route(to, from) {
       const nums = this.$route.query.id;
+
       for (let i = 0; i < 6; i++) {
         if (nums === i) {
           this.showPIc = true;
@@ -228,11 +229,7 @@ export default {
         data["url"] = `${ip.cssd_trans}${img.Url}`;
         data["classroom"] = img.Classroom;
         this.imgsUrl.push(data);
-        this.imgsUrl.push(data);
-        this.imgsUrl.push(data);
-        this.imgsUrl.push(data);
-        this.imgsUrl.push(data);
-        this.imgsUrl.push(data);
+
         this.srcList.push(`${ip.cssd_trans}${img.Url}`);
       }
       console.log(this.imgsUrl);
@@ -416,7 +413,7 @@ export default {
 
 .videoBox {
   width: 94%;
-  height: 92%;
+  height: 93%;
   position: absolute;
   top: 5%;
   left: 4%;
@@ -590,7 +587,7 @@ export default {
 }
 .imgsize {
   width: 48%;
-  height: 42%;
+  height: 46%;
   position: absolute;
   top: 1%;
   left: -25px;
