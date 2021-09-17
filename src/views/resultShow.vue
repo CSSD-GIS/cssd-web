@@ -34,7 +34,6 @@
 // import echarts from 'echarts'
 import axios from "axios";
 import ip from "@/assets/ip";
-
 export default {
   data() {
     return {
