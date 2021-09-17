@@ -64,7 +64,7 @@
                     {{ classCourse[val.Classroom] }}
                   </span>
                   <span class="badNum">
-                    玩游戏人数：<span class="fontColor"
+                    玩手机人数：<span class="fontColor"
                       >{{ val.PlayingNum }}
                     </span>
                     睡觉人数：<span class="fontColor"
@@ -161,11 +161,9 @@ export default {
       if (names === "detection") {
         this.judge = false;
         this.getData();
-        console.log(this.judge);
       }
       if (names === "realTime") {
         this.judge = true;
-        console.log(this.judge);
         this.getData();
       }
     },
@@ -179,8 +177,8 @@ export default {
       setTimeout(this.startPridect, 3000);
     }
 
-    // 每10s刷新一次数据
-    setInterval(this.getData, 10000);
+    // 每30s刷新一次数据
+    setInterval(this.getData, 30000);
 
     this.getHlsIP(
       "rtsp://admin:123456@10.128.98.159:554/h264/ch1/main/av_stream"
@@ -229,10 +227,8 @@ export default {
         data["url"] = `${ip.cssd_trans}${img.Url}`;
         data["classroom"] = img.Classroom;
         this.imgsUrl.push(data);
-
         this.srcList.push(`${ip.cssd_trans}${img.Url}`);
       }
-      console.log(this.imgsUrl);
 
       this.getCameraIP();
       // 左上角显示数据处理
@@ -311,7 +307,6 @@ export default {
         url: `${ip.cssd_trans}/api/v1/parse`,
         data: form,
       });
-      console.log(response);
     },
 
     async getHlsIP(rtsp) {
@@ -322,8 +317,6 @@ export default {
           uri: rtsp,
         },
       });
-      console.log("-------------------------");
-      console.log(response.data.uri);
       this.uri = `${ip.rh}` + response.data.uri;
     },
 
@@ -349,6 +342,10 @@ export default {
         return "color:#ff1111";
       }
     },
+  },
+
+  destroyed() {
+    axios.get(`${ip.cssd_trans}/api/v1/stop`);
   },
 };
 </script>
@@ -587,7 +584,7 @@ export default {
 }
 .imgsize {
   width: 48%;
-  height: 46%;
+  height: 45%;
   position: absolute;
   top: 1%;
   left: -25px;

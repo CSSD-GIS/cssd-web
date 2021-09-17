@@ -3,15 +3,13 @@
     <!-- <div class="pagination"> -->
 
     <!-- </div> -->
-    <el-table
-      class="table"
-      :data="
-        tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)
-      "
-    >
-      <el-table-column prop="date" label="日期" width="180" />
-      <el-table-column prop="name" label="姓名" width="180" />
-      <el-table-column prop="address" label="地址" />
+    <el-table class="table" :data="tableData">
+      <el-table-column prop="CreatedAt" label="时间" width="200" />
+      <el-table-column prop="Classroom" label="教室号" width="160" />
+      <el-table-column prop="PlayingNum" label="玩手机人数" width="140" />
+      <el-table-column prop="SleepingNum" label="睡觉人数" width="140" />
+      <el-table-column prop="WritingNum" label="记笔记人数" width="140" />
+      <el-table-column prop="ListeningNum" label="听课人数" width="140" />
     </el-table>
     <div id="myChart1" class="chart1" />
     <div id="myChart2" class="chart2" />
@@ -19,11 +17,12 @@
       <el-pagination
         prev-text="上一页"
         next-text="下一页"
+        :pager-count="5"
         :current-page="currentPage"
         :page-sizes="[5, 10, 20, 40]"
         :page-size="pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length"
+        layout="total, prev, pager, next, jumper"
+        :total="200"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -33,61 +32,42 @@
 
 <script>
 // import echarts from 'echarts'
+import axios from "axios";
+import ip from "@/assets/ip";
+
 export default {
   data() {
     return {
       // 存放数据的数组
       showlist: [],
       // 每页的条数
-      pagesize: 5,
+      pagesize: 9,
       // 	currentPage 改变时会触发
       currentPage: 1,
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-      ],
+      tableData: [],
     };
   },
   mounted() {
     this.histoGram();
     this.pieChart();
+    this.getTableData();
   },
   methods: {
+    async getTableData() {
+      const response = await axios.get(
+        `${ip.cssd_trans}/api/v1/getResultsByOffset?offset=${
+          (this.currentPage - 1) * this.pagesize
+        }&limit=${this.pagesize}`
+      );
+      this.tableData = response.data.data;
+    },
+
     handleSizeChange: function (val) {
-      console.log(`每页 ${val}条`); // 每页下拉显示数据
       this.pagesize = val;
     },
-    handleCurrentChange: function (val) {
-      console.log(`当前页 ${val}`); // 点击第几页
+    handleCurrentChange: async function (val) {
       this.currentPage = val;
+      await this.getTableData();
     },
     histoGram() {
       const that = this;
