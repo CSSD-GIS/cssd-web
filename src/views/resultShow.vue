@@ -22,7 +22,7 @@
         :page-sizes="[5, 10, 20, 40]"
         :page-size="pagesize"
         layout="total, prev, pager, next, jumper"
-        :total="200"
+        :total="count"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -45,6 +45,7 @@ export default {
       // 	currentPage 改变时会触发
       currentPage: 1,
       tableData: [],
+      count: 0
     };
   },
   mounted() {
@@ -59,7 +60,8 @@ export default {
           (this.currentPage - 1) * this.pagesize
         }&limit=${this.pagesize}`
       );
-      this.tableData = response.data.data;
+      this.tableData = response.data.data.result;
+      this.count = response.data.data.count;
     },
 
     handleSizeChange: function (val) {
