@@ -22,7 +22,7 @@
         :page-sizes="[5, 10, 20, 40]"
         :page-size="pagesize"
         layout="total, prev, pager, next, jumper"
-        :total="count"
+        :total="200"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -44,7 +44,6 @@ export default {
       // 	currentPage 改变时会触发
       currentPage: 1,
       tableData: [],
-      count: 0
     };
   },
   mounted() {
@@ -59,8 +58,7 @@ export default {
           (this.currentPage - 1) * this.pagesize
         }&limit=${this.pagesize}`
       );
-      this.tableData = response.data.data.result;
-      this.count = response.data.data.count;
+      this.tableData = response.data.data;
     },
 
     handleSizeChange: function (val) {
@@ -72,109 +70,171 @@ export default {
     },
     histoGram() {
       const that = this;
-      // // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById("myChart1"));
-      // // 绘制图表
-      myChart.setOption({
-        title: {
-          text: "S101课堂分析结果展示",
-          x: "center",
+      // timeLineData 可放教室号数据
+      const timeLineData = ['S101', 'S102','S103','S104','S105','S106','S107','S108','S109'];
+      //可放每间教室的数据
+      const fp_nan = {
+        'S101': [20, 50, 12, 14],
+        'S102': [11, 15, 39, 75],
+        'S103': [27, 10, 28, 62],
+        'S104': [60, 50, 30, 25],
+        'S105': [40, 8, 75, 54],
+        'S106': [21, 38, 33, 39],
+        'S107': [50, 30, 60, 25],
+        'S108': [58, 29, 73, 10],
+        'S109': [63, 36, 38, 18],
 
-          textStyle: {
-            color: "#fff",
-            fontSize: "22",
-          },
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-          },
-        },
-        grid: {
-          left: "2%",
-          right: "4%",
-          bottom: "14%",
-          top: "16%",
-          containLabel: true,
-        },
-        xAxis: {
-          type: "category",
-          data: ["听讲", "玩手机", "睡觉", "做笔记"],
-          axisTick: {
-            show: false,
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#25c3da",
-            },
-          },
-          axisLabel: {
+      };
+      // setInterval(() => {
+
+      const myChart = this.$echarts.init(document.getElementById("myChart1"));
+        // // 基于准备好的dom，初始化echarts实例
+
+        // // 绘制图表
+        const option = {
+          title: {
+            x: "center",
+
             textStyle: {
               color: "#fff",
-              fontSize: "18px",
+              fontSize: "22",
             },
           },
-        },
 
-        yAxis: {
-          name: "数量",
-          type: "value",
-          axisTick: {
-            show: false,
-          },
-          axisLine: {
+          //时间轴线
+          timeline: {
             show: true,
+            axisType: "category",
+            //  控制轴线是否显示
+            autoPlay: true,
+            // currentIndex: 10,
+
+            // 变换间隔2s
+            playInterval: 2000,
+
+            //   时间轴线颜色
             lineStyle: {
-              color: "#25c3da",
+              show: true,
+              color: "#20dbfd",
+            },
+
+            //开关按钮
+            controlStyle: {
+              show: true,
+              color: "#20dbfd",
+              borderColor: "#20dbfd",
+            },
+            //时间轴的位置
+            left: "0",
+            right: "0",
+            bottom: "0",
+            padding: [15, 0],
+            //时间轴数据
+            data: timeLineData,
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
             },
           },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#2c3d89",
-              type: "dotted",
-            },
+          grid: {
+            left: "2%",
+            right: "4%",
+            bottom: "14%",
+            top: "16%",
+            containLabel: true,
           },
-          axisLabel: {
-            textStyle: {
-              color: "#fff",
-              fontSize: "18px",
+          xAxis: {
+            type: "category",
+            data: ["听讲", "玩手机", "睡觉", "做笔记"],
+            axisTick: {
+              show: false,
             },
-          },
-        },
-        series: [
-          {
-            name: "数量",
-            type: "bar",
-            barWidth: "20%",
-            itemStyle: {
-              normal: {
-                color: that.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  {
-                    offset: 0,
-                    color: "#8efbff",
-                  },
-                  {
-                    offset: 1,
-                    color: "#4b85fb",
-                  },
-                ]),
-                barBorderRadius: [12, 12, 0, 0],
+            axisLine: {
+              lineStyle: {
+                color: "#25c3da",
               },
             },
-            data: [25, 6, 3, 2],
+            axisLabel: {
+              textStyle: {
+                color: "#fff",
+                fontSize: "18px",
+              },
+            },
           },
-        ],
-      });
+
+          yAxis: {
+            name: "数量",
+            type: "value",
+            axisTick: {
+              show: false,
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: "#25c3da",
+              },
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#2c3d89",
+                type: "dotted",
+              },
+            },
+            axisLabel: {
+              textStyle: {
+                color: "#fff",
+                fontSize: "18px",
+              },
+            },
+          },
+          options: [],
+
+        };
+      //  循环展示数据
+      for (let i = 0; i < timeLineData.length; i++) {
+        option.options.push({
+                title: {
+                    text: timeLineData[i] + "课堂分析结果展示",
+                },
+                series: [
+            {
+              name: "数量",
+              type: "bar",
+              barWidth: "20%",
+              itemStyle: {
+                normal: {
+                  color: that.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: "#8efbff",
+                    },
+                    {
+                      offset: 1,
+                      color: "#4b85fb",
+                    },
+                  ]),
+                  barBorderRadius: [12, 12, 0, 0],
+                },
+              },
+              data: fp_nan[timeLineData[i]],
+            },
+          ],
+            });
+      }
+
+    myChart.setOption(option);
+
       // 图表自适应盒子
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
     pieChart() {
-      var myChart = this.$echarts.init(document.getElementById("myChart2"));
+      const myChart = this.$echarts.init(document.getElementById("myChart2"));
       myChart.setOption({
         calculable: false,
         legend: {
