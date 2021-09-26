@@ -323,7 +323,8 @@ export default {
               return a.value - b.value;
             }),
 
-            roseType: "radius",
+          //注释下面代码则改变饼状图样式
+            // roseType: "radius",
 
             label: {
               normal: {
