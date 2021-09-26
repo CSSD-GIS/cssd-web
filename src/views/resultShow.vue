@@ -317,7 +317,7 @@ export default {
             selectedMode: "single",
             selectedOffset: 10,
             clockwise: true,
-            center: ["53%", "53%"],
+            center: ["56%", "56%"],
             color: ["#43cadd", "#3893e5", "#FCC708", "#03B48E"], // '#FBFE27','rgb(11,228,96)','#FE5050'
             data: this.pieChartData.sort(function (a, b) {
               return a.value - b.value;
