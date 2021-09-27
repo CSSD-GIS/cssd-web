@@ -143,7 +143,9 @@ export default {
         //时间轴线
         timeline: {
           show: true,
-          axisType: "category", //  控制轴线是否显示 autoPlay: true,
+          axisType: "category",
+           //  控制轴线是否显示
+           autoPlay: true,
           // currentIndex: 10,
 
           // 变换间隔2s
@@ -279,7 +281,7 @@ export default {
           y: "200", // 'center' | 'bottom' | {number}
           padding: 10, // [5, 10, 15, 20]
           itemGap: 20,
-          textStyle: { color: "#c3cad9", fontSize: "20px" },
+          textStyle: { color: "#c3cad9", fontSize: "15px" },
         },
         title: {
           text: "课堂行为检测总结果展示",
@@ -313,12 +315,12 @@ export default {
               },
             },
             type: "pie",
-            radius: "65%",
+            radius: "45%",
             selectedMode: "single",
             selectedOffset: 10,
             clockwise: true,
             center: ["56%", "56%"],
-            color: ["#43cadd", "#3893e5", "#FCC708", "#03B48E"], // '#FBFE27','rgb(11,228,96)','#FE5050'
+            color: ["#330099", "#3893e5", "#FCC708", "#03B48E"], // '#FBFE27','rgb(11,228,96)','#FE5050'
             data: this.pieChartData.sort(function (a, b) {
               return a.value - b.value;
             }),
