@@ -1,10 +1,15 @@
-FROM nginx:alpine
+FROM node:14.19.1-bullseye
 
 LABEL author="Lv Wenchao"
 LABEL date="2022-05-11"
 
-COPY ./dist /usr/share/nginx/html/dist
-COPY ./nginx.conf /etc/nginx/nginx.conf
+WORKDIR /cssd-web
 
-EXPOSE 80
+COPY . .
+RUN npm install -g cnpm --registry=https://registry.npmmirror.com
+RUN cnpm install
+
+EXPOSE 8080
+
+CMD ["npm", "run", "dev"]
 
