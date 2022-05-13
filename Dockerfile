@@ -6,8 +6,7 @@ LABEL date="2022-05-11"
 WORKDIR /cssd-web
 
 COPY . .
-RUN npm install -g cnpm --registry=https://registry.npmmirror.com
-RUN cnpm install
+RUN npm install 
 
 EXPOSE 8080
 
