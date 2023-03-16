@@ -1,8 +1,5 @@
 <template>
   <div class="box">
-    <!-- <div class="pagination"> -->
-
-    <!-- </div> -->
     <el-table class="table" :data="tableData">
       <el-table-column prop="CreatedAt" label="时间" width="200" />
       <el-table-column prop="Classroom" label="教室号" width="160" />
@@ -43,14 +40,96 @@ export default {
       pagesize: 9,
       // 	currentPage 改变时会触发
       currentPage: 1,
-      tableData: [],
+      tableData: [
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'N603',
+          PlayingNum:8,
+          SleepingNum:4,
+          WritingNum:12,
+          ListeningNum:33
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'505',
+          PlayingNum:5,
+          SleepingNum:4,
+          WritingNum:15,
+          ListeningNum:30
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'520',
+          PlayingNum:0,
+          SleepingNum:4,
+          WritingNum:10,
+          ListeningNum:30
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'504',
+          PlayingNum:2,
+          SleepingNum:4,
+          WritingNum:15,
+          ListeningNum:34
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'308',
+          PlayingNum:0,
+          SleepingNum:4,
+          WritingNum:15,
+          ListeningNum:36
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'206',
+          PlayingNum:3,
+          SleepingNum:4,
+          WritingNum:18,
+          ListeningNum:30
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'N304',
+          PlayingNum:3,
+          SleepingNum:6,
+          WritingNum:18,
+          ListeningNum:33
+        },{
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'N308',
+          PlayingNum:0,
+          SleepingNum:0,
+          WritingNum:13,
+          ListeningNum:36
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'S601',
+          PlayingNum:5,
+          SleepingNum:2,
+          WritingNum:16,
+          ListeningNum:20
+        },
+        {
+          CreatedAt:'2023年3月16日 10:34:10',
+          Classroom:'N508',
+          PlayingNum:2,
+          SleepingNum:0,
+          WritingNum:16,
+          ListeningNum:35
+        },
+
+
+      ],
       carouseData: {},
       timeLineData: [],
       pieChartData: [
-        { value: 0, name: "玩手机" },
-        { value: 0, name: "睡觉" },
-        { value: 0, name: "记笔记" },
-        { value: 0, name: "听课" },
+        { value: 8, name: "玩手机" },
+        { value: 2, name: "睡觉" },
+        { value: 18, name: "记笔记" },
+        { value: 33, name: "听课" },
       ],
     };
   },
@@ -230,39 +309,64 @@ export default {
             },
           },
         },
-        options: [],
+        // options: [],
+        series: [
+          {
+            name: "数量",
+            type: "bar",
+            barWidth: "20%",
+            itemStyle: {
+              normal: {
+                color: that.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#8efbff",
+                  },
+                  {
+                    offset: 1,
+                    color: "#4b85fb",
+                  },
+                ]),
+                barBorderRadius: [12, 12, 0, 0],
+              },
+            },
+            data: [8,2,18,33]
+            // that.carouseData[that.timeLineData[i]],
+          },
+        ],
       };
       //  循环展示数据
-      for (let i = 0; i < that.timeLineData.length; i++) {
-        option.options.push({
-          title: {
-            text: that.timeLineData[i] + "学生状态分析结果",
-          },
-          series: [
-            {
-              name: "数量",
-              type: "bar",
-              barWidth: "20%",
-              itemStyle: {
-                normal: {
-                  color: that.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: "#8efbff",
-                    },
-                    {
-                      offset: 1,
-                      color: "#4b85fb",
-                    },
-                  ]),
-                  barBorderRadius: [12, 12, 0, 0],
-                },
-              },
-              data: that.carouseData[that.timeLineData[i]],
-            },
-          ],
-        });
-      }
+      // for (let i = 0; i < that.timeLineData.length; i++) {
+      //   // option.options.push({
+      //   //   title: {
+      //   //     text: that.timeLineData[i] + "学生状态分析结果",
+      //   //   },
+      //   //   series: [
+      //   //     {
+      //   //       name: "数量",
+      //   //       type: "bar",
+      //   //       barWidth: "20%",
+      //   //       itemStyle: {
+      //   //         normal: {
+      //   //           color: that.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+      //   //             {
+      //   //               offset: 0,
+      //   //               color: "#8efbff",
+      //   //             },
+      //   //             {
+      //   //               offset: 1,
+      //   //               color: "#4b85fb",
+      //   //             },
+      //   //           ]),
+      //   //           barBorderRadius: [12, 12, 0, 0],
+      //   //         },
+      //   //       },
+      //   //       data: [10,12,10,25]
+      //   //         // that.carouseData[that.timeLineData[i]],
+      //   //     },
+      //   //   ],
+      //   // });
+      // }
 
       myChart.setOption(option);
 

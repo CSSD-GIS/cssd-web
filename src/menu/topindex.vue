@@ -101,7 +101,8 @@
           </span>
         </el-dropdown>
       </router-link>
-      <span class="showTime">{{ showTime }}</span>
+<!--      <span class="showTime">{{ showTime }}</span>-->
+      <span class="showTime">2023年3月16日 10:35:10</span>
       <!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
       <router-view />
     </div>
@@ -115,7 +116,7 @@ export default {
   data() {
     return {
       logoPath: require("../assets/images/person.svg"),
-      showTime: "",
+      showTime: "2023年3月16日 10:34:10",
     };
   },
   mounted() {
