@@ -102,7 +102,7 @@
         </el-dropdown>
       </router-link>
 <!--      <span class="showTime">{{ showTime }}</span>-->
-      <span class="showTime">2023年3月16日 10:35:10</span>
+      <span class="showTime">2021年9月10日 10:17:35</span>
       <!--      <dv-decoration-10 style="width:1900px;height:5px;" />-->
       <router-view />
     </div>
@@ -116,28 +116,29 @@ export default {
   data() {
     return {
       logoPath: require("../assets/images/person.svg"),
-      showTime: "2023年3月16日 10:34:10",
+      showTime: "2021年10月16日 10:34:10",
     };
   },
   mounted() {
-    const token = localStorage.getItem("token");
-    if (token) {
-      tokentest(token)
-        .then((res) => {
-          console.log(res);
-          alert(res);
-          this.$router.push("/main");
-        })
-        .catch((error) => {
-          console.log(error);
-          // console.error(error.response.data)
-          this.$message.error(error.response.data.msg);
-          this.$router.push("/login");
-        });
-    } else {
-      this.$router.push("/login");
-      // this.$message.error('请先登录！')
-    }
+    // const token = localStorage.getItem("token");
+    // if (token) {
+    //   tokentest(token)
+    //     .then((res) => {
+    //       console.log(res);
+    //       alert(res);
+    //       this.$router.push("/main");
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       // console.error(error.response.data)
+    //       this.$message.error(error.response.data.msg);
+    //       this.$router.push("/login");
+    //     });
+    // } else {
+    //   this.$router.push("/login");
+    //   // this.$message.error('请先登录！')
+    // }
+    this.$router.push("/main");
     this.time();
     this.timer = setInterval(() => {
       this.time(new Date()); // 修改数据date

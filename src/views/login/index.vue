@@ -121,31 +121,32 @@ export default {
       const sha256 = require("js-sha256").sha256; // 这里用的是require方法，所以没用import
       const username = sha256(this.loginForm.username);
       const password = sha256(this.loginForm.password); // 要加密的密码
-      axios
-        .post(
-          "/api/login",
-          this.$qs.stringify({
-            username: username,
-            password: password,
-          })
-        )
-        .then((response) => {
-          console.log(response);
-          if (response.data.code === 200) {
-            const token = response.data.data.token;
-            // setToken(token)
-            // Cookie.set('token', token)
-            localStorage.setItem("token", token);
-            _this.$router.push("/main");
-          }
-          if (response.data.code === 20003) {
-            // alert(response.data.msg)
-            this.$message.error(response.data.msg);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      _this.$router.push("/main");
+      // axios
+      //   .post(
+      //     "/api/login",
+      //     this.$qs.stringify({
+      //       username: username,
+      //       password: password,
+      //     })
+      //   )
+      //   .then((response) => {
+      //     console.log(response);
+      //     if (response.data.code === 200) {
+      //       const token = response.data.data.token;
+      //       // setToken(token)
+      //       // Cookie.set('token', token)
+      //       localStorage.setItem("token", token);
+      //       _this.$router.push("/main");
+      //     }
+      //     if (response.data.code === 20003) {
+      //       // alert(response.data.msg)
+      //       this.$message.error(response.data.msg);
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
     },
   },
 };

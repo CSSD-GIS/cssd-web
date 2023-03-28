@@ -93,7 +93,7 @@
         <div class="videoBox">
           <!-- <div v-if="judge">111</div>
           <div v-else>222</div> -->
-          <!--          <video v-if="judge" id="video" controls="controls" />-->
+<!--            <video class="imgsize" v-for="imgurl in imgsUrl" id="video" :src="imgurl.url" controls="controls" />-->
           <!-- <div class="imgebox"> -->
           <el-image
             v-for="imgurl in imgsUrl"
@@ -124,36 +124,36 @@ export default {
       demoImg: `${ip.cssd_trans}/images/demo2.jpg`,
       analyseResults: [
         {
-          Classroom:"S603",
-          className:'离散数学',
+          Classroom:"S305",
+          className:'Python程序设计',
           PlayingNum:8,
           SleepingNum:2,
           WritingNum:20,
           ListeningNum:70
         },
         {
-          Classroom:"N505",
-          className:'C语言程序设计',
+          Classroom:"N203",
+          className:'高等数学（理工类）上',
+          PlayingNum:3,
+          SleepingNum:0,
+          WritingNum:13,
+          ListeningNum:27
+        },
+        {
+          Classroom:"N210",
+          className:'高等数学（理工类）上',
           PlayingNum:3,
           SleepingNum:0,
           WritingNum:4,
           ListeningNum:36
         },
         {
-          Classroom:"N520",
-          className:'嵌入式应用开发',
+          Classroom:"S404",
+          className:'自然灾害概论',
           PlayingNum:3,
           SleepingNum:0,
           WritingNum:16,
           ListeningNum:25
-        },
-        {
-          Classroom:"N504",
-          className:'网络故障与排除',
-          PlayingNum:3,
-          SleepingNum:0,
-          WritingNum:13,
-          ListeningNum:27
         },
         {
           Classroom:"N504",
@@ -180,34 +180,45 @@ export default {
       colleges: ["信息工程学院", "应急管理学院"],
       coursesData: [
         {
-          courseName:"离散数学",
-          courseRoom:"天仪楼 南 603",
+          courseName:"Python程序设计",
+          courseRoom:"S305",
           camera:"在线"
         },
         {
-          courseName:"C语言程序设计",
-          courseRoom:"长庚楼  505",
+          courseName:"高等数学（理工类）上",
+          courseRoom:"N210",
           camera:"在线"
         },
         {
-          courseName:"嵌入式应用开发",
-          courseRoom:"长庚楼  520",
+          courseName:"自然灾害概论",
+          courseRoom:"S404",
           camera:"在线"
         },
         {
-          courseName:"网络故障与排除",
-          courseRoom:"长庚楼  504",
-          camera:"离线"
+          courseName:"高等数学（理工类）上",
+          courseRoom:"S203",
+          camera:"在线"
         },
         {
-          courseName:"大学生创业与就业指导",
-          courseRoom:"天仪楼 北 308",
+          courseName:"数据结构",
+          courseRoom:"S101",
           camera:"在线"
         },
       ],
       classrooms: "",
       classCourse: {},
-      imgsUrl: [],
+      imgsUrl: [{
+        url:'/img.png'
+      },
+        {
+          url:'/img2.jpg'
+        },
+        {
+          url:'/img5.jpg'
+        },
+        {
+          url:'/img4.jpg'
+        }],
       srcList: [],
     };
   },
